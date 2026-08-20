@@ -127,6 +127,15 @@ import type {
  * one tertiary road, 800 veh/hr — discharges through a corridor already
  * carrying everyone else.
  */
+/*
+ * A scenario absent from this table still runs — its corridors are discovered from
+ * the routes — but every discovered corridor is `primary: false`, and that costs more
+ * than the utilisation denominator the warning in buildInputs mentions. It also
+ * hardcodes `contraflow: false`, so contraflow becomes structurally unavailable and
+ * the planner is left with staged release alone. Staging cannot beat a
+ * corridor-capacity bound, so baseline and planned clearance come out identical by
+ * construction. See docs/scenario-status.md before reading that as a solver failure.
+ */
 const CORRIDOR_CAPACITY_BY_SCENARIO: Record<string, Record<string, number>> = {
   "camp-fire-2018": {
     Skyway: 1800,
