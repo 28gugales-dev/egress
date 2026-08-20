@@ -83,12 +83,21 @@ interface LiquidButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   radius?: GlassRadius;
   /** `primary` is the one action a panel wants you to take. At most one. */
   tone?: "default" | "primary" | "quiet";
+  /**
+   * Which ground the button sits on. Stated, not inferred: the same button is
+   * used inside a light liquid-glass modal and on the dark instrument deck, and
+   * a control cannot see its own backdrop. Getting it wrong is not cosmetic --
+   * `primary` on a light surface is a near-black pill, and that pill on the
+   * dark deck disappears into it.
+   */
+  ground?: "light" | "dark";
   children?: ReactNode;
 }
 
 export function LiquidButton({
   radius = "pill",
   tone = "default",
+  ground = "light",
   className,
   children,
   ...rest
@@ -101,6 +110,7 @@ export function LiquidButton({
         "whitespace-nowrap px-4 py-2 font-medium text-[13px] transition-[transform,filter] duration-200",
         "hover:brightness-[1.04] active:scale-[0.985] disabled:pointer-events-none disabled:opacity-50",
         RADIUS[radius],
+        ground === "dark" && "lg-button-on-dark",
         tone === "primary" && "lg-button-primary",
         tone === "quiet" && "lg-button-quiet",
         className,

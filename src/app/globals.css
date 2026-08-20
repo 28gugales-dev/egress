@@ -39,6 +39,12 @@
   --glass-active: rgba(16, 20, 28, 0.1);
   --glass-blur: 26px;
   --glass-blur-deep: 44px;
+  /* Thin glass, for the surfaces that float over the LIVE map. Deliberately
+     absent from the .dark block: white glyphs over a dark tint is the same
+     answer in both themes, and a second value would be one more thing to keep
+     in sync for no gain. See `.glass-thin` for where the number came from. */
+  --glass-thin: rgba(22, 22, 26, 0.48);
+  --glass-thin-edge: rgba(255, 255, 255, 0.14);
   /* Vibrancy: colour behind the pane gets richer, not merely blurred. This is
      most of what separates Apple's glass from a translucent div. */
   --glass-vibrancy: 180%;
@@ -364,6 +370,70 @@ input[type="range"] + * {
   box-shadow:
     var(--shadow-panel),
     inset 0 1px 0 var(--highlight);
+}
+
+/* ── Thin glass — the surfaces that float over the LIVE map ─────────────────
+   Ported from the Civic repo's `glassChrome` / `glassSheen`
+   (Civic/-Social-Impact-/src/components/ui/liquid-glass.tsx). Values matched,
+   not re-derived, because that panel already solves this exact problem: a
+   dispatch column floating over a MapLibre basemap that swings from canopy to
+   bare ridge inside its own footprint.
+
+   The only conceptual difference from `.glass` is the tint alpha. `.glass` sits
+   at 0.82 because it was drawn over an opaque plane, where a thinner tint would
+   have had nothing behind it to reveal. These surfaces have a live map behind
+   them, so the tint stays thin enough that the panel takes its apparent colour
+   FROM the map — lighter over bare ridge, darker over canopy — and that
+   borrowed colour is what reads as glass rather than as a grey card.
+
+   `saturate()` is NOT decoration. Blur averages colour towards grey; the
+   saturation lift puts back what it washed out, and it is the one ingredient
+   whose removal collapses this into a flat card. Do not strip it as noise.
+
+   THE PREFIXED LINE COMES FIRST. Lightning CSS drops BOTH declarations when
+   they are written the other way round — see console-planes.css for the four
+   probe rules that established it. */
+.glass-thin {
+  background: var(--glass-thin);
+  -webkit-backdrop-filter: blur(24px) saturate(150%);
+  backdrop-filter: blur(24px) saturate(150%);
+  border: 1px solid var(--glass-thin-edge);
+  border-radius: var(--radius-lg);
+  /* The specular line, and nothing else. No drop shadow: these float over
+     geography, and a shadow cast onto terrain is chrome pretending to be
+     depth. */
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14);
+}
+
+/* The panel PLANE, as opposed to a floating island.
+   `.glass-thin` gives islands a radius and a full border because they are
+   cards over geography. The plane is not a card: it meets the window's top,
+   left and bottom edges, where a corner radius is a wedge of nothing and a
+   border is a line drawn against the screen edge. It keeps exactly one edge --
+   the seam against the map on its right, which `.plane-seam` draws.
+   The specular top line stays: it reads as light falling on the surface, and
+   it is what keeps the sheet from looking like a hole punched in the window. */
+.glass-thin.plane-seam {
+  border-radius: 0;
+  border-top: 0;
+  border-left: 0;
+  border-bottom: 0;
+  border-right: 1px solid var(--glass-thin-edge);
+}
+
+/* One backdrop-filter pass per floating surface. A nested `.glass` inside one
+   of these would run a second blur over an already-blurred parent — costly
+   over a map repainting at 30fps, and it reads as smeared — and it would
+   double the tint into an opaque card. The content sits directly on the glass
+   instead, which is how the Civic panel is built too. */
+.glass-thin .glass,
+.glass-thin .glass-deep,
+.glass-thin .glass-rail {
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -793,6 +863,34 @@ input[type="range"].rng::-moz-range-thumb {
 .lg-button-primary {
   background: rgba(9, 11, 15, 0.88);
   color: #f4f6f9;
+}
+
+/* The deck is dark, so the whole light/dark relationship inverts: a frosted
+   white pill is the RAISED control here, and the near-black primary that reads
+   as emphasis on a light modal would sink into the background instead. Primacy
+   still lives in ink and weight, never in a data hue. */
+.lg-button-on-dark {
+  background: rgba(255, 255, 255, 0.14);
+  color: var(--glass-ink);
+  -webkit-backdrop-filter: blur(14px) saturate(150%);
+  backdrop-filter: blur(14px) saturate(150%);
+}
+.lg-button-on-dark:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+.lg-button-on-dark.lg-button-primary {
+  background: rgba(244, 246, 249, 0.92);
+  color: #0b0d11;
+}
+.lg-button-on-dark.lg-button-primary:hover {
+  background: #f7f9fc;
+}
+.lg-button-on-dark .lg-rim,
+.lg-button-on-dark + .lg-rim {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.24),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.28),
+    inset 0 0 0 0.5px rgba(255, 255, 255, 0.12);
 }
 
 .lg-button-quiet {

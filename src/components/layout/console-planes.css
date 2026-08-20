@@ -14,9 +14,30 @@
 
 /* The one seam between the two planes. No shadow, no gradient, no vignette,
    no rounded corner facing the map: the map's own imagery is the contrast, and
-   a shadow cast onto geography is chrome pretending to be depth. */
+   a shadow cast onto geography is chrome pretending to be depth.
+
+   The seam takes the GLASS edge rather than the generic hairline now that both
+   sides of it are translucent over the same live map. It is the same stroke the
+   floating islands are outlined with, so every surface that sits over geography
+   is edged in one language instead of two that happen to look similar. */
 .plane-seam {
-  border-right: 1px solid var(--hairline);
+  border-right: 1px solid var(--glass-thin-edge);
+}
+
+/* The panel plane is a SHEET, not a card.
+   `.glass-thin` is authored for the floating islands over the map, which are
+   genuinely cards and keep their radius and their full outline. This one meets
+   the window on three sides, and there a radius is not a corner — it is a wedge
+   cut out of the viewport with the map showing through it — while an outline on
+   an edge that has nothing beyond it is a line drawn around the screen.
+
+   The specular goes too. An inset top highlight reads as a light source only
+   when the surface has a top edge to catch it; along the window's own edge it
+   is a stray hairline suspended in the air. The seam carries the whole frame. */
+.plane-seam.glass-thin {
+  border-width: 0 1px 0 0;
+  border-radius: 0;
+  box-shadow: none;
 }
 
 /* Bands are divided by a rule, never by a gap. A gap would let the bands read
@@ -43,12 +64,15 @@
   margin-bottom: 12px;
 }
 
-/* An imported panel that brings its own .glass, mounted inside the opaque
-   panel plane. Four independent backdrop-filter passes over a map repainting
-   at 30fps is what the plane split exists to delete — inside the plane there
-   is nothing behind these to refract, so the surface goes flat and only the
-   content survives. Two classes deep so it wins over .glass regardless of the
-   order the two sheets land in.
+/* An imported panel that brings its own .glass, mounted inside the panel plane.
+   Four independent backdrop-filter passes over a map repainting at 30fps is
+   what the plane split exists to delete: the PLANE runs the one blur, and every
+   surface inside it is content sitting directly on that glass rather than
+   another pane stacked on it. globals.css states the same rule generally for
+   `.glass-thin .glass`; this one is kept because it also strips the border and
+   the radius, so a flattened panel does not leave an empty card outline behind.
+   Two classes deep so it wins over .glass regardless of the order the two
+   sheets land in.
 
    THE PREFIXED LINE MUST COME FIRST, AND THAT IS NOT A STYLE PREFERENCE.
    Written the other way round — unprefixed then -webkit- — Lightning CSS,
@@ -65,7 +89,7 @@
    declaration order. globals.css writes the pair prefix-first throughout,
    which is why `.glass` keeps its blur and this rule silently lost its
    override — every .flat-surface element ran a live
-   blur(26px) saturate(1.8) contrast(1.04) over an opaque panel.
+   blur(26px) saturate(1.8) contrast(1.04) over what was then an opaque panel.
 
    The cost was not only the wasted filter passes. A live backdrop-filter makes
    the element a containing block for `position: fixed` descendants, so the CAP

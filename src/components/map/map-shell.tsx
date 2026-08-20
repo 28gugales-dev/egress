@@ -91,6 +91,17 @@ export interface MapShellProps {
    * once. Applying it later would fight the operator's own panning.
    */
   zoomAdjust?: number;
+  /**
+   * CSS pixels of this canvas's left edge that something opaque is standing on.
+   *
+   * The console's canvas runs the full width of the window with the panel sheet
+   * floating over its left half, so without this the scenario centre projects
+   * to the window's centre — which is the sheet's own right edge, putting the
+   * town at the far edge of the strip anyone can read. MapLibre's camera
+   * padding moves the projection centre to the middle of what is left, which is
+   * the same framing the map had when it was a flex sibling.
+   */
+  padLeft?: number;
   /** Emit `egress:cursor` while the pointer is over this map. */
   reportCursor?: boolean;
 }
@@ -116,6 +127,7 @@ export function MapShell({
   onViewStateChange,
   onMapLoad,
   zoomAdjust = 0,
+  padLeft = 0,
   reportCursor = false,
 }: MapShellProps) {
   const basemap = useEgress(selBasemap);
@@ -244,6 +256,26 @@ export function MapShell({
     if (!map || map.getPitch() >= 15) return;
     map.easeTo({ pitch: TERRAIN_PITCH, duration: prefersReducedMotion() ? 0 : 700 });
   }, [wantTerrain, controlled, syncTerrain]);
+
+  /* Camera padding, re-asserted whenever the sheet's width changes.
+     `applied` starts null so the FIRST application jumps: at mount the operator
+     has not seen a camera yet, and animating from a framing nobody looked at is
+     a 240ms wobble on load. After that the panel collapsing or restoring is a
+     visible change, and the map slides to match it. */
+  const paddingApplied = useRef<number | null>(null);
+  useEffect(() => {
+    if (controlled) return;
+    const map = mapRef.current?.getMap();
+    if (!map) return;
+    if (paddingApplied.current === padLeft) return;
+    const first = paddingApplied.current === null;
+    paddingApplied.current = padLeft;
+    map.easeTo({
+      padding: { left: padLeft, top: 0, right: 0, bottom: 0 },
+      duration: first || prefersReducedMotion() ? 0 : 240,
+      essential: true,
+    });
+  }, [padLeft, controlled]);
 
   // Caller-driven fly-to. Keyed on nonce so a repeat request to the same
   // coordinates still animates.

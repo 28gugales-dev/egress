@@ -2,6 +2,7 @@
 
 import { ArrowLeftRight, DoorClosed, Download, Radio } from "lucide-react";
 import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { LiquidButton } from "@/components/ui/liquid-glass";
 import { useBundle } from "@/lib/bundle-context";
 import { CONGESTION_RAMP } from "@/lib/constants";
 import { bindingWave, zoneClearance } from "@/lib/derive";
@@ -632,24 +633,25 @@ function Action({
   primary?: boolean;
 }) {
   return (
-    <button
-      type="button"
+    /* LiquidButton, not a flat chip. These four are the only controls in the
+       console that DO something outside it -- write a file, open the CAP
+       composer, produce a work order -- and everything else on this plane is a
+       readout or a filter. A raised refractive pill is the one place that
+       distinction is worth spending a material on.
+
+       Primacy stays in ink and weight, never in a data hue: --plan/cyan means
+       "the planned run" everywhere else on screen, and spending it here to mean
+       "important button" is the decoration the project's own rule forbids. */
+    <LiquidButton
       onClick={onClick}
       disabled={disabled}
-      className={cx(
-        "flex items-center gap-1.5 rounded-md border px-2.5 py-1.5 text-[11.5px] font-medium transition-colors disabled:cursor-not-allowed disabled:opacity-40",
-        // Primacy in ink and weight, never in a data hue. --plan/cyan means
-        // "this is the planned run" everywhere else on screen, and spending it
-        // here to mean "this is the important button" is the decoration the
-        // project's own rule forbids — this was the only coloured control among
-        // four peers in the bar.
-        primary
-          ? "border-hairline-strong bg-glass-active font-semibold text-foreground hover:bg-glass-hover"
-          : "border-hairline bg-glass-inset text-subtle hover:bg-glass-hover hover:text-foreground",
-      )}
+      radius="md"
+      tone={primary ? "primary" : "default"}
+      ground="dark"
+      className="px-2.5 py-1.5 text-[11.5px]"
     >
       {icon}
       {label}
-    </button>
+    </LiquidButton>
   );
 }

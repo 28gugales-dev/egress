@@ -85,13 +85,17 @@ export interface InspectorDockProps {
    * exist.
    */
   variant?: "dock" | "pane";
+  /** Dock variant only: the glass depth its mount point calls for. The dock
+   *  floats over the live basemap and the pane does not, and a component cannot
+   *  see its own backdrop. */
+  className?: string;
 }
 
 /**
  * The dock deliberately does NOT subscribe to `t`. Only the tabs that render
  * countdowns do, so the header and tab strip stay off the 30fps path.
  */
-export function InspectorDock({ variant = "dock" }: InspectorDockProps = {}) {
+export function InspectorDock({ variant = "dock", className }: InspectorDockProps = {}) {
   const collapsed = useEgress(selInspectorCollapsed);
   const tab = useEgress(selInspectorTab);
   const selection = useEgress(selSelection);
@@ -126,7 +130,12 @@ export function InspectorDock({ variant = "dock" }: InspectorDockProps = {}) {
 
   if (collapsed && !pane) {
     return (
-      <aside className="glass flex h-full w-10 shrink-0 flex-col items-center gap-3 py-3">
+      <aside
+        className={cx(
+          "glass flex h-full w-10 shrink-0 flex-col items-center gap-3 py-3",
+          className,
+        )}
+      >
         <button
           type="button"
           onClick={() => actions.toggleInspector()}
@@ -151,6 +160,7 @@ export function InspectorDock({ variant = "dock" }: InspectorDockProps = {}) {
       className={cx(
         "flex h-full min-h-0 flex-col overflow-hidden",
         pane ? "w-full" : "glass w-[308px] shrink-0",
+        pane ? null : className,
       )}
     >
       {pane ? null : (

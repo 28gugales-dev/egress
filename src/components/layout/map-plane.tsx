@@ -21,11 +21,20 @@ import { selScenarioId, selView, useEgress } from "@/lib/store";
 import type { RunKind } from "@/types/egress";
 
 /**
- * The map plane: two bezel strips with the canvas inset between them.
+ * The map plane: two bezel strips framing the visible geography, over a canvas
+ * that bleeds to all four window edges.
  *
- * Zero padding, bleeding to the window's top, right and bottom edges. Nothing
- * is ever drawn over the canvas except a hover tooltip and the two bezel
- * popovers, which are explicitly transient.
+ * The canvas is FULL-WINDOW and the panel sheet floats on it, so the map
+ * continues under the glass instead of stopping at a hard edge — that
+ * continuation is the only reason the sheet can read as glass at all. The
+ * bezels are inset by the sheet's width, because they frame what the operator
+ * can actually see; the canvas is not, because it is the thing being seen
+ * through. Nothing is ever drawn over the VISIBLE canvas except a hover tooltip
+ * and the two bezel popovers, which are explicitly transient.
+ *
+ * Every width this file computes is therefore the VISIBLE map width — window
+ * minus sheet — never the canvas box, which is now the whole window and would
+ * silently over-report by up to 1120px.
  */
 
 /**
@@ -41,6 +50,19 @@ const ZOOM_REFERENCE = 900;
 
 /** Gap kept between the hover tooltip and the window's right edge. */
 const TOOLTIP_MARGIN = 8;
+
+/** Bezel strips slide with the sheet rather than snapping to its final width.
+ *  Same duration and curve as the panel column in console-planes.tsx. */
+const INSET_TRANSITION = {
+  transitionProperty: "margin-left",
+  transitionDuration: "180ms",
+  transitionTimingFunction: "cubic-bezier(0.22, 1, 0.36, 1)",
+} as const;
+
+/** How long the camera waits before re-centring on a changed sheet width. Long
+ *  enough that the 180ms collapse has settled, so the map moves once at the end
+ *  rather than chasing every frame of the animation. */
+const PAD_SETTLE_MS = 220;
 
 /**
  * What the top bezel can seat, measured rather than guessed.
@@ -80,11 +102,17 @@ function zoomAdjustFor(width: number): number {
 
 export function MapPlane({
   className,
+  bezelInset = "0px",
   veiled = false,
   notice,
   chrome,
 }: {
   className?: string;
+  /**
+   * How much of this plane's left edge the panel sheet covers, as a CSS length.
+   * The caller owns the expression; this plane only frames what is left over.
+   */
+  bezelInset?: string;
   veiled?: boolean;
   notice?: ReactNode;
   /** Floating console chrome, passed in only while the panel plane is
@@ -99,25 +127,46 @@ export function MapPlane({
   const scenario = bundle?.meta ?? getScenario(scenarioId);
 
   const canvasRef = useRef<HTMLDivElement | null>(null);
+  /* The top bezel's wrapper, which carries the inset — so its content box IS
+     the visible map width, measured rather than derived. The canvas box would
+     answer "the whole window" now and every tier and zoom decision downstream
+     would be made against geography the sheet is standing on. */
+  const visibleRef = useRef<HTMLDivElement | null>(null);
   /* Measured once, before the map mounts: MapShell reads initialViewState on
      its first render and never again, so a later measurement would arrive too
      late to matter — and re-keying the map to apply one would throw away the
      camera the operator had. */
   const [zoomAdjust, setZoomAdjust] = useState<number | null>(null);
   const [bezelWidth, setBezelWidth] = useState(0);
+  /* The camera's own view of the sheet. Separate state from bezelWidth because
+     it is deliberately late: see the settle timer below. */
+  const [padLeft, setPadLeft] = useState(0);
+  const padTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   useEffect(() => {
-    const el = canvasRef.current;
+    const el = visibleRef.current;
     if (!el) return;
     setZoomAdjust((prev) => (prev === null ? zoomAdjustFor(el.clientWidth) : prev));
-    const measure = () => setBezelWidth(el.clientWidth);
+    const measure = () => {
+      const visible = el.clientWidth;
+      setBezelWidth(visible);
+      /* The tier follows the strip live; the camera does not. Feeding padding
+         every frame of the collapse would restart a camera animation on each
+         one, so the last value after things stop moving is the one that lands. */
+      const covered = Math.max(0, (canvasRef.current?.clientWidth ?? visible) - visible);
+      if (padTimer.current) clearTimeout(padTimer.current);
+      padTimer.current = setTimeout(() => {
+        padTimer.current = null;
+        setPadLeft(covered);
+      }, PAD_SETTLE_MS);
+    };
     measure();
-    /* A window listener BESIDE the observer, not instead of it. This plane
+    /* A window listener BESIDE the observer, not instead of it. This strip
        changes width twice for reasons a ResizeObserver is not guaranteed to
-       deliver promptly: when the console crosses 1280 the plane stops being a
-       flex sibling and becomes `absolute inset-0`, and when the panel collapses
-       the width animates. Observer deliveries are tied to the rendering
-       pipeline, so a throttled or backgrounded document can leave the strip
-       showing the tier it had before the switch. */
+       deliver promptly: when the console crosses 1280 the inset drops to zero
+       because the sheet stops taking room out of the map, and when the panel
+       collapses the inset animates. Observer deliveries are tied to the
+       rendering pipeline, so a throttled or backgrounded document can leave the
+       strip showing the tier it had before the switch. */
     window.addEventListener("resize", measure);
     if (typeof ResizeObserver === "undefined") {
       return () => window.removeEventListener("resize", measure);
@@ -127,6 +176,7 @@ export function MapPlane({
     return () => {
       window.removeEventListener("resize", measure);
       ro.disconnect();
+      if (padTimer.current) clearTimeout(padTimer.current);
     };
   }, []);
 
@@ -135,13 +185,12 @@ export function MapPlane({
      controls. */
   const tier = bezelWidth > 0 ? bezelTierFor(bezelWidth, plane === "map") : "full";
   /* And once more after every render, deliberately without a dependency list.
-     Two things change this plane's width without resizing anything the observer
-     watches on that frame: crossing 1280 turns it from a flex sibling into
-     `absolute inset-0`, and the restore control appears with `plane`, changing
-     the strip's budget rather than its box. React bails out when the width is
-     unchanged, so the steady-state cost is one clientWidth read per render. */
+     The restore control appears with `plane`, changing the strip's budget
+     rather than its box, so nothing the observer watches has resized on that
+     frame. React bails out when the width is unchanged, so the steady-state
+     cost is one clientWidth read per render. */
   useEffect(() => {
-    const el = canvasRef.current;
+    const el = visibleRef.current;
     if (el) setBezelWidth(el.clientWidth);
   });
 
@@ -203,7 +252,15 @@ export function MapPlane({
 
   const canvas = useMemo(() => {
     if (view === "split") {
-      return <SplitView className="h-full" renderOverlay={renderCompareOverlay} />;
+      /* Compare is the one view that does NOT bleed. Two panes are a figure to
+         be read side by side, not a continuous surface, and half of the
+         baseline pane parked under the sheet would put the losing run where
+         nobody can see it lose. */
+      return (
+        <div className="h-full" style={{ marginLeft: bezelInset, ...INSET_TRANSITION }}>
+          <SplitView className="h-full" renderOverlay={renderCompareOverlay} />
+        </div>
+      );
     }
     if (zoomAdjust === null) return null;
     return (
@@ -211,41 +268,76 @@ export function MapPlane({
       // actually recentres the camera on a scenario swap. DeckOverlay must be a
       // CHILD of MapShell: it registers through react-map-gl's useControl,
       // which resolves the map instance from context.
-      <MapShell key={scenario.id} scenario={scenario} zoomAdjust={zoomAdjust} reportCursor>
+      <MapShell
+        key={scenario.id}
+        scenario={scenario}
+        zoomAdjust={zoomAdjust}
+        padLeft={padLeft}
+        reportCursor
+      >
         <DeckOverlay run={activeRun} />
       </MapShell>
     );
-  }, [view, zoomAdjust, scenario, activeRun, renderCompareOverlay]);
+  }, [view, zoomAdjust, padLeft, bezelInset, scenario, activeRun, renderCompareOverlay]);
 
   return (
-    // Position comes from the caller: in stacked mode this plane is absolutely
-    // placed behind the panel, and a `relative` baked in here would fight it.
+    // Position comes from the caller: this plane is absolutely placed under
+    // everything, and a `relative` baked in here would fight it.
+    /* NO `relative` here. The caller positions this plane absolutely, and a
+       position utility baked into the base list does not lose to one passed in
+       `className` -- Tailwind resolves the winner by its own layer order, not
+       by the order of the class attribute. With both present `relative` won,
+       the plane silently went back to being a flex sibling, and the full-bleed
+       canvas this whole layout depends on never happened: at wide widths that
+       looked correct because a sibling sized to the leftover half, and at
+       narrow the panel went absolute, the plane lost the sibling that had been
+       sizing it, and it collapsed to its own content width. */
     <div className={cx("flex min-w-0 flex-col bg-sunken", className)}>
-      <BezelTop tier={tier} />
-
+      {/* The canvas, behind the frame rather than between it. Sized to the
+          whole plane so the map runs to all four window edges and keeps running
+          under the sheet; the opaque bezel strips sit on top of it, so the
+          geography the operator sees is framed exactly as it was before. */}
       <div
         ref={canvasRef}
         className={cx(
-          "relative min-h-0 flex-1 transition-opacity duration-500",
+          "absolute inset-0 z-0 transition-opacity duration-500",
           veiled && "opacity-35",
         )}
       >
         {canvas}
+      </div>
+
+      <div
+        ref={visibleRef}
+        className="flex-none"
+        style={{ marginLeft: bezelInset, ...INSET_TRANSITION }}
+      >
+        <BezelTop tier={tier} />
+      </div>
+
+      {/* The band the floating chrome lives in: everything between the two
+          bezel strips, transparent to the pointer so a drag started anywhere in
+          it reaches the canvas underneath. Islands re-arm their own hit
+          targets. */}
+      <div className="pointer-events-none relative z-10 min-h-0 flex-1">
         {notice ? (
-          <div className="pointer-events-none absolute inset-x-0 top-3 z-20 flex justify-center px-3">
+          <div
+            className="pointer-events-none absolute inset-x-0 top-3 z-20 flex justify-center px-3"
+            style={{ marginLeft: bezelInset, ...INSET_TRANSITION }}
+          >
             {notice}
           </div>
         ) : null}
-        {/* Inside the canvas box rather than over the whole plane, so the
-            bezels above and below stay uncovered and keep their own hit
-            targets. */}
         {chrome}
       </div>
 
-      <BezelBottom />
-      <BezelTransport />
+      <div className="flex-none" style={{ marginLeft: bezelInset, ...INSET_TRANSITION }}>
+        <BezelBottom />
+        <BezelTransport />
+      </div>
+
       <LayersPopover tier={tier} />
-      <LegendFlyout />
+      <LegendFlyout inset={bezelInset} />
     </div>
   );
 }

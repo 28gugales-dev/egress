@@ -17,6 +17,7 @@ import { FiltersSection } from "@/components/rail/filters-section";
 import { LayersSection } from "@/components/rail/layers-section";
 import { LeversSection } from "@/components/rail/levers-section";
 import { ScenarioSection } from "@/components/rail/scenario-section";
+import { cx } from "@/lib/format";
 import { actions, selFilters, selRailCollapsed, useEgress } from "@/lib/store";
 
 const ICON = { size: 14, strokeWidth: 1.75 } as const;
@@ -42,9 +43,20 @@ function Divider() {
 
 /** Collapsed strip. Any icon reopens the rail — at 44px there is no room to
  *  operate a control, so the whole strip is one large affordance. */
-function CollapsedRail({ filtersActive }: { filtersActive: boolean }) {
+function CollapsedRail({
+  filtersActive,
+  className,
+}: {
+  filtersActive: boolean;
+  className?: string;
+}) {
   return (
-    <aside className="glass-rail flex h-full w-11 flex-none flex-col items-center gap-1 py-2.5">
+    <aside
+      className={cx(
+        "glass-rail flex h-full w-11 flex-none flex-col items-center gap-1 py-2.5",
+        className,
+      )}
+    >
       <button
         type="button"
         onClick={actions.toggleRail}
@@ -73,7 +85,9 @@ function CollapsedRail({ filtersActive }: { filtersActive: boolean }) {
   );
 }
 
-export function ControlRail() {
+/** `className` exists for one reason: the rail is mounted floating over the
+ *  live map, and only its mount point knows which glass depth that calls for. */
+export function ControlRail({ className }: { className?: string } = {}) {
   const collapsed = useEgress(selRailCollapsed);
   const filters = useEgress(selFilters);
   const filtersActive =
@@ -84,10 +98,15 @@ export function ControlRail() {
     filters.maxHazardEta !== null ||
     filters.facilityKinds.length > 0;
 
-  if (collapsed) return <CollapsedRail filtersActive={filtersActive} />;
+  if (collapsed) return <CollapsedRail filtersActive={filtersActive} className={className} />;
 
   return (
-    <aside className="glass-rail flex h-full w-[236px] flex-none flex-col overflow-hidden">
+    <aside
+      className={cx(
+        "glass-rail flex h-full w-[236px] flex-none flex-col overflow-hidden",
+        className,
+      )}
+    >
       <header className="flex flex-none items-center justify-between border-hairline border-b px-3 py-2.5">
         <span className="label-mono">Control</span>
         <button

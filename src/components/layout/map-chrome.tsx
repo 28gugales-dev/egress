@@ -22,6 +22,12 @@ import { cx } from "@/lib/format";
  * console before the layout change already knows where these four things are,
  * and moving them because the mount point moved would spend that for nothing.
  *
+ * Every island takes `.glass-thin`. These are the four surfaces in the console
+ * with a live basemap directly behind them, so the tint stays thin enough that
+ * each one borrows its apparent colour from the terrain it happens to be over.
+ * `.glass` is the thicker pane for surfaces that do not have that; using it
+ * here made four opaque cards parked on the map.
+ *
  * Transport is the one island NOT restored here. The map plane's bottom bezel
  * grows a transport strip in exactly this state (see BezelTransport, which
  * returns null unless plane === "map"), so a floating scrubber would be a
@@ -41,26 +47,26 @@ export function MapChrome({ className }: { className?: string }) {
             for chrome that only needs its own content width. */}
         <div className="flex shrink-0 items-stretch justify-start gap-2">
           <div className="pointer-events-auto w-full max-w-[360px]">
-            <KpiStrip />
+            <KpiStrip className="glass-thin" />
           </div>
-          <ScenarioChip className="pointer-events-auto flex-none" />
+          <ScenarioChip className="glass-thin pointer-events-auto flex-none" />
         </div>
 
         <div className="flex min-h-0 flex-1 gap-3">
           <div className="pointer-events-auto flex min-h-0 shrink-0">
-            <ControlRail />
+            <ControlRail className="glass-thin" />
           </div>
 
           {/* mt-auto parks the feed on the floor of the column, clear of the
               rail beside it and the dock to its right. */}
           <div className="flex min-h-0 flex-1 flex-col items-end justify-end">
-            <IncidentFeed className="pointer-events-auto mt-auto" />
+            <IncidentFeed className="glass-thin pointer-events-auto mt-auto" />
           </div>
         </div>
       </div>
 
       <div className="pointer-events-auto flex min-h-0 shrink-0">
-        <InspectorDock />
+        <InspectorDock className="glass-thin" />
       </div>
     </div>
   );

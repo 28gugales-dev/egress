@@ -237,23 +237,27 @@ export function LayersPopover({ tier = "full" }: { tier?: BezelTier }) {
           <ColorBySeg colorBy={colorBy} />
         </div>
       ) : null}
-      tier === "tight" || tier === "minimal" ? (
-      <div className="px-3 pt-4">
-        <div className="label-mono mb-2">Basemap</div>
-        <BasemapSeg basemap={basemap} />
-      </div>
-      ) : null
+      {tier === "tight" || tier === "minimal" ? (
+        <div className="px-3 pt-4">
+          <div className="label-mono mb-2">Basemap</div>
+          <BasemapSeg basemap={basemap} />
+        </div>
+      ) : null}
     </div>
   );
 }
 
 /** MapLegend, mounted for the first time. It self-filters to the layers that
  *  are actually on, so it is wrapped and positioned here and never edited. */
-export function LegendFlyout() {
+export function LegendFlyout({ inset = "0px" }: { inset?: string }) {
   const popover = useLayout(selBezelPopover);
   if (popover !== "legend") return null;
   return (
-    <div className="absolute bottom-[32px] left-2 z-30">
+    /* Anchored to the VISIBLE map's left edge, not the plane's. The plane now
+       spans the window, so a plain `left-2` opens this behind the panel sheet —
+       one of the few floaters in this file that is left-hung and therefore the
+       only one the full-bleed canvas could hide. */
+    <div className="absolute bottom-[32px] z-30" style={{ left: `calc(${inset} + 0.5rem)` }}>
       <MapLegend className="max-h-[min(46vh,300px)]" />
     </div>
   );

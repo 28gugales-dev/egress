@@ -16,12 +16,21 @@ import { selLoading, selScenarioId, selSelection, useEgress } from "@/lib/store"
 /**
  * The console, as two planes side by side.
  *
- * An opaque PANEL plane carrying every piece of chrome, and a MAP plane that
- * nothing overlaps. There is no floating-overlay mode to fall back to, on
- * purpose: the inspector dock's left edge used to sit at x=1280 of 1600 while
- * the hazard front rendered at x~1250-1300, so the console occluded the thing
- * it exists to show. A layout you can be in wrongly is a layout that will be
- * wrong on stage.
+ * A PANEL plane carrying every piece of chrome, and a MAP plane that nothing
+ * overlaps. There is no floating-overlay mode to fall back to, on purpose: the
+ * inspector dock's left edge used to sit at x=1280 of 1600 while the hazard
+ * front rendered at x~1250-1300, so the console occluded the thing it exists
+ * to show. A layout you can be in wrongly is a layout that will be wrong on
+ * stage.
+ *
+ * THE MAP IS FULL-BLEED AND THE PANEL FLOATS ON IT. The panel used to be
+ * `bg-surface` — opaque — and the two planes were flex siblings, so the map
+ * began exactly where the panel ended. That made glass impossible rather than
+ * merely unused: a translucent sheet with nothing behind it to refract is just
+ * a different solid. So the map plane is `absolute inset-0` under everything
+ * and the panel is one `.glass-thin` sheet over it, with the map continuing
+ * underneath. Only the map's own bezel strips are inset, because those are a
+ * frame around the VISIBLE geography and would otherwise slide under the sheet.
  *
  * HALF AND HALF, UP TO 2240. The panel is clamp(640px, 50vw, 1120px), so the
  * split is exactly even from 1280 to 2240 and the map takes the surplus above
@@ -50,6 +59,18 @@ const STACK_BELOW = 1280;
 /** Matches the panel column's width transition in console-planes.css terms —
  *  kept here because the element that animates is authored here too. */
 const COLLAPSE_MS = 180;
+
+/**
+ * The panel column's width — and, handed to the map plane, the left inset of
+ * its bezel strips.
+ *
+ * ONE expression, passed rather than duplicated. The map plane now spans the
+ * whole window, so its frame has to be told where the sheet ends; two copies of
+ * this clamp would be two things that can drift, and the failure mode is a
+ * bezel row sliding a few pixels under the glass where nobody notices until it
+ * is on a projector.
+ */
+const PANEL_WIDTH = "clamp(640px, 50vw, 1120px)";
 
 export function ConsolePlanes() {
   const loading = useEgress(selLoading);
@@ -164,7 +185,11 @@ export function ConsolePlanes() {
      backslash key and the bezel's restore control mean the same thing at every
      width. */
   const panelVisible = plane === "both";
-  const panelWidth = narrow ? "100%" : panelVisible ? "clamp(640px, 50vw, 1120px)" : "0px";
+  const panelWidth = narrow ? "100%" : panelVisible ? PANEL_WIDTH : "0px";
+  /* Stacked mode puts the panel ON the map rather than beside it, so the map's
+     frame owes it no room: the inset is the width the sheet actually takes out
+     of the geography, which below 1280 is none of it. */
+  const bezelInset = narrow ? "0px" : panelWidth;
 
   return (
     <div className="relative flex h-dvh w-full overflow-hidden bg-background text-foreground">
@@ -179,8 +204,8 @@ export function ConsolePlanes() {
         // item's automatic minimum size, and relying on that side effect to
         // keep the collapse working is a trap for whoever removes it.
         className={cx(
-          "plane-seam flex min-h-0 min-w-0 flex-none flex-col overflow-hidden bg-surface",
-          narrow ? "absolute inset-0 z-10" : "transition-[width] duration-[180ms]",
+          "plane-seam glass-thin flex min-h-0 min-w-0 flex-none flex-col overflow-hidden",
+          narrow ? "absolute inset-0 z-10" : "relative z-10 transition-[width] duration-[180ms]",
           narrow && !panelVisible && "invisible",
         )}
         style={{
@@ -201,7 +226,11 @@ export function ConsolePlanes() {
       </div>
 
       <MapPlane
-        className={cx(narrow ? "absolute inset-0 z-0" : "relative flex-1")}
+        /* Absolute in BOTH layouts, not just the stacked one. As a flex sibling
+           the canvas started where the panel ended, and a sheet with a hard
+           edge of nothing behind it cannot be glass. */
+        className="absolute inset-0 z-0"
+        bezelInset={bezelInset}
         veiled={veiled}
         notice={simMissing ? <SimNotice /> : null}
         /* Only when the panel is collapsed. With both planes up the chrome
