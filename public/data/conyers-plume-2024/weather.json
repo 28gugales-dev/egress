@@ -438,6 +438,294 @@
       "speed": 1.88,
       "direction": 209,
       "gust": 4.7
+    },
+    {
+      "t": 21900,
+      "speed": 1.91,
+      "direction": 208.6,
+      "gust": 4.77
+    },
+    {
+      "t": 22200,
+      "speed": 1.95,
+      "direction": 208.2,
+      "gust": 4.83
+    },
+    {
+      "t": 22500,
+      "speed": 1.99,
+      "direction": 207.8,
+      "gust": 4.9
+    },
+    {
+      "t": 22800,
+      "speed": 2.02,
+      "direction": 207.3,
+      "gust": 4.97
+    },
+    {
+      "t": 23100,
+      "speed": 2.05,
+      "direction": 206.9,
+      "gust": 5.03
+    },
+    {
+      "t": 23400,
+      "speed": 2.09,
+      "direction": 206.5,
+      "gust": 5.1
+    },
+    {
+      "t": 23700,
+      "speed": 2.13,
+      "direction": 206.1,
+      "gust": 5.17
+    },
+    {
+      "t": 24000,
+      "speed": 2.16,
+      "direction": 205.7,
+      "gust": 5.23
+    },
+    {
+      "t": 24300,
+      "speed": 2.19,
+      "direction": 205.3,
+      "gust": 5.3
+    },
+    {
+      "t": 24600,
+      "speed": 2.23,
+      "direction": 204.8,
+      "gust": 5.37
+    },
+    {
+      "t": 24900,
+      "speed": 2.26,
+      "direction": 204.4,
+      "gust": 5.43
+    },
+    {
+      "t": 25200,
+      "speed": 2.3,
+      "direction": 204,
+      "gust": 5.5
+    },
+    {
+      "t": 25500,
+      "speed": 2.39,
+      "direction": 205.8,
+      "gust": 5.63
+    },
+    {
+      "t": 25800,
+      "speed": 2.48,
+      "direction": 207.7,
+      "gust": 5.75
+    },
+    {
+      "t": 26100,
+      "speed": 2.57,
+      "direction": 209.5,
+      "gust": 5.88
+    },
+    {
+      "t": 26400,
+      "speed": 2.65,
+      "direction": 211.3,
+      "gust": 6
+    },
+    {
+      "t": 26700,
+      "speed": 2.74,
+      "direction": 213.2,
+      "gust": 6.13
+    },
+    {
+      "t": 27000,
+      "speed": 2.83,
+      "direction": 215,
+      "gust": 6.25
+    },
+    {
+      "t": 27300,
+      "speed": 2.92,
+      "direction": 216.8,
+      "gust": 6.38
+    },
+    {
+      "t": 27600,
+      "speed": 3.01,
+      "direction": 218.7,
+      "gust": 6.5
+    },
+    {
+      "t": 27900,
+      "speed": 3.1,
+      "direction": 220.5,
+      "gust": 6.63
+    },
+    {
+      "t": 28200,
+      "speed": 3.18,
+      "direction": 222.3,
+      "gust": 6.75
+    },
+    {
+      "t": 28500,
+      "speed": 3.27,
+      "direction": 224.2,
+      "gust": 6.88
+    },
+    {
+      "t": 28800,
+      "speed": 3.36,
+      "direction": 226,
+      "gust": 7
+    },
+    {
+      "t": 29100,
+      "speed": 3.35,
+      "direction": 227.4,
+      "gust": 7.02
+    },
+    {
+      "t": 29400,
+      "speed": 3.33,
+      "direction": 228.8,
+      "gust": 7.03
+    },
+    {
+      "t": 29700,
+      "speed": 3.32,
+      "direction": 230.3,
+      "gust": 7.05
+    },
+    {
+      "t": 30000,
+      "speed": 3.31,
+      "direction": 231.7,
+      "gust": 7.07
+    },
+    {
+      "t": 30300,
+      "speed": 3.29,
+      "direction": 233.1,
+      "gust": 7.08
+    },
+    {
+      "t": 30600,
+      "speed": 3.28,
+      "direction": 234.5,
+      "gust": 7.1
+    },
+    {
+      "t": 30900,
+      "speed": 3.27,
+      "direction": 235.9,
+      "gust": 7.12
+    },
+    {
+      "t": 31200,
+      "speed": 3.25,
+      "direction": 237.3,
+      "gust": 7.13
+    },
+    {
+      "t": 31500,
+      "speed": 3.24,
+      "direction": 238.8,
+      "gust": 7.15
+    },
+    {
+      "t": 31800,
+      "speed": 3.23,
+      "direction": 240.2,
+      "gust": 7.17
+    },
+    {
+      "t": 32100,
+      "speed": 3.21,
+      "direction": 241.6,
+      "gust": 7.18
+    },
+    {
+      "t": 32400,
+      "speed": 3.2,
+      "direction": 243,
+      "gust": 7.2
+    },
+    {
+      "t": 32700,
+      "speed": 3.28,
+      "direction": 243.1,
+      "gust": 7.28
+    },
+    {
+      "t": 33000,
+      "speed": 3.36,
+      "direction": 243.2,
+      "gust": 7.35
+    },
+    {
+      "t": 33300,
+      "speed": 3.45,
+      "direction": 243.3,
+      "gust": 7.43
+    },
+    {
+      "t": 33600,
+      "speed": 3.53,
+      "direction": 243.3,
+      "gust": 7.5
+    },
+    {
+      "t": 33900,
+      "speed": 3.61,
+      "direction": 243.4,
+      "gust": 7.58
+    },
+    {
+      "t": 34200,
+      "speed": 3.69,
+      "direction": 243.5,
+      "gust": 7.65
+    },
+    {
+      "t": 34500,
+      "speed": 3.77,
+      "direction": 243.6,
+      "gust": 7.73
+    },
+    {
+      "t": 34800,
+      "speed": 3.85,
+      "direction": 243.7,
+      "gust": 7.8
+    },
+    {
+      "t": 35100,
+      "speed": 3.93,
+      "direction": 243.8,
+      "gust": 7.88
+    },
+    {
+      "t": 35400,
+      "speed": 4.02,
+      "direction": 243.8,
+      "gust": 7.95
+    },
+    {
+      "t": 35700,
+      "speed": 4.1,
+      "direction": 243.9,
+      "gust": 8.03
+    },
+    {
+      "t": 36000,
+      "speed": 4.18,
+      "direction": 244,
+      "gust": 8.1
     }
   ],
   "raw": {
@@ -970,12 +1258,44 @@
         "gust": 4.7,
         "temperature": 22.9,
         "humidity": 72
+      },
+      {
+        "epoch": 1727625600,
+        "speed": 2.3,
+        "direction": 204,
+        "gust": 5.5,
+        "temperature": 24,
+        "humidity": 67
+      },
+      {
+        "epoch": 1727629200,
+        "speed": 3.36,
+        "direction": 226,
+        "gust": 7,
+        "temperature": 25.3,
+        "humidity": 62
+      },
+      {
+        "epoch": 1727632800,
+        "speed": 3.2,
+        "direction": 243,
+        "gust": 7.2,
+        "temperature": 25.2,
+        "humidity": 62
+      },
+      {
+        "epoch": 1727636400,
+        "speed": 4.18,
+        "direction": 244,
+        "gust": 8.1,
+        "temperature": 25.7,
+        "humidity": 60
       }
     ],
-    "peakGust": 4.7,
-    "peakGustAtTick": 21600,
-    "dominantDirectionDeg": 207,
-    "dominantDirectionCompass": "SSW",
+    "peakGust": 8.1,
+    "peakGustAtTick": 36000,
+    "dominantDirectionDeg": 218.6,
+    "dominantDirectionCompass": "SW",
     "dominantDirectionMethod": "speed-weighted circular mean over scenario window",
     "eventDay": {
       "peakGust": 8.1,
@@ -988,7 +1308,7 @@
     "synthesized": null,
     "alerts": {
       "url": "https://api.weather.gov/alerts/active?point=33.6676,-83.9907",
-      "fetchedAt": "2026-08-20T09:18:25.510Z",
+      "fetchedAt": "2026-08-20T14:24:23.184Z",
       "count": 0,
       "ok": true,
       "error": null
@@ -996,5 +1316,5 @@
   },
   "liveAlerts": [],
   "source": "Open-Meteo ERA5 archive (archive-api.open-meteo.com) + NWS api.weather.gov active alerts",
-  "generatedAt": "2026-08-20T09:18:25.510Z"
+  "generatedAt": "2026-08-20T14:24:23.184Z"
 }
