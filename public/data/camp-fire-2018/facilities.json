@@ -1,0 +1,3478 @@
+{
+  "scenarioId": "camp-fire-2018",
+  "facilities": [
+    {
+      "id": "fire_station:hifld:10167315",
+      "kind": "fire_station",
+      "name": "Chico Fire Department Station 3",
+      "position": [
+        -121.85102,
+        39.794605
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 1,
+        "engine": 2
+      },
+      "source": "HIFLD via services2.arcgis.com"
+    },
+    {
+      "id": "fire_station:hifld:10167348",
+      "kind": "fire_station",
+      "name": "Butte County Fire Department Station 21",
+      "position": [
+        -121.731795,
+        39.923614
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 1,
+        "engine": 2
+      },
+      "source": "HIFLD via services2.arcgis.com"
+    },
+    {
+      "id": "fire_station:hifld:10167360",
+      "kind": "fire_station",
+      "name": "Butte County Fire Department Station 26",
+      "position": [
+        -121.702277,
+        39.729022
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 1,
+        "engine": 2
+      },
+      "source": "HIFLD via services2.arcgis.com"
+    },
+    {
+      "id": "fire_station:hifld:10167362",
+      "kind": "fire_station",
+      "name": "Butte County Fire Department Station 24",
+      "position": [
+        -121.682116,
+        39.875487
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 1,
+        "engine": 2
+      },
+      "source": "HIFLD via services2.arcgis.com"
+    },
+    {
+      "id": "fire_station:hifld:10167363",
+      "kind": "fire_station",
+      "name": "Butte County Fire Department Station 61",
+      "position": [
+        -121.373572,
+        39.62432
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 1,
+        "engine": 2
+      },
+      "source": "HIFLD via services2.arcgis.com"
+    },
+    {
+      "id": "fire_station:hifld:10167364",
+      "kind": "fire_station",
+      "name": "Butte County Fire Department Station 27",
+      "position": [
+        -121.662698,
+        39.780925
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 1,
+        "engine": 2
+      },
+      "source": "HIFLD via services2.arcgis.com"
+    },
+    {
+      "id": "fire_station:hifld:10167366",
+      "kind": "fire_station",
+      "name": "Butte County Fire Department Station 38",
+      "position": [
+        -121.506489,
+        39.772262
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 1,
+        "engine": 2
+      },
+      "source": "HIFLD via services2.arcgis.com"
+    },
+    {
+      "id": "fire_station:hifld:10167368",
+      "kind": "fire_station",
+      "name": "Chico Fire Department - Training Center",
+      "position": [
+        -121.814636,
+        39.736776
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 1,
+        "engine": 2
+      },
+      "source": "HIFLD via services2.arcgis.com"
+    },
+    {
+      "id": "fire_station:hifld:10167371",
+      "kind": "fire_station",
+      "name": "California Department of Forestry and Fire Protection Station 62 - Harts Mill",
+      "position": [
+        -121.434244,
+        39.625892
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 1,
+        "engine": 2
+      },
+      "source": "HIFLD via services2.arcgis.com"
+    },
+    {
+      "id": "fire_station:hifld:10167376",
+      "kind": "fire_station",
+      "name": "Butte County Fire Department Station 37",
+      "position": [
+        -121.526425,
+        39.722927
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 1,
+        "engine": 2
+      },
+      "source": "HIFLD via services2.arcgis.com"
+    },
+    {
+      "id": "fire_station:hifld:10167395",
+      "kind": "fire_station",
+      "name": "Butte County Fire Department Station 12",
+      "position": [
+        -121.528919,
+        39.909984
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 1,
+        "engine": 2
+      },
+      "source": "HIFLD via services2.arcgis.com"
+    },
+    {
+      "id": "fire_station:hifld:10167398",
+      "kind": "fire_station",
+      "name": "California Department of Forestry and Fire Protection Station 36 - Jarbo Gap",
+      "position": [
+        -121.495992,
+        39.739057
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 1,
+        "engine": 2
+      },
+      "source": "HIFLD via services2.arcgis.com"
+    },
+    {
+      "id": "fire_station:hifld:10167399",
+      "kind": "fire_station",
+      "name": "California Department of Forestry and Fire Protection Station 35 - Paradise",
+      "position": [
+        -121.59034,
+        39.785577
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 1,
+        "engine": 2
+      },
+      "source": "HIFLD via services2.arcgis.com"
+    },
+    {
+      "id": "fire_station:hifld:10167401",
+      "kind": "fire_station",
+      "name": "California Department of Forestry and Fire Protection Station 13 - Stirling City",
+      "position": [
+        -121.528347,
+        39.904688
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 1,
+        "engine": 2
+      },
+      "source": "HIFLD via services2.arcgis.com"
+    },
+    {
+      "id": "fire_station:hifld:10167404",
+      "kind": "fire_station",
+      "name": "Butte County Fire Department Station 33",
+      "position": [
+        -121.592084,
+        39.819055
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 1,
+        "engine": 2
+      },
+      "source": "HIFLD via services2.arcgis.com"
+    },
+    {
+      "id": "fire_station:hifld:10167407",
+      "kind": "fire_station",
+      "name": "Butte County Fire Department Station 44",
+      "position": [
+        -121.815799,
+        39.71656
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 1,
+        "engine": 2
+      },
+      "source": "HIFLD via services2.arcgis.com"
+    },
+    {
+      "id": "fire_station:hifld:10167408",
+      "kind": "fire_station",
+      "name": "Butte County Fire Department Station 42",
+      "position": [
+        -121.844057,
+        39.77206
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 1,
+        "engine": 2
+      },
+      "source": "HIFLD via services2.arcgis.com"
+    },
+    {
+      "id": "fire_station:hifld:10167432",
+      "kind": "fire_station",
+      "name": "Chico Fire Department Station 2",
+      "position": [
+        -121.847623,
+        39.74283
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 1,
+        "engine": 2
+      },
+      "source": "HIFLD via services2.arcgis.com"
+    },
+    {
+      "id": "fire_station:hifld:10167449",
+      "kind": "fire_station",
+      "name": "Paradise Fire Department Station 1",
+      "position": [
+        -121.624669,
+        39.753853
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 1,
+        "engine": 2
+      },
+      "source": "HIFLD via services2.arcgis.com"
+    },
+    {
+      "id": "fire_station:hifld:10167458",
+      "kind": "fire_station",
+      "name": "California Department of Forestry and Fire Protection Station 23 - Forest Ranch",
+      "position": [
+        -121.645872,
+        39.928202
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 1,
+        "engine": 2
+      },
+      "source": "HIFLD via services2.arcgis.com"
+    },
+    {
+      "id": "fire_station:hifld:10167460",
+      "kind": "fire_station",
+      "name": "Butte County Fire Department Station 67",
+      "position": [
+        -121.527097,
+        39.640178
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 1,
+        "engine": 2
+      },
+      "source": "HIFLD via services2.arcgis.com"
+    },
+    {
+      "id": "fire_station:hifld:10167461",
+      "kind": "fire_station",
+      "name": "Butte County Fire Department Station 25",
+      "position": [
+        -121.644808,
+        39.642284
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 1,
+        "engine": 2
+      },
+      "source": "HIFLD via services2.arcgis.com"
+    },
+    {
+      "id": "fire_station:hifld:10167472",
+      "kind": "fire_station",
+      "name": "Chico Fire Department Station 4",
+      "position": [
+        -121.794965,
+        39.718546
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 1,
+        "engine": 2
+      },
+      "source": "HIFLD via services2.arcgis.com"
+    },
+    {
+      "id": "fire_station:hifld:10167480",
+      "kind": "fire_station",
+      "name": "Paradise Fire Department Station 2",
+      "position": [
+        -121.593887,
+        39.748881
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 1,
+        "engine": 2
+      },
+      "source": "HIFLD via services2.arcgis.com"
+    },
+    {
+      "id": "fire_station:hifld:10167493",
+      "kind": "fire_station",
+      "name": "Chico Fire Department Station 1",
+      "position": [
+        -121.837482,
+        39.724421
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 1,
+        "engine": 2
+      },
+      "source": "HIFLD via services2.arcgis.com"
+    },
+    {
+      "id": "fire_station:hifld:10167503",
+      "kind": "fire_station",
+      "name": "Chico Fire Department Station 5",
+      "position": [
+        -121.805451,
+        39.761791
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 1,
+        "engine": 2
+      },
+      "source": "HIFLD via services2.arcgis.com"
+    },
+    {
+      "id": "fire_station:hifld:10167507",
+      "kind": "fire_station",
+      "name": "Butte County Fire Department Station 45",
+      "position": [
+        -121.801882,
+        39.643256
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 1,
+        "engine": 2
+      },
+      "source": "HIFLD via services2.arcgis.com"
+    },
+    {
+      "id": "fire_station:hifld:10167512",
+      "kind": "fire_station",
+      "name": "Paradise Fire Department Station 3",
+      "position": [
+        -121.600316,
+        39.777477
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 1,
+        "engine": 2
+      },
+      "source": "HIFLD via services2.arcgis.com"
+    },
+    {
+      "id": "fire_station:hifld:10167513",
+      "kind": "fire_station",
+      "name": "Butte County Fire Department Station 31",
+      "position": [
+        -121.606302,
+        39.863125
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 1,
+        "engine": 2
+      },
+      "source": "HIFLD via services2.arcgis.com"
+    },
+    {
+      "id": "fire_station:osm:node/12988027382",
+      "kind": "fire_station",
+      "name": "Harts Mill Station 62",
+      "position": [
+        -121.430466,
+        39.641979
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 1,
+        "engine": 2
+      },
+      "source": "OpenStreetMap contributors"
+    },
+    {
+      "id": "fire_station:osm:node/12988097189",
+      "kind": "fire_station",
+      "name": "Stirling City Fire Station 12",
+      "position": [
+        -121.52802,
+        39.90717
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 1,
+        "engine": 2
+      },
+      "source": "OpenStreetMap contributors"
+    },
+    {
+      "id": "fire_station:osm:way/1429828069",
+      "kind": "fire_station",
+      "name": "Butte County Fire Station 38",
+      "position": [
+        -121.50667,
+        39.774112
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 1,
+        "engine": 2
+      },
+      "source": "OpenStreetMap contributors"
+    },
+    {
+      "id": "hospital:hifld:0004595926",
+      "kind": "hospital",
+      "name": "Butte County Mental Health Services",
+      "position": [
+        -121.847649,
+        39.754564
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 3,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "hospital:hifld:0012495926",
+      "kind": "hospital",
+      "name": "Enloe Medical Center - Cohasset",
+      "position": [
+        -121.847996,
+        39.752497
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 3,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "hospital:hifld:0012595926",
+      "kind": "hospital",
+      "name": "Enloe Medical Center - Esplanade",
+      "position": [
+        -121.850394,
+        39.741828
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 3,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "hospital:hifld:0012695926",
+      "kind": "hospital",
+      "name": "Enloe Rehabilitation Center",
+      "position": [
+        -121.867532,
+        39.754187
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 3,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "hospital:osm:node/13626311955",
+      "kind": "hospital",
+      "name": "Planned Parenthood",
+      "position": [
+        -121.843079,
+        39.771852
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 1,
+        "engine": 0
+      },
+      "source": "OpenStreetMap contributors"
+    },
+    {
+      "id": "hospital:osm:node/13644592977",
+      "kind": "hospital",
+      "name": "Chico VA Clinic",
+      "position": [
+        -121.789097,
+        39.731676
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 1,
+        "engine": 0
+      },
+      "source": "OpenStreetMap contributors"
+    },
+    {
+      "id": "hospital:osm:node/5160055062",
+      "kind": "hospital",
+      "name": "Action Urgent Care",
+      "position": [
+        -121.822642,
+        39.76248
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 1,
+        "engine": 0
+      },
+      "source": "OpenStreetMap contributors"
+    },
+    {
+      "id": "hospital:osm:way/1336992244",
+      "kind": "hospital",
+      "name": "Adventist Health",
+      "position": [
+        -121.640676,
+        39.746453
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 1,
+        "engine": 0
+      },
+      "source": "OpenStreetMap contributors"
+    },
+    {
+      "id": "hospital:osm:way/577807430",
+      "kind": "hospital",
+      "name": "Adventist Health Feather River",
+      "position": [
+        -121.570327,
+        39.757417
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 3,
+        "engine": 0
+      },
+      "source": "OpenStreetMap contributors"
+    },
+    {
+      "id": "hospital:osm:way/84968546",
+      "kind": "hospital",
+      "name": "DaVita Dialysis",
+      "position": [
+        -121.841759,
+        39.761439
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 1,
+        "engine": 0
+      },
+      "source": "OpenStreetMap contributors"
+    },
+    {
+      "id": "mobile_home_park:hifld:48471",
+      "kind": "mobile_home_park",
+      "name": "Not Available",
+      "position": [
+        -121.850973,
+        39.773203
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "mobile_home_park:hifld:9487",
+      "kind": "mobile_home_park",
+      "name": "Lassen Mhp",
+      "position": [
+        -121.853435,
+        39.769731
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "mobile_home_park:hifld:9488",
+      "kind": "mobile_home_park",
+      "name": "Kentwood Mobile Estates",
+      "position": [
+        -121.865754,
+        39.758653
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "mobile_home_park:hifld:9489",
+      "kind": "mobile_home_park",
+      "name": "Almond Grove Mhp",
+      "position": [
+        -121.857447,
+        39.765911
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "mobile_home_park:hifld:9490",
+      "kind": "mobile_home_park",
+      "name": "Chico Trailer Haven",
+      "position": [
+        -121.864309,
+        39.73363
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "mobile_home_park:hifld:9491",
+      "kind": "mobile_home_park",
+      "name": "Paramount Tp",
+      "position": [
+        -121.857907,
+        39.753441
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "mobile_home_park:hifld:9492",
+      "kind": "mobile_home_park",
+      "name": "Pleasant Valley Mobile Estates",
+      "position": [
+        -121.808593,
+        39.760765
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "mobile_home_park:hifld:9494",
+      "kind": "mobile_home_park",
+      "name": "Big Tree Mhp",
+      "position": [
+        -121.859252,
+        39.734631
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "mobile_home_park:hifld:9495",
+      "kind": "mobile_home_park",
+      "name": "L.C. Rv Park",
+      "position": [
+        -121.869789,
+        39.736387
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "mobile_home_park:hifld:9496",
+      "kind": "mobile_home_park",
+      "name": "Lindo Motel Apts\\Tp",
+      "position": [
+        -121.854779,
+        39.748871
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "mobile_home_park:hifld:9499",
+      "kind": "mobile_home_park",
+      "name": "Harmony Mobile Home Park",
+      "position": [
+        -121.8658,
+        39.734368
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "mobile_home_park:hifld:9500",
+      "kind": "mobile_home_park",
+      "name": "Coach House Mobile Estates",
+      "position": [
+        -121.850008,
+        39.770457
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "mobile_home_park:hifld:9503",
+      "kind": "mobile_home_park",
+      "name": "Chico Mobile Country Club",
+      "position": [
+        -121.848897,
+        39.701647
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "mobile_home_park:hifld:9504",
+      "kind": "mobile_home_park",
+      "name": "Butte Creek Mhp",
+      "position": [
+        -121.680267,
+        39.740039
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "mobile_home_park:hifld:9505",
+      "kind": "mobile_home_park",
+      "name": "Springfield Manor Mhp",
+      "position": [
+        -121.799044,
+        39.72991
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "mobile_home_park:hifld:9536",
+      "kind": "mobile_home_park",
+      "name": "Forest Ranch Mp",
+      "position": [
+        -121.673904,
+        39.879766
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "mobile_home_park:hifld:9537",
+      "kind": "mobile_home_park",
+      "name": "Forest Village Llc",
+      "position": [
+        -121.674929,
+        39.876601
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "mobile_home_park:hifld:9573",
+      "kind": "mobile_home_park",
+      "name": "Paradise Pines Rv Park",
+      "position": [
+        -121.59637,
+        39.828091
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "mobile_home_park:hifld:9598",
+      "kind": "mobile_home_park",
+      "name": "Meadowbrook Oak Mobile Ranch",
+      "position": [
+        -121.592202,
+        39.642442
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "mobile_home_park:hifld:9603",
+      "kind": "mobile_home_park",
+      "name": "Concow Camp Ground",
+      "position": [
+        -121.507148,
+        39.77407
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "mobile_home_park:hifld:9615",
+      "kind": "mobile_home_park",
+      "name": "Foothills Mhp",
+      "position": [
+        -121.630333,
+        39.658652
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "mobile_home_park:hifld:9617",
+      "kind": "mobile_home_park",
+      "name": "Big Bend Mhp",
+      "position": [
+        -121.491437,
+        39.723123
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "mobile_home_park:hifld:9634",
+      "kind": "mobile_home_park",
+      "name": "Pine View Heights Mhp",
+      "position": [
+        -121.65433,
+        39.727
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "mobile_home_park:hifld:9637",
+      "kind": "mobile_home_park",
+      "name": "Edgewood/Sawmill Estates",
+      "position": [
+        -121.584349,
+        39.743882
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "mobile_home_park:hifld:9638",
+      "kind": "mobile_home_park",
+      "name": "J and M",
+      "position": [
+        -121.607623,
+        39.752964
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "mobile_home_park:hifld:9639",
+      "kind": "mobile_home_park",
+      "name": "Skyway Villa Mhp",
+      "position": [
+        -121.61139,
+        39.772188
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "mobile_home_park:hifld:9640",
+      "kind": "mobile_home_park",
+      "name": "Skyway Trailer Court",
+      "position": [
+        -121.63312,
+        39.74945
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "mobile_home_park:hifld:9641",
+      "kind": "mobile_home_park",
+      "name": "Cape Cod Mobile Estates",
+      "position": [
+        -121.621806,
+        39.762983
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "mobile_home_park:hifld:9642",
+      "kind": "mobile_home_park",
+      "name": "Quail Trails Village",
+      "position": [
+        -121.570034,
+        39.729176
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "mobile_home_park:hifld:9643",
+      "kind": "mobile_home_park",
+      "name": "Forest Grove Mobile & Rv Park",
+      "position": [
+        -121.596397,
+        39.786043
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "mobile_home_park:hifld:9644",
+      "kind": "mobile_home_park",
+      "name": "Hudsons Mobile Home Park",
+      "position": [
+        -121.609605,
+        39.774997
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "mobile_home_park:hifld:9645",
+      "kind": "mobile_home_park",
+      "name": "Pheasant Ridge Mobile Estates",
+      "position": [
+        -121.585673,
+        39.790488
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "mobile_home_park:hifld:9646",
+      "kind": "mobile_home_park",
+      "name": "Blue Spruce Mobile Estates",
+      "position": [
+        -121.579652,
+        39.79073
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "mobile_home_park:hifld:9647",
+      "kind": "mobile_home_park",
+      "name": "The Woodlands Mhp",
+      "position": [
+        -121.622168,
+        39.756742
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "mobile_home_park:hifld:9648",
+      "kind": "mobile_home_park",
+      "name": "Oak Hill Mobile Estates",
+      "position": [
+        -121.596816,
+        39.770357
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "mobile_home_park:hifld:9649",
+      "kind": "mobile_home_park",
+      "name": "Ridgewood Mhp",
+      "position": [
+        -121.579549,
+        39.778258
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "mobile_home_park:hifld:9650",
+      "kind": "mobile_home_park",
+      "name": "Feather West Travel Tp",
+      "position": [
+        -121.57376,
+        39.69431
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "mobile_home_park:hifld:9651",
+      "kind": "mobile_home_park",
+      "name": "Ponderosa Mobile Estates",
+      "position": [
+        -121.579514,
+        39.777792
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "mobile_home_park:hifld:9652",
+      "kind": "mobile_home_park",
+      "name": "Acres of Paradise Mhp",
+      "position": [
+        -121.575433,
+        39.766249
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "mobile_home_park:hifld:9653",
+      "kind": "mobile_home_park",
+      "name": "Pine Grove Mhp",
+      "position": [
+        -121.594825,
+        39.773591
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "mobile_home_park:hifld:9654",
+      "kind": "mobile_home_park",
+      "name": "Pine Ridge Park",
+      "position": [
+        -121.575363,
+        39.727273
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "mobile_home_park:hifld:9655",
+      "kind": "mobile_home_park",
+      "name": "Rocky Lane Mp",
+      "position": [
+        -121.598281,
+        39.783729
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "mobile_home_park:hifld:9656",
+      "kind": "mobile_home_park",
+      "name": "Lime Saddle Mobile Estates",
+      "position": [
+        -121.576066,
+        39.709552
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "mobile_home_park:hifld:9657",
+      "kind": "mobile_home_park",
+      "name": "Blue Haven Mobile Estates",
+      "position": [
+        -121.607632,
+        39.747569
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "mobile_home_park:hifld:9658",
+      "kind": "mobile_home_park",
+      "name": "Forest Glen Mhp",
+      "position": [
+        -121.593803,
+        39.749642
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "mobile_home_park:hifld:9659",
+      "kind": "mobile_home_park",
+      "name": "Pinecrest Mhp",
+      "position": [
+        -121.607623,
+        39.74586
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "mobile_home_park:hifld:9660",
+      "kind": "mobile_home_park",
+      "name": "Paradise Tp",
+      "position": [
+        -121.617076,
+        39.767
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "mobile_home_park:hifld:9661",
+      "kind": "mobile_home_park",
+      "name": "Holly Hills Mobile Estates",
+      "position": [
+        -121.593814,
+        39.746209
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "mobile_home_park:hifld:9662",
+      "kind": "mobile_home_park",
+      "name": "Paradise Mobile Estates",
+      "position": [
+        -121.595689,
+        39.759494
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "mobile_home_park:hifld:9663",
+      "kind": "mobile_home_park",
+      "name": "Apple Tree Village",
+      "position": [
+        -121.58785,
+        39.78317
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "mobile_home_park:hifld:9664",
+      "kind": "mobile_home_park",
+      "name": "El Dorado Mobile Estates",
+      "position": [
+        -121.58065,
+        39.800917
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "mobile_home_park:hifld:9665",
+      "kind": "mobile_home_park",
+      "name": "Sherwood Forest Mhp",
+      "position": [
+        -121.599154,
+        39.777639
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "mobile_home_park:hifld:9666",
+      "kind": "mobile_home_park",
+      "name": "The Plantation",
+      "position": [
+        -121.617813,
+        39.748496
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "mobile_home_park:hifld:9667",
+      "kind": "mobile_home_park",
+      "name": "Canyon View Estates",
+      "position": [
+        -121.584321,
+        39.74099
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "mobile_home_park:hifld:9668",
+      "kind": "mobile_home_park",
+      "name": "Idlewild Mh Estates",
+      "position": [
+        -121.589063,
+        39.743781
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "mobile_home_park:hifld:9669",
+      "kind": "mobile_home_park",
+      "name": "Pine Springs Mhp",
+      "position": [
+        -121.586418,
+        39.785767
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "mobile_home_park:hifld:9670",
+      "kind": "mobile_home_park",
+      "name": "Evergreen Mhp",
+      "position": [
+        -121.616245,
+        39.766112
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "mobile_home_park:hifld:9696",
+      "kind": "mobile_home_park",
+      "name": "Casa de Flores Mh Community",
+      "position": [
+        -121.854347,
+        39.767749
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "mobile_home_park:hifld:9697",
+      "kind": "mobile_home_park",
+      "name": "Chico Mobile Home Park",
+      "position": [
+        -121.861663,
+        39.763542
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "mobile_home_park:hifld:9699",
+      "kind": "mobile_home_park",
+      "name": "Cohasset Mobile Estates",
+      "position": [
+        -121.748141,
+        39.893997
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "mobile_home_park:osm:way/1308095931",
+      "kind": "mobile_home_park",
+      "name": "Mountain View Mobile Acres",
+      "position": [
+        -121.871774,
+        39.770493
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "OpenStreetMap contributors"
+    },
+    {
+      "id": "nursing_home:hifld:060489",
+      "kind": "nursing_home",
+      "name": "Country Commons",
+      "position": [
+        -121.842199,
+        39.771206
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "nursing_home:hifld:060502",
+      "kind": "nursing_home",
+      "name": "Courtyard at Little Chico Creek, the",
+      "position": [
+        -121.81021,
+        39.737179
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "nursing_home:hifld:060878",
+      "kind": "nursing_home",
+      "name": "Inn at the Terraces, the",
+      "position": [
+        -121.784858,
+        39.74503
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "nursing_home:hifld:061317",
+      "kind": "nursing_home",
+      "name": "Prestige Assisted Living at Chico",
+      "position": [
+        -121.842671,
+        39.773328
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "nursing_home:hifld:061407",
+      "kind": "nursing_home",
+      "name": "Roseleaf Gardens",
+      "position": [
+        -121.783484,
+        39.745816
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "nursing_home:hifld:061408",
+      "kind": "nursing_home",
+      "name": "Roseleaf Senior Care",
+      "position": [
+        -121.800741,
+        39.73929
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "nursing_home:hifld:061411",
+      "kind": "nursing_home",
+      "name": "Roses and Ivy Elder Care",
+      "position": [
+        -121.842514,
+        39.751035
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "nursing_home:hifld:061657",
+      "kind": "nursing_home",
+      "name": "Sunshine Assisted Living-The Cottage",
+      "position": [
+        -121.590419,
+        39.74645
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "nursing_home:hifld:061871",
+      "kind": "nursing_home",
+      "name": "Windchime of Chico",
+      "position": [
+        -121.793315,
+        39.748601
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "nursing_home:hifld:062157",
+      "kind": "nursing_home",
+      "name": "Compass Rose",
+      "position": [
+        -121.785684,
+        39.745196
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "nursing_home:hifld:062763",
+      "kind": "nursing_home",
+      "name": "Atria Paradise",
+      "position": [
+        -121.61095,
+        39.749347
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "nursing_home:hifld:062972",
+      "kind": "nursing_home",
+      "name": "Riverside Convalescent Hospital",
+      "position": [
+        -121.848999,
+        39.751143
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "nursing_home:hifld:063267",
+      "kind": "nursing_home",
+      "name": "Arbor Post Acute",
+      "position": [
+        -121.804028,
+        39.733459
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "nursing_home:hifld:063409",
+      "kind": "nursing_home",
+      "name": "Windsor Chico Care Center",
+      "position": [
+        -121.852813,
+        39.750389
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "nursing_home:hifld:063411",
+      "kind": "nursing_home",
+      "name": "Windsor Chico Creek Care and Rehabilitation Center",
+      "position": [
+        -121.849005,
+        39.754334
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "nursing_home:hifld:063539",
+      "kind": "nursing_home",
+      "name": "California Park Rehabilitation Hospital",
+      "position": [
+        -121.785414,
+        39.745859
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "nursing_home:hifld:72397",
+      "kind": "nursing_home",
+      "name": "Mountain Meadow Lodge",
+      "position": [
+        -121.629157,
+        39.771745
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "nursing_home:hifld:72475",
+      "kind": "nursing_home",
+      "name": "Townsend House",
+      "position": [
+        -121.869935,
+        39.752741
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "school:hifld:060009010744",
+      "kind": "school",
+      "name": "Butte County ROP",
+      "position": [
+        -121.804477,
+        39.715801
+      ],
+      "capacity": 200,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "school:hifld:060154914363",
+      "kind": "school",
+      "name": "Pivot Charter School North Valley II",
+      "position": [
+        -121.821498,
+        39.734803
+      ],
+      "capacity": 200,
+      "assets": {
+        "bus": 3,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "school:hifld:060155412539",
+      "kind": "school",
+      "name": "Inspire School of Arts and Sciences",
+      "position": [
+        -121.847757,
+        39.73453
+      ],
+      "capacity": 895,
+      "assets": {
+        "bus": 5,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "school:hifld:060166505708",
+      "kind": "school",
+      "name": "Chico Country Day",
+      "position": [
+        -121.833373,
+        39.724075
+      ],
+      "capacity": 246,
+      "assets": {
+        "bus": 6,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "school:hifld:060184311953",
+      "kind": "school",
+      "name": "Core Butte Charter",
+      "position": [
+        -121.788757,
+        39.706205
+      ],
+      "capacity": 200,
+      "assets": {
+        "bus": 8,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "school:hifld:060184512750",
+      "kind": "school",
+      "name": "Sherwood Montessori",
+      "position": [
+        -121.815984,
+        39.727441
+      ],
+      "capacity": 200,
+      "assets": {
+        "bus": 3,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "school:hifld:060189512233",
+      "kind": "school",
+      "name": "Forest Ranch Charter",
+      "position": [
+        -121.666815,
+        39.884597
+      ],
+      "capacity": 120,
+      "assets": {
+        "bus": 3,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "school:hifld:060190305717",
+      "kind": "school",
+      "name": "Children's Community Charter",
+      "position": [
+        -121.578914,
+        39.783743
+      ],
+      "capacity": 200,
+      "assets": {
+        "bus": 4,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "school:hifld:060213311571",
+      "kind": "school",
+      "name": "Achieve Charter School of Paradise Inc.",
+      "position": [
+        -121.817257,
+        39.762361
+      ],
+      "capacity": 182,
+      "assets": {
+        "bus": 3,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "school:hifld:060217708682",
+      "kind": "school",
+      "name": "Blue Oak Charter",
+      "position": [
+        -121.868958,
+        39.753373
+      ],
+      "capacity": 266,
+      "assets": {
+        "bus": 4,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "school:hifld:060223912755",
+      "kind": "school",
+      "name": "Wildflower Open Classroom",
+      "position": [
+        -121.842662,
+        39.7584
+      ],
+      "capacity": 200,
+      "assets": {
+        "bus": 4,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "school:hifld:060230404403",
+      "kind": "school",
+      "name": "Paradise Charter Middle",
+      "position": [
+        -121.59759,
+        39.77355
+      ],
+      "capacity": 200,
+      "assets": {
+        "bus": 4,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "school:hifld:060233904345",
+      "kind": "school",
+      "name": "Hometech Charter",
+      "position": [
+        -121.626416,
+        39.756484
+      ],
+      "capacity": 200,
+      "assets": {
+        "bus": 3,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "school:hifld:060837000812",
+      "kind": "school",
+      "name": "Bidwell Junior High",
+      "position": [
+        -121.83763,
+        39.758696
+      ],
+      "capacity": 200,
+      "assets": {
+        "bus": 8,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "school:hifld:060837000813",
+      "kind": "school",
+      "name": "Chapman Elementary",
+      "position": [
+        -121.815056,
+        39.727015
+      ],
+      "capacity": 200,
+      "assets": {
+        "bus": 5,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "school:hifld:060837000814",
+      "kind": "school",
+      "name": "Chico Junior High",
+      "position": [
+        -121.839042,
+        39.734196
+      ],
+      "capacity": 120,
+      "assets": {
+        "bus": 8,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "school:hifld:060837000815",
+      "kind": "school",
+      "name": "Chico High",
+      "position": [
+        -121.84491,
+        39.735645
+      ],
+      "capacity": 900,
+      "assets": {
+        "bus": 8,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "school:hifld:060837000816",
+      "kind": "school",
+      "name": "Citrus Avenue Elementary",
+      "position": [
+        -121.85215,
+        39.7388
+      ],
+      "capacity": 186,
+      "assets": {
+        "bus": 5,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "school:hifld:060837000818",
+      "kind": "school",
+      "name": "Fair View High (Continuation)",
+      "position": [
+        -121.858342,
+        39.75936
+      ],
+      "capacity": 210,
+      "assets": {
+        "bus": 3,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "school:hifld:060837000820",
+      "kind": "school",
+      "name": "Hooker Oak Elementary",
+      "position": [
+        -121.837078,
+        39.74371
+      ],
+      "capacity": 200,
+      "assets": {
+        "bus": 5,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "school:hifld:060837000821",
+      "kind": "school",
+      "name": "Marigold Elementary",
+      "position": [
+        -121.814547,
+        39.760559
+      ],
+      "capacity": 664,
+      "assets": {
+        "bus": 6,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "school:hifld:060837000822",
+      "kind": "school",
+      "name": "Mcmanus (John a.) Elementary",
+      "position": [
+        -121.839411,
+        39.761625
+      ],
+      "capacity": 168,
+      "assets": {
+        "bus": 5,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "school:hifld:060837000823",
+      "kind": "school",
+      "name": "Neal Dow Elementary",
+      "position": [
+        -121.83228,
+        39.749379
+      ],
+      "capacity": 200,
+      "assets": {
+        "bus": 5,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "school:hifld:060837000825",
+      "kind": "school",
+      "name": "Parkview Elementary",
+      "position": [
+        -121.813499,
+        39.742063
+      ],
+      "capacity": 120,
+      "assets": {
+        "bus": 5,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "school:hifld:060837000827",
+      "kind": "school",
+      "name": "Pleasant Valley High",
+      "position": [
+        -121.816329,
+        39.760694
+      ],
+      "capacity": 513,
+      "assets": {
+        "bus": 8,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "school:hifld:060837000828",
+      "kind": "school",
+      "name": "Rosedale Elementary",
+      "position": [
+        -121.852068,
+        39.723597
+      ],
+      "capacity": 219,
+      "assets": {
+        "bus": 6,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "school:hifld:060837000830",
+      "kind": "school",
+      "name": "Sierra View Elementary",
+      "position": [
+        -121.812152,
+        39.750855
+      ],
+      "capacity": 200,
+      "assets": {
+        "bus": 6,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "school:hifld:060837007945",
+      "kind": "school",
+      "name": "Marsh (Harry M.) Junior High",
+      "position": [
+        -121.798251,
+        39.739007
+      ],
+      "capacity": 492,
+      "assets": {
+        "bus": 8,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "school:hifld:060837008450",
+      "kind": "school",
+      "name": "Oakdale",
+      "position": [
+        -121.858763,
+        39.759305
+      ],
+      "capacity": 210,
+      "assets": {
+        "bus": 3,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "school:hifld:060837010191",
+      "kind": "school",
+      "name": "Little Chico Creek Elementary",
+      "position": [
+        -121.798099,
+        39.733769
+      ],
+      "capacity": 161,
+      "assets": {
+        "bus": 6,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "school:hifld:060837010469",
+      "kind": "school",
+      "name": "Loma Vista",
+      "position": [
+        -121.814476,
+        39.759907
+      ],
+      "capacity": 577,
+      "assets": {
+        "bus": 3,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "school:hifld:060837011853",
+      "kind": "school",
+      "name": "Academy for Change",
+      "position": [
+        -121.842033,
+        39.758383
+      ],
+      "capacity": 200,
+      "assets": {
+        "bus": 3,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "school:hifld:060837012830",
+      "kind": "school",
+      "name": "Center for Alternative Learning",
+      "position": [
+        -121.858299,
+        39.759296
+      ],
+      "capacity": 210,
+      "assets": {
+        "bus": 3,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "school:hifld:060837014566",
+      "kind": "school",
+      "name": "Oak Bridge Academy",
+      "position": [
+        -121.803219,
+        39.728878
+      ],
+      "capacity": 200,
+      "assets": {
+        "bus": 3,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "school:hifld:061173001295",
+      "kind": "school",
+      "name": "Durham Elementary",
+      "position": [
+        -121.804369,
+        39.646506
+      ],
+      "capacity": 200,
+      "assets": {
+        "bus": 6,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "school:hifld:061548001964",
+      "kind": "school",
+      "name": "Concow Elementary",
+      "position": [
+        -121.527749,
+        39.730649
+      ],
+      "capacity": 200,
+      "assets": {
+        "bus": 3,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "school:hifld:062982004638",
+      "kind": "school",
+      "name": "Paradise Elementary",
+      "position": [
+        -121.610935,
+        39.751582
+      ],
+      "capacity": 294,
+      "assets": {
+        "bus": 4,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "school:hifld:062982004640",
+      "kind": "school",
+      "name": "Paradise Senior High",
+      "position": [
+        -121.613585,
+        39.761233
+      ],
+      "capacity": 711,
+      "assets": {
+        "bus": 6,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "school:hifld:062982004641",
+      "kind": "school",
+      "name": "Ponderosa Elementary",
+      "position": [
+        -121.581151,
+        39.775704
+      ],
+      "capacity": 285,
+      "assets": {
+        "bus": 6,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "school:hifld:062982004642",
+      "kind": "school",
+      "name": "Ridgeview High (Continuation)",
+      "position": [
+        -121.579412,
+        39.804714
+      ],
+      "capacity": 200,
+      "assets": {
+        "bus": 3,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "school:hifld:062982005712",
+      "kind": "school",
+      "name": "Cedarwood Elementary",
+      "position": [
+        -121.596977,
+        39.853709
+      ],
+      "capacity": 120,
+      "assets": {
+        "bus": 4,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "school:hifld:062982008451",
+      "kind": "school",
+      "name": "Honey Run Academy Secondary",
+      "position": [
+        -121.609979,
+        39.752055
+      ],
+      "capacity": 200,
+      "assets": {
+        "bus": 6,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "school:hifld:062982008937",
+      "kind": "school",
+      "name": "Pine Ridge",
+      "position": [
+        -121.60052,
+        39.812909
+      ],
+      "capacity": 120,
+      "assets": {
+        "bus": 4,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "school:hifld:062982014190",
+      "kind": "school",
+      "name": "Paradise Unified Special Education",
+      "position": [
+        -121.589328,
+        39.778681
+      ],
+      "capacity": 200,
+      "assets": {
+        "bus": 3,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "school:hifld:063052004742",
+      "kind": "school",
+      "name": "Berry Creek Elementary",
+      "position": [
+        -121.374534,
+        39.625387
+      ],
+      "capacity": 200,
+      "assets": {
+        "bus": 3,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "school:hifld:069100213783",
+      "kind": "school",
+      "name": "Butte County Community",
+      "position": [
+        -121.812827,
+        39.715796
+      ],
+      "capacity": 200,
+      "assets": {
+        "bus": 3,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "HIFLD via services.arcgis.com"
+    },
+    {
+      "id": "school:osm:node/13608269862",
+      "kind": "school",
+      "name": "Oak Bridge Academy",
+      "position": [
+        -121.84304,
+        39.774361
+      ],
+      "capacity": 200,
+      "assets": {
+        "bus": 5,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "OpenStreetMap contributors"
+    },
+    {
+      "id": "school:osm:node/1706392710",
+      "kind": "school",
+      "name": "Super Luper Kids Preschool and Day Care",
+      "position": [
+        -121.806872,
+        39.73317
+      ],
+      "capacity": 200,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "OpenStreetMap contributors"
+    },
+    {
+      "id": "school:osm:node/358763701",
+      "kind": "school",
+      "name": "Clear Creek School",
+      "position": [
+        -121.626362,
+        39.678496
+      ],
+      "capacity": 200,
+      "assets": {
+        "bus": 8,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "OpenStreetMap contributors"
+    },
+    {
+      "id": "school:osm:node/358796838",
+      "kind": "school",
+      "name": "Berry Creek Elementary School",
+      "position": [
+        -121.430245,
+        39.63933
+      ],
+      "capacity": 200,
+      "assets": {
+        "bus": 7,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "OpenStreetMap contributors"
+    },
+    {
+      "id": "school:osm:node/358802681",
+      "kind": "school",
+      "name": "Rockefeller School",
+      "position": [
+        -121.379132,
+        39.630442
+      ],
+      "capacity": 200,
+      "assets": {
+        "bus": 4,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "OpenStreetMap contributors"
+    },
+    {
+      "id": "school:osm:node/358802683",
+      "kind": "school",
+      "name": "Rose School",
+      "position": [
+        -121.382466,
+        39.727108
+      ],
+      "capacity": 200,
+      "assets": {
+        "bus": 6,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "OpenStreetMap contributors"
+    },
+    {
+      "id": "school:osm:node/358815898",
+      "kind": "school",
+      "name": "Paradise Christian School",
+      "position": [
+        -121.606917,
+        39.755162
+      ],
+      "capacity": 200,
+      "assets": {
+        "bus": 6,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "OpenStreetMap contributors"
+    },
+    {
+      "id": "school:osm:node/358824292",
+      "kind": "school",
+      "name": "Cohasset Elementary School",
+      "position": [
+        -121.731368,
+        39.92655
+      ],
+      "capacity": 200,
+      "assets": {
+        "bus": 5,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "OpenStreetMap contributors"
+    },
+    {
+      "id": "school:osm:node/358824303",
+      "kind": "school",
+      "name": "Forest Ranch Elementary School",
+      "position": [
+        -121.673865,
+        39.882661
+      ],
+      "capacity": 200,
+      "assets": {
+        "bus": 5,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "OpenStreetMap contributors"
+    },
+    {
+      "id": "school:osm:node/358824320",
+      "kind": "school",
+      "name": "Horace Brakebill Elementary School",
+      "position": [
+        -121.530805,
+        39.911272
+      ],
+      "capacity": 200,
+      "assets": {
+        "bus": 3,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "OpenStreetMap contributors"
+    },
+    {
+      "id": "school:osm:way/142482134",
+      "kind": "school",
+      "name": "Spring Valley Elementary School",
+      "position": [
+        -121.562589,
+        39.651255
+      ],
+      "capacity": 200,
+      "assets": {
+        "bus": 3,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "OpenStreetMap contributors"
+    },
+    {
+      "id": "school:osm:way/1445924411",
+      "kind": "school",
+      "name": "Junior Academy",
+      "position": [
+        -121.618454,
+        39.753648
+      ],
+      "capacity": 200,
+      "assets": {
+        "bus": 5,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "OpenStreetMap contributors"
+    },
+    {
+      "id": "school:osm:way/1544967673",
+      "kind": "school",
+      "name": "Saint Thomas More School",
+      "position": [
+        -121.62115,
+        39.760669
+      ],
+      "capacity": 200,
+      "assets": {
+        "bus": 4,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "OpenStreetMap contributors"
+    },
+    {
+      "id": "school:osm:way/302144588",
+      "kind": "school",
+      "name": "Notre Dame School",
+      "position": [
+        -121.842588,
+        39.725722
+      ],
+      "capacity": 200,
+      "assets": {
+        "bus": 3,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "OpenStreetMap contributors"
+    },
+    {
+      "id": "school:osm:way/85064987",
+      "kind": "school",
+      "name": "Chico Oaks Adventist School",
+      "position": [
+        -121.804966,
+        39.754268
+      ],
+      "capacity": 120,
+      "assets": {
+        "bus": 6,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "OpenStreetMap contributors"
+    },
+    {
+      "id": "shelter:osm:node/368166578",
+      "kind": "shelter",
+      "name": "Dorothy F. Johnson Center",
+      "position": [
+        -121.820752,
+        39.725286
+      ],
+      "capacity": 141,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "derived: OpenStreetMap community centre — congregate-venue stock, NOT a designated shelter list"
+    },
+    {
+      "id": "shelter:osm:relation/12243174",
+      "kind": "shelter",
+      "name": "LIFE|CHURCH",
+      "position": [
+        -121.817006,
+        39.761829
+      ],
+      "capacity": 480,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "derived: OpenStreetMap place of worship — congregate-venue stock, NOT a designated shelter list"
+    },
+    {
+      "id": "shelter:osm:relation/19224114",
+      "kind": "shelter",
+      "name": "First Christian Church (Disciples of Christ), Chico",
+      "position": [
+        -121.84094,
+        39.737492
+      ],
+      "capacity": 480,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "derived: OpenStreetMap place of worship — congregate-venue stock, NOT a designated shelter list"
+    },
+    {
+      "id": "shelter:osm:way/1066018122",
+      "kind": "shelter",
+      "name": "Forest Ranch Baptist Church",
+      "position": [
+        -121.665318,
+        39.886596
+      ],
+      "capacity": 153,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "derived: OpenStreetMap place of worship — congregate-venue stock, NOT a designated shelter list"
+    },
+    {
+      "id": "shelter:osm:way/1106265308",
+      "kind": "shelter",
+      "name": "Albert E. Warrens Reception Center",
+      "position": [
+        -121.846292,
+        39.730917
+      ],
+      "capacity": 120,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "derived: OpenStreetMap event venue — congregate-venue stock, NOT a designated shelter list"
+    },
+    {
+      "id": "shelter:osm:way/1138547215",
+      "kind": "shelter",
+      "name": "Boys & Girls Clubs of the North Valley",
+      "position": [
+        -121.835812,
+        39.728253
+      ],
+      "capacity": 179,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "derived: OpenStreetMap community centre — congregate-venue stock, NOT a designated shelter list"
+    },
+    {
+      "id": "shelter:osm:way/1138552482",
+      "kind": "shelter",
+      "name": "Centerville Estates",
+      "position": [
+        -121.660584,
+        39.7822
+      ],
+      "capacity": 120,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "derived: OpenStreetMap event venue — congregate-venue stock, NOT a designated shelter list"
+    },
+    {
+      "id": "shelter:osm:way/1286961257",
+      "kind": "shelter",
+      "name": "Arc Pavilion",
+      "position": [
+        -121.822391,
+        39.718461
+      ],
+      "capacity": 197,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "derived: OpenStreetMap event venue — congregate-venue stock, NOT a designated shelter list"
+    },
+    {
+      "id": "shelter:osm:way/1313350928",
+      "kind": "shelter",
+      "name": "Church of Scientology Mission of Chico",
+      "position": [
+        -121.850935,
+        39.745667
+      ],
+      "capacity": 120,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "derived: OpenStreetMap place of worship — congregate-venue stock, NOT a designated shelter list"
+    },
+    {
+      "id": "shelter:osm:way/132382272",
+      "kind": "shelter",
+      "name": "Aldersgate United Methodist Church",
+      "position": [
+        -121.844462,
+        39.768137
+      ],
+      "capacity": 152,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "derived: OpenStreetMap place of worship — congregate-venue stock, NOT a designated shelter list"
+    },
+    {
+      "id": "shelter:osm:way/1351729802",
+      "kind": "shelter",
+      "name": "City Light Church of Chico",
+      "position": [
+        -121.84481,
+        39.77059
+      ],
+      "capacity": 120,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "derived: OpenStreetMap place of worship — congregate-venue stock, NOT a designated shelter list"
+    },
+    {
+      "id": "shelter:osm:way/1392880190",
+      "kind": "shelter",
+      "name": "CARD Community Center",
+      "position": [
+        -121.833301,
+        39.734061
+      ],
+      "capacity": 223,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "derived: OpenStreetMap community centre — congregate-venue stock, NOT a designated shelter list"
+    },
+    {
+      "id": "shelter:osm:way/1416654666",
+      "kind": "shelter",
+      "name": "Creekside Rose Garden",
+      "position": [
+        -121.833545,
+        39.733839
+      ],
+      "capacity": 480,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "derived: OpenStreetMap event venue — congregate-venue stock, NOT a designated shelter list"
+    },
+    {
+      "id": "shelter:osm:way/1458913514",
+      "kind": "shelter",
+      "name": "Silver Dollar Fairgrounds",
+      "position": [
+        -121.812028,
+        39.717454
+      ],
+      "capacity": 480,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "derived: OpenStreetMap fairground — congregate-venue stock, NOT a designated shelter list"
+    },
+    {
+      "id": "shelter:osm:way/1472157351",
+      "kind": "shelter",
+      "name": "Salvation Army Chico Corps Community Center",
+      "position": [
+        -121.82342,
+        39.724911
+      ],
+      "capacity": 295,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "derived: OpenStreetMap community centre — congregate-venue stock, NOT a designated shelter list"
+    },
+    {
+      "id": "shelter:osm:way/1476584798",
+      "kind": "shelter",
+      "name": "Our Divine Savior Catholic Church",
+      "position": [
+        -121.85772,
+        39.766197
+      ],
+      "capacity": 120,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "derived: OpenStreetMap place of worship — congregate-venue stock, NOT a designated shelter list"
+    },
+    {
+      "id": "shelter:osm:way/1544672649",
+      "kind": "shelter",
+      "name": "Saint John the Baptist Catholic Church",
+      "position": [
+        -121.84273,
+        39.726081
+      ],
+      "capacity": 120,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "derived: OpenStreetMap place of worship — congregate-venue stock, NOT a designated shelter list"
+    },
+    {
+      "id": "shelter:osm:way/184198433",
+      "kind": "shelter",
+      "name": "Baptist Church",
+      "position": [
+        -121.590792,
+        39.81621
+      ],
+      "capacity": 189,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "derived: OpenStreetMap place of worship — congregate-venue stock, NOT a designated shelter list"
+    },
+    {
+      "id": "shelter:osm:way/285842331",
+      "kind": "shelter",
+      "name": "Islamic Center of Chico",
+      "position": [
+        -121.862648,
+        39.734023
+      ],
+      "capacity": 120,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "derived: OpenStreetMap place of worship — congregate-venue stock, NOT a designated shelter list"
+    },
+    {
+      "id": "shelter:osm:way/302144591",
+      "kind": "shelter",
+      "name": "Saint Augustine of Canterbury",
+      "position": [
+        -121.841912,
+        39.728425
+      ],
+      "capacity": 120,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "derived: OpenStreetMap place of worship — congregate-venue stock, NOT a designated shelter list"
+    },
+    {
+      "id": "shelter:osm:way/460976026",
+      "kind": "shelter",
+      "name": "Chico Friends Meeting of the Religious Society of Friends (Quakers)",
+      "position": [
+        -121.825313,
+        39.723133
+      ],
+      "capacity": 260,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "derived: OpenStreetMap place of worship — congregate-venue stock, NOT a designated shelter list"
+    },
+    {
+      "id": "shelter:osm:way/544413576",
+      "kind": "shelter",
+      "name": "Neighborhood Church",
+      "position": [
+        -121.790361,
+        39.707398
+      ],
+      "capacity": 526,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "derived: OpenStreetMap place of worship — congregate-venue stock, NOT a designated shelter list"
+    },
+    {
+      "id": "shelter:osm:way/546499677",
+      "kind": "shelter",
+      "name": "Bidwell Memorial Presbyterian Church",
+      "position": [
+        -121.842711,
+        39.730558
+      ],
+      "capacity": 185,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "derived: OpenStreetMap place of worship — congregate-venue stock, NOT a designated shelter list"
+    },
+    {
+      "id": "shelter:osm:way/562893510",
+      "kind": "shelter",
+      "name": "Saint Thomas More Catholic Church",
+      "position": [
+        -121.62099,
+        39.759924
+      ],
+      "capacity": 159,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "derived: OpenStreetMap place of worship — congregate-venue stock, NOT a designated shelter list"
+    },
+    {
+      "id": "shelter:osm:way/595179956",
+      "kind": "shelter",
+      "name": "SS. Cyril and Methodius Orthodox Church",
+      "position": [
+        -121.843167,
+        39.769744
+      ],
+      "capacity": 120,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "derived: OpenStreetMap place of worship — congregate-venue stock, NOT a designated shelter list"
+    },
+    {
+      "id": "shelter:osm:way/645433343",
+      "kind": "shelter",
+      "name": "Paradise Alliance Church",
+      "position": [
+        -121.596349,
+        39.772999
+      ],
+      "capacity": 491,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "derived: OpenStreetMap place of worship — congregate-venue stock, NOT a designated shelter list"
+    },
+    {
+      "id": "shelter:osm:way/674900673",
+      "kind": "shelter",
+      "name": "Magalia Community Church",
+      "position": [
+        -121.578688,
+        39.808028
+      ],
+      "capacity": 159,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "derived: OpenStreetMap place of worship — congregate-venue stock, NOT a designated shelter list"
+    },
+    {
+      "id": "shelter:osm:way/744792459",
+      "kind": "shelter",
+      "name": "Durham Veteran's Memorial Hall",
+      "position": [
+        -121.799318,
+        39.642625
+      ],
+      "capacity": 149,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "derived: OpenStreetMap community centre — congregate-venue stock, NOT a designated shelter list"
+    },
+    {
+      "id": "shelter:osm:way/84968563",
+      "kind": "shelter",
+      "name": "Chico Church of Christ",
+      "position": [
+        -121.84886,
+        39.770714
+      ],
+      "capacity": 142,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "derived: OpenStreetMap place of worship — congregate-venue stock, NOT a designated shelter list"
+    },
+    {
+      "id": "shelter:osm:way/85308860",
+      "kind": "shelter",
+      "name": "Calvary Church",
+      "position": [
+        -121.806323,
+        39.730257
+      ],
+      "capacity": 455,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "derived: OpenStreetMap place of worship — congregate-venue stock, NOT a designated shelter list"
+    },
+    {
+      "id": "shelter:osm:way/85631934",
+      "kind": "shelter",
+      "name": "Chico Community Church of God",
+      "position": [
+        -121.834459,
+        39.760514
+      ],
+      "capacity": 120,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "derived: OpenStreetMap place of worship — congregate-venue stock, NOT a designated shelter list"
+    },
+    {
+      "id": "shelter:osm:way/868413772",
+      "kind": "shelter",
+      "name": "Lakeside Pavilion",
+      "position": [
+        -121.79206,
+        39.749889
+      ],
+      "capacity": 184,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "derived: OpenStreetMap event venue — congregate-venue stock, NOT a designated shelter list"
+    },
+    {
+      "id": "shelter:osm:way/876218850",
+      "kind": "shelter",
+      "name": "Kingdom Hall Of Jehovah's Witnesses",
+      "position": [
+        -121.773414,
+        39.711307
+      ],
+      "capacity": 154,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "derived: OpenStreetMap place of worship — congregate-venue stock, NOT a designated shelter list"
+    },
+    {
+      "id": "shelter:osm:way/877327639",
+      "kind": "shelter",
+      "name": "Saint James Catholic Church",
+      "position": [
+        -121.803078,
+        39.642338
+      ],
+      "capacity": 120,
+      "assets": {
+        "bus": 0,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "derived: OpenStreetMap place of worship — congregate-venue stock, NOT a designated shelter list"
+    },
+    {
+      "id": "transit_depot:osm:node/12839470937",
+      "kind": "transit_depot",
+      "name": "Chico Transit Center",
+      "position": [
+        -121.842434,
+        39.728551
+      ],
+      "capacity": 0,
+      "assets": {
+        "bus": 5,
+        "ambulance": 0,
+        "engine": 0
+      },
+      "source": "OpenStreetMap contributors"
+    }
+  ],
+  "generatedAt": "2026-08-20T01:00:43.911Z"
+}
