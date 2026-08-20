@@ -1,0 +1,1160 @@
+{
+  "scenarioId": "camp-fire-2018",
+  "samples": [
+    {
+      "t": 0,
+      "speed": 3.1,
+      "direction": 21,
+      "gust": 12.4
+    },
+    {
+      "t": 300,
+      "speed": 3.04,
+      "direction": 21.1,
+      "gust": 11.97
+    },
+    {
+      "t": 600,
+      "speed": 2.98,
+      "direction": 21.2,
+      "gust": 11.53
+    },
+    {
+      "t": 900,
+      "speed": 2.92,
+      "direction": 21.3,
+      "gust": 11.1
+    },
+    {
+      "t": 1200,
+      "speed": 2.86,
+      "direction": 21.3,
+      "gust": 10.67
+    },
+    {
+      "t": 1500,
+      "speed": 2.8,
+      "direction": 21.4,
+      "gust": 10.23
+    },
+    {
+      "t": 1800,
+      "speed": 2.74,
+      "direction": 21.5,
+      "gust": 9.8
+    },
+    {
+      "t": 2100,
+      "speed": 2.68,
+      "direction": 21.6,
+      "gust": 9.37
+    },
+    {
+      "t": 2400,
+      "speed": 2.62,
+      "direction": 21.7,
+      "gust": 8.93
+    },
+    {
+      "t": 2700,
+      "speed": 2.56,
+      "direction": 21.8,
+      "gust": 8.5
+    },
+    {
+      "t": 3000,
+      "speed": 2.5,
+      "direction": 21.8,
+      "gust": 8.07
+    },
+    {
+      "t": 3300,
+      "speed": 2.44,
+      "direction": 21.9,
+      "gust": 7.63
+    },
+    {
+      "t": 3600,
+      "speed": 2.38,
+      "direction": 22,
+      "gust": 7.2
+    },
+    {
+      "t": 3900,
+      "speed": 2.32,
+      "direction": 12.7,
+      "gust": 7.05
+    },
+    {
+      "t": 4200,
+      "speed": 2.25,
+      "direction": 3.3,
+      "gust": 6.9
+    },
+    {
+      "t": 4500,
+      "speed": 2.19,
+      "direction": 354,
+      "gust": 6.75
+    },
+    {
+      "t": 4800,
+      "speed": 2.12,
+      "direction": 344.7,
+      "gust": 6.6
+    },
+    {
+      "t": 5100,
+      "speed": 2.05,
+      "direction": 335.3,
+      "gust": 6.45
+    },
+    {
+      "t": 5400,
+      "speed": 1.99,
+      "direction": 326,
+      "gust": 6.3
+    },
+    {
+      "t": 5700,
+      "speed": 1.93,
+      "direction": 316.7,
+      "gust": 6.15
+    },
+    {
+      "t": 6000,
+      "speed": 1.86,
+      "direction": 307.3,
+      "gust": 6
+    },
+    {
+      "t": 6300,
+      "speed": 1.8,
+      "direction": 298,
+      "gust": 5.85
+    },
+    {
+      "t": 6600,
+      "speed": 1.73,
+      "direction": 288.7,
+      "gust": 5.7
+    },
+    {
+      "t": 6900,
+      "speed": 1.67,
+      "direction": 279.3,
+      "gust": 5.55
+    },
+    {
+      "t": 7200,
+      "speed": 1.6,
+      "direction": 270,
+      "gust": 5.4
+    },
+    {
+      "t": 7500,
+      "speed": 1.6,
+      "direction": 270.6,
+      "gust": 5.53
+    },
+    {
+      "t": 7800,
+      "speed": 1.6,
+      "direction": 271.2,
+      "gust": 5.67
+    },
+    {
+      "t": 8100,
+      "speed": 1.6,
+      "direction": 271.8,
+      "gust": 5.8
+    },
+    {
+      "t": 8400,
+      "speed": 1.6,
+      "direction": 272.3,
+      "gust": 5.93
+    },
+    {
+      "t": 8700,
+      "speed": 1.6,
+      "direction": 272.9,
+      "gust": 6.07
+    },
+    {
+      "t": 9000,
+      "speed": 1.61,
+      "direction": 273.5,
+      "gust": 6.2
+    },
+    {
+      "t": 9300,
+      "speed": 1.61,
+      "direction": 274.1,
+      "gust": 6.33
+    },
+    {
+      "t": 9600,
+      "speed": 1.61,
+      "direction": 274.7,
+      "gust": 6.47
+    },
+    {
+      "t": 9900,
+      "speed": 1.61,
+      "direction": 275.3,
+      "gust": 6.6
+    },
+    {
+      "t": 10200,
+      "speed": 1.61,
+      "direction": 275.8,
+      "gust": 6.73
+    },
+    {
+      "t": 10500,
+      "speed": 1.61,
+      "direction": 276.4,
+      "gust": 6.87
+    },
+    {
+      "t": 10800,
+      "speed": 1.61,
+      "direction": 277,
+      "gust": 7
+    },
+    {
+      "t": 11100,
+      "speed": 1.58,
+      "direction": 277.6,
+      "gust": 6.9
+    },
+    {
+      "t": 11400,
+      "speed": 1.55,
+      "direction": 278.2,
+      "gust": 6.8
+    },
+    {
+      "t": 11700,
+      "speed": 1.52,
+      "direction": 278.8,
+      "gust": 6.7
+    },
+    {
+      "t": 12000,
+      "speed": 1.49,
+      "direction": 279.3,
+      "gust": 6.6
+    },
+    {
+      "t": 12300,
+      "speed": 1.46,
+      "direction": 279.9,
+      "gust": 6.5
+    },
+    {
+      "t": 12600,
+      "speed": 1.43,
+      "direction": 280.5,
+      "gust": 6.4
+    },
+    {
+      "t": 12900,
+      "speed": 1.39,
+      "direction": 281.1,
+      "gust": 6.3
+    },
+    {
+      "t": 13200,
+      "speed": 1.36,
+      "direction": 281.7,
+      "gust": 6.2
+    },
+    {
+      "t": 13500,
+      "speed": 1.33,
+      "direction": 282.3,
+      "gust": 6.1
+    },
+    {
+      "t": 13800,
+      "speed": 1.3,
+      "direction": 282.8,
+      "gust": 6
+    },
+    {
+      "t": 14100,
+      "speed": 1.27,
+      "direction": 283.4,
+      "gust": 5.9
+    },
+    {
+      "t": 14400,
+      "speed": 1.24,
+      "direction": 284,
+      "gust": 5.8
+    },
+    {
+      "t": 14700,
+      "speed": 1.23,
+      "direction": 284.1,
+      "gust": 5.8
+    },
+    {
+      "t": 15000,
+      "speed": 1.22,
+      "direction": 284.2,
+      "gust": 5.8
+    },
+    {
+      "t": 15300,
+      "speed": 1.21,
+      "direction": 284.3,
+      "gust": 5.8
+    },
+    {
+      "t": 15600,
+      "speed": 1.21,
+      "direction": 284.3,
+      "gust": 5.8
+    },
+    {
+      "t": 15900,
+      "speed": 1.2,
+      "direction": 284.4,
+      "gust": 5.8
+    },
+    {
+      "t": 16200,
+      "speed": 1.19,
+      "direction": 284.5,
+      "gust": 5.8
+    },
+    {
+      "t": 16500,
+      "speed": 1.18,
+      "direction": 284.6,
+      "gust": 5.8
+    },
+    {
+      "t": 16800,
+      "speed": 1.17,
+      "direction": 284.7,
+      "gust": 5.8
+    },
+    {
+      "t": 17100,
+      "speed": 1.17,
+      "direction": 284.8,
+      "gust": 5.8
+    },
+    {
+      "t": 17400,
+      "speed": 1.16,
+      "direction": 284.8,
+      "gust": 5.8
+    },
+    {
+      "t": 17700,
+      "speed": 1.15,
+      "direction": 284.9,
+      "gust": 5.8
+    },
+    {
+      "t": 18000,
+      "speed": 1.14,
+      "direction": 285,
+      "gust": 5.8
+    },
+    {
+      "t": 18300,
+      "speed": 1.15,
+      "direction": 287.8,
+      "gust": 5.79
+    },
+    {
+      "t": 18600,
+      "speed": 1.15,
+      "direction": 290.5,
+      "gust": 5.78
+    },
+    {
+      "t": 18900,
+      "speed": 1.15,
+      "direction": 293.3,
+      "gust": 5.78
+    },
+    {
+      "t": 19200,
+      "speed": 1.16,
+      "direction": 296,
+      "gust": 5.77
+    },
+    {
+      "t": 19500,
+      "speed": 1.17,
+      "direction": 298.8,
+      "gust": 5.76
+    },
+    {
+      "t": 19800,
+      "speed": 1.17,
+      "direction": 301.5,
+      "gust": 5.75
+    },
+    {
+      "t": 20100,
+      "speed": 1.17,
+      "direction": 304.3,
+      "gust": 5.74
+    },
+    {
+      "t": 20400,
+      "speed": 1.18,
+      "direction": 307,
+      "gust": 5.73
+    },
+    {
+      "t": 20700,
+      "speed": 1.19,
+      "direction": 309.8,
+      "gust": 5.73
+    },
+    {
+      "t": 21000,
+      "speed": 1.19,
+      "direction": 312.5,
+      "gust": 5.72
+    },
+    {
+      "t": 21300,
+      "speed": 1.19,
+      "direction": 315.3,
+      "gust": 5.71
+    },
+    {
+      "t": 21600,
+      "speed": 1.2,
+      "direction": 318,
+      "gust": 5.7
+    },
+    {
+      "t": 21900,
+      "speed": 1.22,
+      "direction": 321.5,
+      "gust": 5.67
+    },
+    {
+      "t": 22200,
+      "speed": 1.23,
+      "direction": 325,
+      "gust": 5.63
+    },
+    {
+      "t": 22500,
+      "speed": 1.25,
+      "direction": 328.5,
+      "gust": 5.6
+    },
+    {
+      "t": 22800,
+      "speed": 1.27,
+      "direction": 332,
+      "gust": 5.57
+    },
+    {
+      "t": 23100,
+      "speed": 1.28,
+      "direction": 335.5,
+      "gust": 5.53
+    },
+    {
+      "t": 23400,
+      "speed": 1.3,
+      "direction": 339,
+      "gust": 5.5
+    },
+    {
+      "t": 23700,
+      "speed": 1.32,
+      "direction": 342.5,
+      "gust": 5.47
+    },
+    {
+      "t": 24000,
+      "speed": 1.33,
+      "direction": 346,
+      "gust": 5.43
+    },
+    {
+      "t": 24300,
+      "speed": 1.35,
+      "direction": 349.5,
+      "gust": 5.4
+    },
+    {
+      "t": 24600,
+      "speed": 1.37,
+      "direction": 353,
+      "gust": 5.37
+    },
+    {
+      "t": 24900,
+      "speed": 1.38,
+      "direction": 356.5,
+      "gust": 5.33
+    },
+    {
+      "t": 25200,
+      "speed": 1.4,
+      "direction": 0,
+      "gust": 5.3
+    },
+    {
+      "t": 25500,
+      "speed": 1.47,
+      "direction": 2.7,
+      "gust": 5.43
+    },
+    {
+      "t": 25800,
+      "speed": 1.54,
+      "direction": 5.3,
+      "gust": 5.57
+    },
+    {
+      "t": 26100,
+      "speed": 1.61,
+      "direction": 8,
+      "gust": 5.7
+    },
+    {
+      "t": 26400,
+      "speed": 1.68,
+      "direction": 10.7,
+      "gust": 5.83
+    },
+    {
+      "t": 26700,
+      "speed": 1.75,
+      "direction": 13.3,
+      "gust": 5.97
+    },
+    {
+      "t": 27000,
+      "speed": 1.83,
+      "direction": 16,
+      "gust": 6.1
+    },
+    {
+      "t": 27300,
+      "speed": 1.9,
+      "direction": 18.7,
+      "gust": 6.23
+    },
+    {
+      "t": 27600,
+      "speed": 1.97,
+      "direction": 21.3,
+      "gust": 6.37
+    },
+    {
+      "t": 27900,
+      "speed": 2.04,
+      "direction": 24,
+      "gust": 6.5
+    },
+    {
+      "t": 28200,
+      "speed": 2.11,
+      "direction": 26.7,
+      "gust": 6.63
+    },
+    {
+      "t": 28500,
+      "speed": 2.18,
+      "direction": 29.3,
+      "gust": 6.77
+    },
+    {
+      "t": 28800,
+      "speed": 2.25,
+      "direction": 32,
+      "gust": 6.9
+    }
+  ],
+  "raw": {
+    "archive": {
+      "url": "https://archive-api.open-meteo.com/v1/archive?latitude=39.7596&longitude=-121.6219&start_date=2018-11-07&end_date=2018-11-09&hourly=wind_speed_10m,wind_direction_10m,wind_gusts_10m,temperature_2m,relative_humidity_2m&wind_speed_unit=ms&timezone=GMT",
+      "requestedCenter": {
+        "lat": 39.7596,
+        "lng": -121.6219
+      },
+      "gridPoint": {
+        "lat": 39.753952,
+        "lng": -121.54381,
+        "elevationM": 537
+      },
+      "timeZone": "America/Los_Angeles",
+      "reportedUtcOffsetSeconds": -25200,
+      "trueUtcOffsetSeconds": -28800,
+      "units": {
+        "time": "iso8601",
+        "wind_speed_10m": "m/s",
+        "wind_direction_10m": "°",
+        "wind_gusts_10m": "m/s",
+        "temperature_2m": "°C",
+        "relative_humidity_2m": "%"
+      },
+      "hourly": {
+        "time": [
+          "2018-11-07T00:00",
+          "2018-11-07T01:00",
+          "2018-11-07T02:00",
+          "2018-11-07T03:00",
+          "2018-11-07T04:00",
+          "2018-11-07T05:00",
+          "2018-11-07T06:00",
+          "2018-11-07T07:00",
+          "2018-11-07T08:00",
+          "2018-11-07T09:00",
+          "2018-11-07T10:00",
+          "2018-11-07T11:00",
+          "2018-11-07T12:00",
+          "2018-11-07T13:00",
+          "2018-11-07T14:00",
+          "2018-11-07T15:00",
+          "2018-11-07T16:00",
+          "2018-11-07T17:00",
+          "2018-11-07T18:00",
+          "2018-11-07T19:00",
+          "2018-11-07T20:00",
+          "2018-11-07T21:00",
+          "2018-11-07T22:00",
+          "2018-11-07T23:00",
+          "2018-11-08T00:00",
+          "2018-11-08T01:00",
+          "2018-11-08T02:00",
+          "2018-11-08T03:00",
+          "2018-11-08T04:00",
+          "2018-11-08T05:00",
+          "2018-11-08T06:00",
+          "2018-11-08T07:00",
+          "2018-11-08T08:00",
+          "2018-11-08T09:00",
+          "2018-11-08T10:00",
+          "2018-11-08T11:00",
+          "2018-11-08T12:00",
+          "2018-11-08T13:00",
+          "2018-11-08T14:00",
+          "2018-11-08T15:00",
+          "2018-11-08T16:00",
+          "2018-11-08T17:00",
+          "2018-11-08T18:00",
+          "2018-11-08T19:00",
+          "2018-11-08T20:00",
+          "2018-11-08T21:00",
+          "2018-11-08T22:00",
+          "2018-11-08T23:00",
+          "2018-11-09T00:00",
+          "2018-11-09T01:00",
+          "2018-11-09T02:00",
+          "2018-11-09T03:00",
+          "2018-11-09T04:00",
+          "2018-11-09T05:00",
+          "2018-11-09T06:00",
+          "2018-11-09T07:00",
+          "2018-11-09T08:00",
+          "2018-11-09T09:00",
+          "2018-11-09T10:00",
+          "2018-11-09T11:00",
+          "2018-11-09T12:00",
+          "2018-11-09T13:00",
+          "2018-11-09T14:00",
+          "2018-11-09T15:00",
+          "2018-11-09T16:00",
+          "2018-11-09T17:00",
+          "2018-11-09T18:00",
+          "2018-11-09T19:00",
+          "2018-11-09T20:00",
+          "2018-11-09T21:00",
+          "2018-11-09T22:00",
+          "2018-11-09T23:00"
+        ],
+        "wind_speed_10m": [
+          1.48,
+          1.1,
+          2.56,
+          2.72,
+          2.14,
+          2.78,
+          2.76,
+          3.05,
+          2.83,
+          2.91,
+          2.98,
+          2.77,
+          2.55,
+          3.18,
+          3.04,
+          3.11,
+          2.97,
+          0.32,
+          1.58,
+          2.15,
+          2.2,
+          1.96,
+          2.24,
+          2.2,
+          2.02,
+          0.85,
+          2.69,
+          3.96,
+          5.8,
+          6.86,
+          7.15,
+          7.82,
+          8.31,
+          8.72,
+          8.95,
+          8.9,
+          7.84,
+          5.02,
+          3.1,
+          2.38,
+          1.6,
+          1.61,
+          1.24,
+          1.14,
+          1.2,
+          1.4,
+          2.25,
+          2.61,
+          3.76,
+          3.75,
+          5.98,
+          7.08,
+          8.42,
+          8.85,
+          8.81,
+          8.84,
+          8.72,
+          8.49,
+          8.16,
+          7.96,
+          8.08,
+          8.16,
+          7.93,
+          7.71,
+          7.07,
+          5.23,
+          2.9,
+          0.92,
+          0.86,
+          2.37,
+          2.69,
+          2.51
+        ],
+        "wind_direction_10m": [
+          242,
+          355,
+          51,
+          54,
+          53,
+          52,
+          46,
+          41,
+          42,
+          41,
+          40,
+          41,
+          45,
+          46,
+          46,
+          45,
+          48,
+          72,
+          235,
+          242,
+          240,
+          255,
+          260,
+          270,
+          237,
+          135,
+          59,
+          45,
+          46,
+          43,
+          48,
+          51,
+          50,
+          49,
+          50,
+          52,
+          52,
+          46,
+          21,
+          22,
+          270,
+          277,
+          284,
+          285,
+          318,
+          360,
+          32,
+          32,
+          40,
+          48,
+          52,
+          43,
+          46,
+          47,
+          51,
+          52,
+          53,
+          56,
+          54,
+          51,
+          49,
+          49,
+          48,
+          47,
+          46,
+          47,
+          44,
+          49,
+          234,
+          242,
+          248,
+          247
+        ],
+        "wind_gusts_10m": [
+          7.4,
+          2.8,
+          4.6,
+          6.3,
+          6.2,
+          6.4,
+          6.5,
+          7.2,
+          7.2,
+          6.7,
+          7,
+          7,
+          6.6,
+          7.5,
+          7.6,
+          7.5,
+          7.5,
+          6.6,
+          5.3,
+          7,
+          7.1,
+          7,
+          6.7,
+          6.7,
+          5.9,
+          3.9,
+          5.1,
+          7.9,
+          12.1,
+          15.1,
+          15.6,
+          17.2,
+          18.3,
+          19.5,
+          20.1,
+          20.4,
+          20.3,
+          18.2,
+          12.4,
+          7.2,
+          5.4,
+          7,
+          5.8,
+          5.8,
+          5.7,
+          5.3,
+          6.9,
+          7.5,
+          7.2,
+          8.4,
+          12.9,
+          15.8,
+          18.4,
+          19.4,
+          19.3,
+          19.3,
+          19.3,
+          19.1,
+          18.6,
+          17.8,
+          17.7,
+          18.1,
+          17.9,
+          17.5,
+          17.2,
+          15.2,
+          12.1,
+          7.8,
+          4.3,
+          7.2,
+          7.8,
+          7.7
+        ],
+        "temperature_2m": [
+          21.9,
+          20.2,
+          16.5,
+          14,
+          12.5,
+          11.8,
+          11.4,
+          11.8,
+          11.2,
+          10.8,
+          10.1,
+          9.3,
+          8.5,
+          7.1,
+          7,
+          7.2,
+          11.7,
+          17.2,
+          18.7,
+          18.9,
+          19.4,
+          20.2,
+          21,
+          21.1,
+          18.2,
+          16.8,
+          12.9,
+          12.6,
+          14.4,
+          14.7,
+          14.2,
+          13.9,
+          13.3,
+          12.7,
+          12,
+          11.5,
+          11.6,
+          9.9,
+          9.1,
+          8.8,
+          10.2,
+          12.1,
+          14.3,
+          16.3,
+          18.1,
+          19,
+          19.1,
+          18.4,
+          18.1,
+          14.9,
+          14,
+          13.8,
+          13.6,
+          13.1,
+          12.9,
+          12.7,
+          12.4,
+          12.1,
+          11.8,
+          11.6,
+          11.5,
+          10.7,
+          10.4,
+          10.1,
+          11.9,
+          15,
+          18.1,
+          20.2,
+          21.1,
+          20.9,
+          20,
+          18.9
+        ],
+        "relative_humidity_2m": [
+          11,
+          14,
+          18,
+          21,
+          23,
+          24,
+          23,
+          19,
+          19,
+          20,
+          21,
+          23,
+          24,
+          28,
+          29,
+          28,
+          24,
+          17,
+          13,
+          15,
+          15,
+          14,
+          11,
+          10,
+          15,
+          16,
+          23,
+          19,
+          15,
+          16,
+          19,
+          22,
+          23,
+          24,
+          24,
+          25,
+          24,
+          27,
+          28,
+          28,
+          25,
+          22,
+          17,
+          14,
+          11,
+          10,
+          11,
+          13,
+          11,
+          14,
+          16,
+          16,
+          17,
+          17,
+          18,
+          18,
+          19,
+          20,
+          21,
+          21,
+          21,
+          23,
+          24,
+          24,
+          23,
+          19,
+          15,
+          10,
+          9,
+          10,
+          12,
+          12
+        ]
+      }
+    },
+    "timezoneNote": "Open-Meteo timezone=auto applies the request-time UTC offset to historical dates. Hourly data here is pulled in GMT and anchored to local wall time via Intl.",
+    "scenarioStartHourLocal": 6,
+    "scenarioStartEpoch": 1541685600,
+    "scenarioStartUtc": "2018-11-08T14:00:00.000Z",
+    "windowHourly": [
+      {
+        "epoch": 1541685600,
+        "speed": 3.1,
+        "direction": 21,
+        "gust": 12.4,
+        "temperature": 9.1,
+        "humidity": 28
+      },
+      {
+        "epoch": 1541689200,
+        "speed": 2.38,
+        "direction": 22,
+        "gust": 7.2,
+        "temperature": 8.8,
+        "humidity": 28
+      },
+      {
+        "epoch": 1541692800,
+        "speed": 1.6,
+        "direction": 270,
+        "gust": 5.4,
+        "temperature": 10.2,
+        "humidity": 25
+      },
+      {
+        "epoch": 1541696400,
+        "speed": 1.61,
+        "direction": 277,
+        "gust": 7,
+        "temperature": 12.1,
+        "humidity": 22
+      },
+      {
+        "epoch": 1541700000,
+        "speed": 1.24,
+        "direction": 284,
+        "gust": 5.8,
+        "temperature": 14.3,
+        "humidity": 17
+      },
+      {
+        "epoch": 1541703600,
+        "speed": 1.14,
+        "direction": 285,
+        "gust": 5.8,
+        "temperature": 16.3,
+        "humidity": 14
+      },
+      {
+        "epoch": 1541707200,
+        "speed": 1.2,
+        "direction": 318,
+        "gust": 5.7,
+        "temperature": 18.1,
+        "humidity": 11
+      },
+      {
+        "epoch": 1541710800,
+        "speed": 1.4,
+        "direction": 360,
+        "gust": 5.3,
+        "temperature": 19,
+        "humidity": 10
+      },
+      {
+        "epoch": 1541714400,
+        "speed": 2.25,
+        "direction": 32,
+        "gust": 6.9,
+        "temperature": 19.1,
+        "humidity": 11
+      }
+    ],
+    "peakGust": 12.4,
+    "peakGustAtTick": 0,
+    "dominantDirectionDeg": 330.2,
+    "dominantDirectionCompass": "NNW",
+    "dominantDirectionMethod": "speed-weighted circular mean over scenario window",
+    "eventDay": {
+      "peakGust": 20.4,
+      "peakGustUtc": "2018-11-08T11:00:00.000Z",
+      "peakSustained": 8.95,
+      "dominantDirectionDeg": 42.7,
+      "dominantDirectionCompass": "NE"
+    },
+    "resolutionNote": "ERA5 reanalysis on a ~0.1deg grid. The nearest cell is offset from the scenario centre and cannot resolve terrain-channelled downslope jets, so gusts in steep canyon terrain are damped and their timing is smoothed. Treat as synoptic forcing, not as a station observation.",
+    "synthesized": null,
+    "alerts": {
+      "url": "https://api.weather.gov/alerts/active?point=39.7596,-121.6219",
+      "fetchedAt": "2026-08-20T00:51:58.155Z",
+      "count": 0,
+      "ok": true,
+      "error": null
+    }
+  },
+  "liveAlerts": [],
+  "source": "Open-Meteo ERA5 archive (archive-api.open-meteo.com) + NWS api.weather.gov active alerts",
+  "generatedAt": "2026-08-20T00:51:58.155Z"
+}
