@@ -2,6 +2,7 @@
 
 import { AlertTriangle, Check, Code2, DoorClosed, X } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
+import { LiquidGlass } from "@/components/ui/liquid-glass";
 import { useBundle } from "@/lib/bundle-context";
 import { hazardFrameAt } from "@/lib/derive";
 import { cx, formatCount, formatShort, formatWallClock, urgencyBand } from "@/lib/format";
@@ -349,8 +350,8 @@ export function AlertComposer({ wave, onClose }: AlertComposerProps) {
         onClick={onClose}
         className="glass-scrim absolute cursor-default"
       />
-      <div
-        className="glass-deep lg-surface sheet relative flex max-h-[88vh] w-full max-w-[760px] flex-col overflow-hidden"
+      <LiquidGlass
+        className="sheet relative flex max-h-[88vh] w-full max-w-[760px] flex-col overflow-hidden"
         role="dialog"
         aria-modal="true"
         aria-label={`Release order ${zoneId}`}
@@ -539,7 +540,7 @@ export function AlertComposer({ wave, onClose }: AlertComposerProps) {
             required to send
           </span>
         </div>
-      </div>
+      </LiquidGlass>
     </div>
   );
 }

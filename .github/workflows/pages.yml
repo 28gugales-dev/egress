@@ -45,6 +45,12 @@ jobs:
       # drops every path starting with an underscore — which is all of _next/.
       - run: touch out/.nojekyll
       - uses: actions/configure-pages@v5
+        with:
+          # The repo had Pages switched off, and configure-pages fails outright
+          # rather than falling back when it cannot read the site. Enabling from
+          # here keeps the deploy self-contained — no one has to remember a
+          # Settings toggle for a fork or a fresh clone to publish.
+          enablement: true
       - uses: actions/upload-pages-artifact@v3
         with:
           path: out
