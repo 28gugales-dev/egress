@@ -93,6 +93,16 @@ export interface MapShellProps {
   zoomAdjust?: number;
   /** Emit `egress:cursor` while the pointer is over this map. */
   reportCursor?: boolean;
+  /**
+   * Viewport padding in CSS pixels, applied to the camera rather than the box.
+   *
+   * The canvas bleeds underneath the floating panel so the glass has geography
+   * to refract, which would otherwise centre the town under the panel. MapLibre
+   * centres on the padded region, so passing the panel's width here puts the
+   * scenario's authored centre in the middle of the part the operator can
+   * actually see — the framing is identical to an unbled canvas.
+   */
+  padLeft?: number;
 }
 
 const MAX_PITCH = 85;
@@ -117,6 +127,7 @@ export function MapShell({
   onMapLoad,
   zoomAdjust = 0,
   reportCursor = false,
+  padLeft = 0,
 }: MapShellProps) {
   const basemap = useEgress(selBasemap);
   const layers = useEgress(selLayers);
@@ -296,6 +307,16 @@ export function MapShell({
     [onViewStateChange],
   );
 
+  /* Imperative because padding is camera state that CHANGES — the panel
+     collapses and restores — while initialViewState is read exactly once. Set
+     without animation: this fires in the same frame the panel width starts
+     animating, and an eased camera would visibly lag the sheet across it. */
+  useEffect(() => {
+    const map = mapRef.current?.getMap();
+    if (!map) return;
+    map.setPadding({ left: padLeft, top: 0, right: 0, bottom: 0 });
+  }, [padLeft]);
+
   const initialViewState = useMemo(
     () => ({
       longitude: meta.center[0],
@@ -303,10 +324,14 @@ export function MapShell({
       zoom: meta.zoom + zoomAdjust,
       pitch: 0,
       bearing: 0,
+      /* Stated here as well as in the effect: the effect runs after the first
+         paint, and without this the opening frame is centred under the panel
+         and then jumps. */
+      padding: { left: padLeft, top: 0, right: 0, bottom: 0 },
     }),
     // Remounting on scenario change is the caller's job (key on scenario.id);
     // MapLibre reads this once.
-    [meta.center, meta.zoom, zoomAdjust],
+    [meta.center, meta.zoom, zoomAdjust, padLeft],
   );
 
   return (

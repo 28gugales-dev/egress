@@ -16,13 +16,19 @@ import { cx } from "@/lib/format";
  *    the displacement map is an extra that some browsers get. Check any change
  *    here with the filter forced off before assuming it still reads.
  *
- * 2. THESE SURFACES ARE LIGHT, AND THE REST OF THE CONSOLE IS DARK.
- *    Black ink needs a light ground, so a liquid-glass modal is frosted white
- *    over the dark instrument rather than another dark pane. That flips the
- *    contrast contract for anything drawn inside it: the hazard/plan/warn hues
- *    and the five zone-status hues are all tuned for a dark ground and go
- *    muddy on this one. Use the `--lg-*` data hues from globals.css inside a
- *    liquid-glass surface, never the raw dark-ground tokens.
+ * 2. THESE SURFACES ARE SMOKED, NOT FROSTED.
+ *    A dark tint at roughly half alpha, so the map underneath stays legible
+ *    through the pane — which is the only reason to put a surface over live
+ *    geography at all. A near-white tint was tried first and reads as paper
+ *    laid on the map: past about 60% alpha the ground stops coming through and
+ *    the rim has nothing to find an edge against.
+ *
+ *    The consequence is a good one. Because the tint is dark, the deck's own
+ *    hazard/plan/warn and five zone-status hues are already correct inside a
+ *    liquid-glass surface, so a panel mounted on glass looks like itself and
+ *    nothing has to be re-tuned. globals.css still re-binds the token set at
+ *    .lg-surface, but now it is re-binding dark onto dark — the values change
+ *    for translucency, not for contrast polarity.
  */
 
 /** Radius scale. Modals sit at `lg`; controls inside them step down. */
@@ -30,6 +36,9 @@ const RADIUS = {
   sm: "rounded-[8px]",
   md: "rounded-[12px]",
   lg: "rounded-[18px]",
+  /** A sheet flush to one window edge: only the edge facing the map is turned.
+   *  Rounding the flush side would open a sliver of map at the window corner. */
+  right: "rounded-r-[18px]",
   pill: "rounded-full",
 } as const;
 

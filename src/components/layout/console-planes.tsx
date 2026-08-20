@@ -7,6 +7,7 @@ import { useEffect, useRef, useState } from "react";
 import { MapChrome } from "@/components/layout/map-chrome";
 import { MapPlane } from "@/components/layout/map-plane";
 import { PanelPlane } from "@/components/layout/panel-plane";
+import { LiquidGlass } from "@/components/ui/liquid-glass";
 import { useBundle } from "@/lib/bundle-context";
 import { getScenario } from "@/lib/constants";
 import { cx } from "@/lib/format";
@@ -165,6 +166,22 @@ export function ConsolePlanes() {
      width. */
   const panelVisible = plane === "both";
   const panelWidth = narrow ? "100%" : panelVisible ? "clamp(640px, 50vw, 1120px)" : "0px";
+  /* The same clamp as a number. The camera and the canvas bleed need the value,
+     not the expression, and duplicating the arithmetic here is cheaper than a
+     measurement that would arrive a frame after the width it describes. */
+  const [viewportW, setViewportW] = useState(0);
+  useEffect(() => {
+    const sync = () => setViewportW(window.innerWidth);
+    sync();
+    window.addEventListener("resize", sync);
+    return () => window.removeEventListener("resize", sync);
+  }, []);
+  const panelPx = Math.min(1120, Math.max(640, viewportW * 0.5));
+
+  /* The map is full-bleed and the panel floats on it, so the panel's width is
+     also the map's left camera padding. Zero in stacked mode, where the panel
+     covers the whole window and there is no uncovered region to frame into. */
+  const panelInset = narrow || !panelVisible ? 0 : panelPx;
 
   return (
     <div className="relative flex h-dvh w-full overflow-hidden bg-background text-foreground">
@@ -179,8 +196,8 @@ export function ConsolePlanes() {
         // item's automatic minimum size, and relying on that side effect to
         // keep the collapse working is a trap for whoever removes it.
         className={cx(
-          "plane-seam flex min-h-0 min-w-0 flex-none flex-col overflow-hidden bg-surface",
-          narrow ? "absolute inset-0 z-10" : "transition-[width] duration-[180ms]",
+          "absolute inset-y-0 left-0 z-10 flex min-h-0 min-w-0 flex-none flex-col overflow-hidden",
+          narrow ? "inset-0" : "transition-[width] duration-[180ms]",
           narrow && !panelVisible && "invisible",
         )}
         style={{
@@ -197,13 +214,22 @@ export function ConsolePlanes() {
         inert={!panelVisible}
         aria-hidden={!panelVisible}
       >
-        <PanelPlane />
+        {/* Square against the window on three sides, turned only on the edge
+            that faces the map. refract is on: this sheet has live geography
+            behind it, which is the whole reason the canvas bleeds. */}
+        <LiquidGlass
+          radius={narrow ? "lg" : "right"}
+          className="flex min-h-0 flex-1 flex-col overflow-hidden"
+        >
+          <PanelPlane />
+        </LiquidGlass>
       </div>
 
       <MapPlane
-        className={cx(narrow ? "absolute inset-0 z-0" : "relative flex-1")}
+        className="absolute inset-0 z-0"
         veiled={veiled}
         notice={simMissing ? <SimNotice /> : null}
+        insetLeft={panelInset}
         /* Only when the panel is collapsed. With both planes up the chrome
            lives in its own plane and the canvas stays clean. */
         chrome={panelVisible ? null : <MapChrome />}

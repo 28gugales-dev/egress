@@ -83,6 +83,7 @@ export function MapPlane({
   veiled = false,
   notice,
   chrome,
+  insetLeft = 0,
 }: {
   className?: string;
   veiled?: boolean;
@@ -91,6 +92,18 @@ export function MapPlane({
    *  collapsed. See components/layout/map-chrome for why that is the only
    *  state in which anything is allowed over the canvas. */
   chrome?: ReactNode;
+  /**
+   * Width of the glass panel floating over this plane's left edge, in px.
+   *
+   * Two different things are done with it. The bezels are inset by it, so every
+   * strip control still lives in the region the panel does not cover and the
+   * measured tier arithmetic is unchanged. The CANVAS is not: it bleeds the
+   * full width underneath, because a glass sheet with nothing behind it is a
+   * grey rectangle. The camera compensates via MapShell's padLeft, so the
+   * geography the operator sees is framed exactly as it was when the plane
+   * ended at the seam.
+   */
+  insetLeft?: number;
 }) {
   const view = useEgress(selView);
   const scenarioId = useEgress(selScenarioId);
@@ -211,16 +224,25 @@ export function MapPlane({
       // actually recentres the camera on a scenario swap. DeckOverlay must be a
       // CHILD of MapShell: it registers through react-map-gl's useControl,
       // which resolves the map instance from context.
-      <MapShell key={scenario.id} scenario={scenario} zoomAdjust={zoomAdjust} reportCursor>
+      <MapShell
+        key={scenario.id}
+        scenario={scenario}
+        zoomAdjust={zoomAdjust}
+        padLeft={insetLeft}
+        reportCursor
+      >
         <DeckOverlay run={activeRun} />
       </MapShell>
     );
-  }, [view, zoomAdjust, scenario, activeRun, renderCompareOverlay]);
+  }, [view, zoomAdjust, scenario, activeRun, renderCompareOverlay, insetLeft]);
 
   return (
     // Position comes from the caller: in stacked mode this plane is absolutely
     // placed behind the panel, and a `relative` baked in here would fight it.
-    <div className={cx("flex min-w-0 flex-col bg-sunken", className)}>
+    <div
+      className={cx("flex min-w-0 flex-col bg-sunken", className)}
+      style={{ paddingLeft: insetLeft || undefined }}
+    >
       <BezelTop tier={tier} />
 
       <div
@@ -230,7 +252,12 @@ export function MapPlane({
           veiled && "opacity-35",
         )}
       >
-        {canvas}
+        {/* The bleed. This box is what the map actually fills; the measured box
+            above stays the uncovered region, so bezel tiers and the initial
+            zoom pull-back keep reading the width the operator can see. */}
+        <div className="absolute inset-y-0 right-0" style={{ left: -insetLeft }}>
+          {canvas}
+        </div>
         {notice ? (
           <div className="pointer-events-none absolute inset-x-0 top-3 z-20 flex justify-center px-3">
             {notice}

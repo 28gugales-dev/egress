@@ -612,38 +612,43 @@ input[type="range"].rng::-moz-range-thumb {
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   Liquid glass — light refractive surfaces for modals, over the dark deck
+   Liquid glass — smoked refractive surfaces, over the map
 
-   Black ink needs a light ground, so these panels invert the console's
-   contrast: frosted white over the dark instrument rather than another dark
-   pane. Everything below is scoped to .lg-surface / .lg-button so no existing
-   .glass depth is disturbed.
+   SMOKED, NOT FROSTED. The first pass here was a near-white tint at 62%, which
+   over satellite imagery reads as paper laid on the map rather than as glass:
+   at that alpha the ground stops coming through, and the whole reason these
+   surfaces sit over live geography is that it should. A dark tint at 52% keeps
+   the terrain legible underneath and lets the rim do the work of finding the
+   edge, which is what makes it read as a pane instead of a card.
 
-   Consequence worth knowing before using a data colour in here: the hazard,
-   plan, warn and zone-status hues are tuned for a dark ground and go muddy on
-   a light one. The --lg-* hues below are the same encodings re-tuned for this
-   surface. Colour still only ever encodes data state.
+   It also keeps the console one instrument. A light sheet meant every hue
+   inside it had to be re-tuned for a light ground; on a dark tint the deck's
+   own hazard/plan/warn and five zone-status hues are already correct, so a
+   panel moved onto glass looks like itself.
+
+   Everything below is scoped to .lg-surface / .lg-button, so no existing
+   .glass depth is disturbed. Colour still only ever encodes data state.
    ═══════════════════════════════════════════════════════════════════════════ */
 
 :root {
-  --lg-tint: rgba(246, 247, 250, 0.62);
-  --lg-blur: 32px;
-  --lg-vibrancy: 165%;
-  --lg-ink: #0b0d11;
-  --lg-ink-subtle: #3f454f;
-  --lg-ink-faint: #6a7280;
-  --lg-hairline: rgba(9, 11, 15, 0.1);
+  --lg-tint: rgba(11, 14, 19, 0.52);
+  --lg-blur: 26px;
+  --lg-vibrancy: 150%;
+  --lg-ink: #eef1f6;
+  --lg-ink-subtle: #aab2be;
+  --lg-ink-faint: #79818f;
+  --lg-hairline: rgba(255, 255, 255, 0.12);
 
-  /* Data hues, re-tuned for a light ground. Same meanings, darker so they
-     hold contrast against the frost instead of glowing on it. */
-  --lg-hazard: #b8371a;
-  --lg-plan: #0d6f80;
-  --lg-warn: #8a5a06;
-  --lg-held: #4a515c;
-  --lg-ordered: #8a5a06;
-  --lg-flowing: #0d6f80;
-  --lg-cleared: #16704a;
-  --lg-cutoff: #b8371a;
+  /* The deck's own dark-ground hues. Same encodings, unchanged — that is the
+     point of a smoked surface rather than a frosted one. */
+  --lg-hazard: #ef6a3f;
+  --lg-plan: #4fc9dd;
+  --lg-warn: #e0a944;
+  --lg-held: #737a86;
+  --lg-ordered: #e0a944;
+  --lg-flowing: #4fc9dd;
+  --lg-cleared: #43c07f;
+  --lg-cutoff: #ef6a3f;
 }
 
 .lg-surface {
@@ -661,10 +666,10 @@ input[type="range"].rng::-moz-range-thumb {
    stays in register with whatever radius the surface is using. */
 .lg-rim {
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.85),
-    inset 0 -1px 0 rgba(9, 11, 15, 0.16),
-    inset 1px 0 0 rgba(255, 255, 255, 0.4),
-    inset -1px 0 0 rgba(255, 255, 255, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.34),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.34),
+    inset 1px 0 0 rgba(255, 255, 255, 0.14),
+    inset -1px 0 0 rgba(255, 255, 255, 0.14),
     inset 0 0 0 0.5px var(--lg-hairline);
 }
 
@@ -672,7 +677,7 @@ input[type="range"].rng::-moz-range-thumb {
    Every utility in this codebase compiles to `color: var(--foreground)` and
    friends, because @theme inline inlines the token rather than emitting a
    palette class. So a panel does not need a single class changed to move onto
-   the light ground — it needs the tokens redefined at the subtree root, and
+   the glass ground — it needs the tokens redefined at the subtree root, and
    1,770 lines of existing JSX relight themselves.
 
    The values are not invented. This project already ships a full light palette
@@ -683,7 +688,7 @@ input[type="range"].rng::-moz-range-thumb {
   --foreground: var(--lg-ink);
   --subtle: var(--lg-ink-subtle);
   --faint: var(--lg-ink-faint);
-  --background: #f2f4f7;
+  --background: #0b0e13;
 
   /* Nested panels must stop painting their own pane. This is the exact bug
      that made the first attempt at liquid glass look like a pale strip above a
@@ -691,20 +696,20 @@ input[type="range"].rng::-moz-range-thumb {
      light wrapper that repaints the dark deck straight back in. */
   --glass: transparent;
   --glass-deep: transparent;
-  --glass-inset: rgba(9, 11, 15, 0.05);
-  --glass-hover: rgba(9, 11, 15, 0.06);
-  --glass-active: rgba(9, 11, 15, 0.09);
+  --glass-inset: rgba(255, 255, 255, 0.05);
+  --glass-hover: rgba(255, 255, 255, 0.07);
+  --glass-active: rgba(255, 255, 255, 0.1);
 
-  --surface: rgba(255, 255, 255, 0.55);
-  --elevated: rgba(255, 255, 255, 0.7);
-  --sunken: rgba(9, 11, 15, 0.05);
+  --surface: rgba(255, 255, 255, 0.05);
+  --elevated: rgba(255, 255, 255, 0.08);
+  --sunken: rgba(0, 0, 0, 0.22);
 
   --hairline: var(--lg-hairline);
-  --hairline-strong: rgba(9, 11, 15, 0.2);
-  --highlight: rgba(255, 255, 255, 0.9);
-  --specular: rgba(255, 255, 255, 0.85);
-  --specular-strong: rgba(255, 255, 255, 0.9);
-  --underside: rgba(9, 11, 15, 0.14);
+  --hairline-strong: rgba(255, 255, 255, 0.22);
+  --highlight: rgba(255, 255, 255, 0.5);
+  --specular: rgba(255, 255, 255, 0.28);
+  --specular-strong: rgba(255, 255, 255, 0.38);
+  --underside: rgba(0, 0, 0, 0.4);
   --ring: var(--lg-hairline);
 
   /* These four are deliberately NOT flipped elsewhere in the sheet — they are
@@ -719,17 +724,17 @@ input[type="range"].rng::-moz-range-thumb {
      of glowing on it. Colour still only ever carries data state. */
   --hazard: var(--lg-hazard);
   --hazard-text: var(--lg-hazard);
-  --hazard-dim: rgba(184, 55, 26, 0.12);
-  --hazard-glow: rgba(184, 55, 26, 0.22);
+  --hazard-dim: rgba(239, 106, 63, 0.16);
+  --hazard-glow: rgba(239, 106, 63, 0.26);
   --plan: var(--lg-plan);
   --plan-text: var(--lg-plan);
-  --plan-dim: rgba(13, 111, 128, 0.12);
-  --plan-glow: rgba(13, 111, 128, 0.22);
+  --plan-dim: rgba(79, 201, 221, 0.14);
+  --plan-glow: rgba(79, 201, 221, 0.24);
   --warn: var(--lg-warn);
   --warn-text: var(--lg-warn);
-  --warn-dim: rgba(138, 90, 6, 0.13);
+  --warn-dim: rgba(224, 169, 68, 0.16);
   --ok: var(--lg-cleared);
-  --ok-dim: rgba(22, 112, 74, 0.12);
+  --ok-dim: rgba(67, 192, 127, 0.15);
 
   --st-held: var(--lg-held);
   --st-ordered: var(--lg-ordered);
@@ -741,7 +746,8 @@ input[type="range"].rng::-moz-range-thumb {
 /* Token re-binding alone cannot reach these three: their blur, shadow and
    border are literals, not tokens, so a nested panel would still stack a
    second backdrop-filter over an already-frosted parent (costly, and it reads
-   as smeared) and drop a dark drop-shadow inside a light sheet. */
+   as smeared) and drop a second drop-shadow inside a sheet that already has
+   one. */
 .lg-surface .glass,
 .lg-surface .glass-deep,
 .lg-surface .glass-rail {
@@ -761,13 +767,12 @@ input[type="range"].rng::-moz-range-thumb {
   border-color: transparent;
 }
 
-/* Recessed rows inside a light surface go DARKER, not lighter — the opposite
-   of .glass-inset on the dark deck, because depth reads as shadow either way.
-   Kept as an explicit class for panels that want a well without .glass-inset's
-   other behaviour. */
+/* A well inside a glass surface. Deeper than .glass-inset on the opaque deck,
+   because here the ground behind it is moving imagery rather than a flat pane
+   and a shallow well simply disappears into it. */
 .lg-surface .lg-inset {
-  background: rgba(9, 11, 15, 0.05);
-  box-shadow: inset 0 1px 0 rgba(9, 11, 15, 0.06);
+  background: rgba(0, 0, 0, 0.22);
+  box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.3);
   border-radius: 8px;
 }
 
@@ -776,7 +781,7 @@ input[type="range"].rng::-moz-range-thumb {
 .lg-surface textarea,
 .lg-surface select {
   color: var(--lg-ink);
-  background: rgba(255, 255, 255, 0.55);
+  background: rgba(255, 255, 255, 0.06);
   border-color: var(--lg-hairline);
 }
 .lg-surface ::placeholder {

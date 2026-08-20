@@ -4,6 +4,7 @@ import { IncidentFeed } from "@/components/feed/incident-feed";
 import { InspectorDock } from "@/components/inspector/inspector-dock";
 import { ControlRail } from "@/components/rail/control-rail";
 import { KpiStrip, ScenarioChip } from "@/components/timeline/kpi-strip";
+import { LiquidGlass } from "@/components/ui/liquid-glass";
 import { cx } from "@/lib/format";
 
 /**
@@ -40,28 +41,40 @@ export function MapChrome({ className }: { className?: string }) {
             and a band spanning the window would take a horizontal strip of it
             for chrome that only needs its own content width. */}
         <div className="flex shrink-0 items-stretch justify-start gap-2">
-          <div className="pointer-events-auto w-full max-w-[360px]">
+          {/* Every island is a liquid-glass surface here and nowhere else. This
+              is the one state where chrome genuinely sits over the canvas, so
+              the refraction has live geography to bend and the rim has a ground
+              to catch — beside the map, in the split layout, it would be a
+              frosted rectangle over a flat colour. Each island keeps its own
+              component untouched: .lg-surface re-binds the token set, so the
+              .glass and .glass-rail panels inside relight themselves and stop
+              stacking a second backdrop pass over an already-frosted parent. */}
+          <LiquidGlass radius="lg" className="pointer-events-auto w-full max-w-[360px]">
             <KpiStrip />
-          </div>
-          <ScenarioChip className="pointer-events-auto flex-none" />
+          </LiquidGlass>
+          <LiquidGlass radius="md" className="pointer-events-auto flex-none">
+            <ScenarioChip />
+          </LiquidGlass>
         </div>
 
         <div className="flex min-h-0 flex-1 gap-3">
-          <div className="pointer-events-auto flex min-h-0 shrink-0">
+          <LiquidGlass radius="lg" className="pointer-events-auto flex min-h-0 shrink-0">
             <ControlRail />
-          </div>
+          </LiquidGlass>
 
           {/* mt-auto parks the feed on the floor of the column, clear of the
               rail beside it and the dock to its right. */}
           <div className="flex min-h-0 flex-1 flex-col items-end justify-end">
-            <IncidentFeed className="pointer-events-auto mt-auto" />
+            <LiquidGlass radius="lg" className="pointer-events-auto mt-auto flex min-h-0">
+              <IncidentFeed />
+            </LiquidGlass>
           </div>
         </div>
       </div>
 
-      <div className="pointer-events-auto flex min-h-0 shrink-0">
+      <LiquidGlass radius="lg" className="pointer-events-auto flex min-h-0 shrink-0">
         <InspectorDock />
-      </div>
+      </LiquidGlass>
     </div>
   );
 }
