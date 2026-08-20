@@ -22,6 +22,7 @@ import {
   severitySwatch,
 } from "@/components/map/building-severity";
 import { useHazardField } from "@/components/map/hazard-field";
+import { asset } from "@/lib/base-path";
 import { ZONE_STATUS_RGB } from "@/lib/constants";
 import type {
   BlocksPayload,
@@ -156,7 +157,7 @@ const partInflight = new Map<string, Promise<unknown>>();
 
 async function fetchDetailFile<T>(scenarioId: string, file: string): Promise<T | null> {
   try {
-    const res = await fetch(`/data/${scenarioId}/detail/${file}`, { cache: "force-cache" });
+    const res = await fetch(asset(`/data/${scenarioId}/detail/${file}`), { cache: "force-cache" });
     if (!res.ok) return null;
     return (await res.json()) as T;
   } catch {

@@ -3,6 +3,7 @@
 import type { Color, Layer } from "@deck.gl/core";
 import { BitmapLayer, PathLayer, PolygonLayer } from "@deck.gl/layers";
 import { useEffect, useState } from "react";
+import { asset } from "@/lib/base-path";
 import { HAZARD_RGB } from "@/lib/constants";
 import type { HazardFrame, LngLat } from "@/types/egress";
 
@@ -152,7 +153,9 @@ async function loadHazardField(scenarioId: string): Promise<DecodedField | null>
 
   const p = (async (): Promise<DecodedField | null> => {
     try {
-      const res = await fetch(`/data/${scenarioId}/hazard-field.json`, { cache: "force-cache" });
+      const res = await fetch(asset(`/data/${scenarioId}/hazard-field.json`), {
+        cache: "force-cache",
+      });
       if (!res.ok) return null;
       const raw = (await res.json()) as HazardField;
       if (!raw?.arrival || !raw.width || !raw.height) return null;
