@@ -3,6 +3,7 @@
 import { KeyRound, X } from "lucide-react";
 import { Fragment, type ReactNode, useEffect, useState } from "react";
 import { CONTEXT_LEGEND } from "@/components/map/context-layers";
+import { LiquidGlass } from "@/components/ui/liquid-glass";
 import { CONGESTION_RAMP, HAZARD_RGB, PLAN_RGB, WARN_RGB, ZONE_STATUS_RGB } from "@/lib/constants";
 import { cx } from "@/lib/format";
 import { selLayers, useEgress } from "@/lib/store";
@@ -235,8 +236,8 @@ function KeySheet({ onClose, layers }: { onClose: () => void; layers: LayerVisib
         onClick={onClose}
         className="glass-scrim absolute cursor-default"
       />
-      <div
-        className="glass-deep lg-surface sheet relative flex max-h-[86vh] w-full max-w-[356px] flex-col overflow-hidden"
+      <LiquidGlass
+        className="sheet relative flex max-h-[86vh] w-full max-w-[356px] flex-col overflow-hidden"
         role="dialog"
         aria-modal="true"
         aria-label="Map key"
@@ -443,7 +444,7 @@ function KeySheet({ onClose, layers }: { onClose: () => void; layers: LayerVisib
         <div className="px-4 pt-1.5 pb-3 text-[10px] leading-[14px] text-faint">
           Dimmed rows are switched off. Colour on this map only ever encodes data.
         </div>
-      </div>
+      </LiquidGlass>
     </div>
   );
 }

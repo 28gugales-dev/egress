@@ -2,6 +2,7 @@
 
 import { ArrowRight, Flame, Info, MapPin, Waves, Wind, X } from "lucide-react";
 import { useEffect, useId, useRef, useState } from "react";
+import { LiquidGlass } from "@/components/ui/liquid-glass";
 import { SCENARIOS } from "@/lib/constants";
 import { cx } from "@/lib/format";
 import { actions, selScenarioId, useEgress } from "@/lib/store";
@@ -180,10 +181,10 @@ export function ScenarioPicker({ open, onClose }: ScenarioPickerProps) {
         className="glass-scrim absolute cursor-default"
       />
 
-      <div
+      <LiquidGlass
         ref={panelRef}
         tabIndex={-1}
-        className="glass-deep lg-surface sheet relative flex max-h-[86dvh] w-full max-w-[880px] flex-col overflow-hidden focus:outline-none"
+        className="sheet relative flex max-h-[86dvh] w-full max-w-[880px] flex-col overflow-hidden focus:outline-none"
       >
         <div className="flex items-start justify-between gap-4 border-b border-hairline px-6 py-4">
           <div>
@@ -217,7 +218,7 @@ export function ScenarioPicker({ open, onClose }: ScenarioPickerProps) {
           ))}
           <CustomCard />
         </div>
-      </div>
+      </LiquidGlass>
     </div>
   );
 }

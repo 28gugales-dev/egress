@@ -1,6 +1,6 @@
 "use client";
 
-import type { ButtonHTMLAttributes, HTMLAttributes, ReactNode } from "react";
+import type { ButtonHTMLAttributes, HTMLAttributes, ReactNode, Ref } from "react";
 import { cx } from "@/lib/format";
 
 /**
@@ -37,6 +37,9 @@ export type GlassRadius = keyof typeof RADIUS;
 
 interface LiquidGlassProps extends HTMLAttributes<HTMLDivElement> {
   radius?: GlassRadius;
+  /** Declared explicitly: HTMLAttributes does not carry `ref`, and a modal that
+   *  moves focus to its own sheet needs one. React 19 passes it as a plain prop. */
+  ref?: Ref<HTMLDivElement>;
   /** Turns the refraction off for surfaces sitting over busy imagery, where
    *  displacement reads as a rendering fault rather than as glass. */
   refract?: boolean;
@@ -48,10 +51,15 @@ export function LiquidGlass({
   refract = true,
   className,
   children,
+  ref,
   ...rest
 }: LiquidGlassProps) {
   return (
-    <div className={cx("lg-surface relative isolate", RADIUS[radius], className)} {...rest}>
+    <div
+      ref={ref}
+      className={cx("lg-surface relative isolate", RADIUS[radius], className)}
+      {...rest}
+    >
       {/* Refraction plane. Sits behind content, never intercepts a pointer. */}
       {refract ? (
         <div

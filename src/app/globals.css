@@ -331,7 +331,7 @@ input[type="range"] + * {
   }
 }
 
-.glass-deep.sheet {
+.sheet {
   animation: fade-up 240ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
@@ -749,20 +749,6 @@ input[type="range"].rng::-moz-range-thumb {
   backdrop-filter: none;
   box-shadow: none;
   border-color: var(--lg-hairline);
-}
-
-/* A sheet that IS the liquid surface rather than sitting inside one. Carrying
-   both classes is how an existing .glass-deep modal moves onto the light ground
-   without being restructured around <LiquidGlass>; the rim then has to come
-   from the element itself, since there is no separate .lg-rim child to hang it
-   on. Both classes have the same specificity, so this block must stay AFTER
-   .glass-deep in the sheet — that ordering is what makes it win. */
-.glass-deep.lg-surface {
-  box-shadow:
-    0 24px 70px -18px rgba(0, 0, 0, 0.55),
-    inset 0 1px 0 rgba(255, 255, 255, 0.85),
-    inset 0 -1px 0 rgba(9, 11, 15, 0.16),
-    inset 0 0 0 0.5px var(--lg-hairline);
 }
 
 /* A panel that fills the wrapper shares its edge, so its border would sit
