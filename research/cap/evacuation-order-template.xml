@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  CAP 1.2 EVACUATION ORDER TEMPLATE
+  ================================================================
+  Derived byte-for-byte in structure from a REAL IPAWS-delivered WEA
+  evacuation order retrieved live from the OpenFEMA IPAWS archive:
+
+    identifier : GA.001_199_2024-09-29T16:06:20-04:00
+    sender     : EMnet-GA.001   (cogId 200115, GEMA / Rockdale County EMA)
+    event      : BioLab chemical plume, Conyers GA, 2024-09-29
+    source     : https://www.fema.gov/api/open/v1/IpawsArchivedAlerts
+                 ?$filter=sent ge '2024-09-29T00:00:00.000Z' and sent le '2024-10-02T00:00:00.000Z'
+                 -> record.originalMessage
+
+  Namespace MUST be urn:oasis:names:tc:emergency:cap:1.2
+  Spec: https://docs.oasis-open.org/emergency/cap/v1.2/CAP-v1.2-os.html
+
+  ---------------------------------------------------------------
+  CRITICAL ENCODING GOTCHA
+  ---------------------------------------------------------------
+  <polygon> is "lat,lon" pairs, space-delimited, first pair == last pair,
+  minimum 4 pairs. GeoJSON is [lon,lat]. YOU MUST SWAP THE AXIS ORDER
+  when converting a MapLibre/deck.gl/Turf polygon into CAP.
+
+    GeoJSON ring : [[-84.0318,33.6768],[-83.9967,33.6624], ... ]
+    CAP polygon  : "33.6768,-84.0318 33.6624,-83.9967 ... 33.6768,-84.0318"
+
+  ---------------------------------------------------------------
+  REQUIRED ELEMENTS (OASIS CAP 1.2, verified against spec)
+  ---------------------------------------------------------------
+    alert : identifier, sender, sent, status, msgType, scope
+    info  : category, event, urgency, severity, certainty
+    area  : areaDesc
+
+  ---------------------------------------------------------------
+  ENUMS (complete, verbatim from OASIS CAP 1.2)
+  ---------------------------------------------------------------
+    status       : Actual | Exercise | System | Test | Draft
+    msgType      : Alert  | Update   | Cancel | Ack  | Error
+    scope        : Public | Restricted | Private
+    category     : Geo | Met | Safety | Security | Rescue | Fire | Health |
+                   Env | Transport | Infra | CBRNE | Other
+    responseType : Shelter | Evacuate | Prepare | Execute | Avoid |
+                   Monitor | Assess | AllClear | None
+    urgency      : Immediate | Expected | Future | Past | Unknown
+    severity     : Extreme | Severe | Moderate | Minor | Unknown
+    certainty    : Observed | Likely | Possible | Unlikely | Unknown
+
+  ---------------------------------------------------------------
+  EVACUATION-ORDER VALUE SET (what the real Rockdale message used)
+  ---------------------------------------------------------------
+    category      = Safety
+    event         = "immediate evacuation order"   (free text)
+    eventCode SAME= EVI                            (SAME code for Evacuation Immediate)
+    urgency       = Immediate
+    severity      = Severe        (use Extreme for mass-casualty / no-escape)
+    certainty     = Likely        (use Observed once fire/plume is confirmed on the zone)
+    code          = IPAWSv1.0     (required marker for IPAWS ingest)
+    responseType  = Evacuate      (OPTIONAL in CAP; the real message OMITTED it.
+                                   Include it - it drives phone UI verbiage.)
+
+  NOTE ON DEMO SAFETY: for anything not sent by a real Alerting Authority,
+  set <status>Exercise</status> (or Test). Never emit status=Actual from a
+  demo generator - Actual is what makes it a real public alert.
+-->
+<alert xmlns="urn:oasis:names:tc:emergency:cap:1.2">
+
+  <!-- Unique, never reused. Convention: {COG}.{seq}_{ISO8601 sent} -->
+  <identifier>{{IDENTIFIER}}</identifier>
+  <sender>{{SENDER_ID}}</sender>
+  <sent>{{SENT_ISO8601_WITH_OFFSET}}</sent>
+
+  <!-- Exercise for demos. Actual only from a credentialed COG. -->
+  <status>Exercise</status>
+  <msgType>Alert</msgType>
+  <scope>Public</scope>
+  <code>IPAWSv1.0</code>
+
+  <info>
+    <language>en-US</language>
+    <category>Safety</category>
+    <event>immediate evacuation order</event>
+    <responseType>Evacuate</responseType>
+    <urgency>Immediate</urgency>
+    <severity>Severe</severity>
+    <certainty>Likely</certainty>
+
+    <!-- SAME EVI = Evacuation Immediate. Drives the EAS tone + WEA class. -->
+    <eventCode>
+      <valueName>SAME</valueName>
+      <value>EVI</value>
+    </eventCode>
+
+    <effective>{{EFFECTIVE_ISO8601}}</effective>
+    <onset>{{ONSET_ISO8601}}</onset>
+    <expires>{{EXPIRES_ISO8601}}</expires>
+
+    <senderName>{{SENDER_DISPLAY_NAME}}</senderName>
+    <headline>WEA Immediate Evacuation Order</headline>
+
+    <description>{{AGENCY}} has issued an EVACUATION ORDER for ALL RESIDENTS AND BUSINESSES in {{ZONE_DESCRIPTION}}. EVERYONE NEEDS TO LEAVE THE AREA NOW via {{EGRESS_ROUTES}}. Check local news for updates.</description>
+    <instruction>Evacuation shelter is at {{SHELTER_NAME}}, {{SHELTER_ADDRESS}}. Take your go-bag, medications and pets. Do not return until an all-clear is issued. CHECK local news for updates.</instruction>
+
+    <web>{{PUBLIC_INFO_URL}}</web>
+
+    <!-- ============ WEA (Wireless Emergency Alert) payload ============
+         CMAMtext     : <= 90 chars  - legacy handsets
+         CMAMlongtext : <= 360 chars - modern handsets
+         WEAHandling  : "Imminent Threat" is the class that bypasses
+                        opt-out on most devices.
+         Both were present verbatim in the real Rockdale message. -->
+    <parameter>
+      <valueName>WEAHandling</valueName>
+      <value>Imminent Threat</value>
+    </parameter>
+    <parameter>
+      <valueName>CMAMtext</valueName>
+      <value>{{WEA_90_CHAR}}</value>
+    </parameter>
+    <parameter>
+      <valueName>CMAMlongtext</valueName>
+      <value>{{WEA_360_CHAR}}</value>
+    </parameter>
+
+    <!-- ============ EAS (Emergency Alert System) payload ============ -->
+    <parameter>
+      <valueName>EAS-ORG</valueName>
+      <value>CIV</value>
+    </parameter>
+    <parameter>
+      <valueName>EASText</valueName>
+      <value>{{EAS_BROADCAST_TEXT}}</value>
+    </parameter>
+
+    <!-- BLOCKCHANNEL suppresses a dissemination path. Omit a channel here
+         to ALLOW it. Real message blocked EMNET/NWEM/EAS and allowed CMAS(WEA). -->
+    <parameter>
+      <valueName>BLOCKCHANNEL</valueName>
+      <value>NWEM</value>
+    </parameter>
+
+    <!-- ============ AREA ============
+         Emit one <area> per evacuation zone so the polygon stays tight.
+         polygon = "lat,lon lat,lon ..." first == last, min 4 pairs.
+         geocode SAME = 0 + 5-digit county FIPS.
+           Butte County CA  -> 006007
+           Rockdale County GA -> 013247  (verified in the real message)
+         IPAWS caps polygons at 100 vertices - simplify with
+         turf.simplify() before encoding. -->
+    <area>
+      <areaDesc>{{ZONE_ID}} - {{COMMUNITY}}, {{COUNTY}} County</areaDesc>
+      <polygon>{{LAT_LON_PAIRS_FIRST_EQUALS_LAST}}</polygon>
+      <geocode>
+        <valueName>SAME</valueName>
+        <value>{{SAME_FIPS_6DIGIT}}</value>
+      </geocode>
+    </area>
+
+  </info>
+</alert>
+
+<!--
+  ================================================================
+  WORKED EXAMPLE - CAMP FIRE / PARADISE CA, 2018-11-08 08:00 PST
+  Zone BUT-TOP-* geometry comes from the live Butte County service:
+  https://services.arcgis.com/3t3QfTXFRFX44zo8/arcgis/rest/services/ButteEvacuationZones_2_view/FeatureServer/0/query
+    ?where=Community='Town of Paradise'&outFields=*&outSR=4326&f=geojson
+  ================================================================
+
+  identifier   CA.BUTTE.OES_0001_2018-11-08T08:00:00-08:00
+  sender       butte-oes@buttecounty.net
+  senderName   Butte County Sheriff / OES
+  areaDesc     BUT-TOP-14 - Town of Paradise, Butte County
+  SAME geocode 006007
+  CMAMtext     "Evacuation Order: Town of Paradise. Leave now via Skyway south. Fire."   (79 chars)
+
+  ================================================================
+  HISTORICAL NOTE - WHY THIS PROJECT EXISTS
+  ================================================================
+  A query of the OpenFEMA IPAWS archive across 2018-11-08 to 2018-11-13
+  surfaced NO Butte County-originated IPAWS alert for the Camp Fire.
+  (Caveat: that query hit the $top=200 page cap, so treat it as
+  consistent-with rather than proof-of-absence.) This matches the
+  published post-incident reviews: Butte County did not send a WEA that
+  morning and relied on opt-in CodeRED telephone notification, which
+  reached only a fraction of residents. 85 people died. The whole point
+  of generating a polygon-scoped CAP/WEA message is to close that gap.
+-->
