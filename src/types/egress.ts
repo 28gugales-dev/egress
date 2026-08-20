@@ -135,6 +135,21 @@ export interface HazardTrack {
   wind: WindSample[];
   source: string;
   generatedAt: string;
+  /**
+   * Edge id -> the tick it first became impassable. Wire format only.
+   *
+   * `HazardFrame.closedEdgeIds` is CUMULATIVE, so ninety-seven frames each
+   * carried the entire closed set and the same edge id appeared in every frame
+   * after the one that closed it. On camp-fire-2018 that was 4.00 MB of a
+   * 4.39 MB payload -- 91% of the file restating what earlier frames already
+   * said. Closure is also monotonic in every scenario we build (verified: zero
+   * reopens across 4,008 edges), so one tick per edge is lossless.
+   *
+   * `loadScenario` expands this back into per-frame `closedEdgeIds` before any
+   * consumer sees the track, which is why nothing downstream reads this field.
+   * Optional so a payload generated before this existed still loads.
+   */
+  closedFrom?: Record<string, Tick>;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

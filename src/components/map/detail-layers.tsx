@@ -149,6 +149,10 @@ const EMPTY_LABELS: StreetLabel[] = [];
 
 const cache = new Map<string, DetailBundle>();
 const inflight = new Map<string, Promise<DetailBundle>>();
+/* Per-file, because the two payloads now arrive on different gates and the
+   whole-bundle cache above cannot represent "blocks in, buildings not yet". */
+const partCache = new Map<string, unknown>();
+const partInflight = new Map<string, Promise<unknown>>();
 
 async function fetchDetailFile<T>(scenarioId: string, file: string): Promise<T | null> {
   try {
@@ -158,6 +162,35 @@ async function fetchDetailFile<T>(scenarioId: string, file: string): Promise<T |
   } catch {
     return null;
   }
+}
+
+/**
+ * Load one detail payload, on its OWN zoom gate.
+ *
+ * These used to be fetched together under the shallower of the two gates,
+ * which meant camp-fire's 7.4 MB buildings.json arrived at z12 -- two whole
+ * levels before a building is drawn, and at the scenario's own authored zoom
+ * of 12.2, so it landed during first paint on every cold load. blocks.json is
+ * 2.2 MB and genuinely is wanted at z13. Splitting them keeps the preload lead
+ * for each layer and stops the deeper one riding in on the shallower one's
+ * gate.
+ */
+async function loadOne<T>(
+  scenarioId: string,
+  file: string,
+  slot: "buildings" | "blocks",
+): Promise<T | null> {
+  const key = `${scenarioId}:${slot}`;
+  if (partCache.has(key)) return partCache.get(key) as T | null;
+  const pending = partInflight.get(key);
+  if (pending) return pending as Promise<T | null>;
+  const p = fetchDetailFile<T>(scenarioId, file).then((v) => {
+    partCache.set(key, v);
+    partInflight.delete(key);
+    return v;
+  });
+  partInflight.set(key, p as Promise<unknown>);
+  return p;
 }
 
 export async function loadDetail(scenarioId: string): Promise<DetailBundle> {
@@ -261,9 +294,12 @@ export function useDetailState(scenarioId: string): {
      drops the exposure term and keeps the arrival one. */
   const field = useHazardField(scenarioId);
 
-  // Fetch is triggered by zoom, one gate below the shallowest layer, so panning
-  // around at overview zoom never pulls 7 MB nobody asked for.
-  const shouldLoad = zoom >= Math.min(DETAIL_ZOOM.blocks, DETAIL_ZOOM.buildings) - PRELOAD_LEAD;
+  /* One gate per payload, not one for both. The shared gate was the shallower
+     of the two, so buildings.json rode in on blocks' threshold: 7.4 MB at z12,
+     while camp-fire opens at 12.2 and the structure layer does not draw until
+     z14. Panning at overview zoom now pulls neither. */
+  const wantBlocks = zoom >= DETAIL_ZOOM.blocks - PRELOAD_LEAD;
+  const wantBuildings = zoom >= DETAIL_ZOOM.buildings - PRELOAD_LEAD;
 
   useEffect(() => {
     wanted.current = false;
@@ -271,16 +307,40 @@ export function useDetailState(scenarioId: string): {
   }, [scenarioId]);
 
   useEffect(() => {
-    if (!shouldLoad || wanted.current) return;
-    wanted.current = true;
+    if (!wantBlocks && !wantBuildings) return;
     let live = true;
-    loadDetail(scenarioId).then((b) => {
-      if (live) setDetail(b);
-    });
+    (async () => {
+      const [blocks, buildings] = await Promise.all([
+        wantBlocks ? loadOne<BlocksPayload>(scenarioId, DETAIL_FILES.blocks, "blocks") : null,
+        wantBuildings
+          ? loadOne<BuildingsPayload>(scenarioId, DETAIL_FILES.buildings, "buildings")
+          : null,
+      ]);
+      if (!live) return;
+      // Warn once per payload, and only once it was actually asked for -- a
+      // console warning about a file nobody has zoomed far enough to need is
+      // noise, not a finding.
+      if (wantBlocks && !blocks) {
+        console.warn(
+          `[detail] ${scenarioId}: blocks.json absent — the census block layer is EMPTY. ` +
+            `Run: pnpm data:blocks ${scenarioId}`,
+        );
+      }
+      if (wantBuildings && !buildings) {
+        console.warn(
+          `[detail] ${scenarioId}: buildings.json absent — the structure layer is EMPTY. ` +
+            `Run: pnpm data:buildings ${scenarioId}`,
+        );
+      }
+      setDetail({
+        buildings: buildings && Array.isArray(buildings.buildings) ? buildings : null,
+        blocks: blocks && Array.isArray(blocks.blocks) ? blocks : null,
+      });
+    })();
     return () => {
       live = false;
     };
-  }, [shouldLoad, scenarioId]);
+  }, [wantBlocks, wantBuildings, scenarioId]);
 
   const withSeverity = useMemo<DetailBundleWithSeverity | null>(() => {
     if (!detail) return null;

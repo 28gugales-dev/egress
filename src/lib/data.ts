@@ -135,6 +135,7 @@ async function fetchBundle(scenarioId: string): Promise<ScenarioBundle> {
   // The guards above establish these; the push-then-throw shape hides that
   // from the narrower, so assert once here rather than nesting six ifs.
   const hazardTrack = hazard as HazardTrack;
+  expandClosures(hazardTrack);
   const wind = hazardTrack.wind;
 
   return {
@@ -172,6 +173,53 @@ async function fetchJson<T>(scenarioId: string, file: string): Promise<T | null>
     // A half-written file during a live pipeline run parses as a syntax error;
     // treat it exactly like absence so the caller reports one clear remedy.
     return null;
+  }
+}
+
+/**
+ * Rebuild each frame's cumulative `closedEdgeIds` from the compact
+ * `closedFrom` map the payload actually ships.
+ *
+ * Seven modules read `closedEdgeIds` -- derive, simulate, the incident feed,
+ * the roadblock layer, two inspector panels -- and every one of them wants the
+ * cumulative array. So the compaction lives entirely on the wire: the file
+ * carries one tick per edge, this puts the arrays back, and nothing downstream
+ * knows the difference. Trading 4 MB of transfer for a single O(edges) pass at
+ * load is the whole point; the in-memory shape is deliberately unchanged.
+ *
+ * A payload that predates `closedFrom` keeps whatever per-frame arrays it has.
+ */
+function expandClosures(track: HazardTrack): void {
+  const closedFrom = track.closedFrom;
+  if (!closedFrom || track.frames.length === 0) return;
+
+  // Bucket by tick first so this is one pass over the edges plus one over the
+  // frames, rather than a scan of every edge for every frame.
+  const byTick = new Map<number, string[]>();
+  for (const [edgeId, t] of Object.entries(closedFrom)) {
+    const bucket = byTick.get(t);
+    if (bucket) bucket.push(edgeId);
+    else byTick.set(t, [edgeId]);
+  }
+
+  /* Cumulative, so each frame's array is the previous frame's plus whatever
+     closed at this tick. Frames are ascending by contract. Edges whose tick
+     falls between two frames attach to the first frame at or after it, which
+     is where the producer put them. */
+  const ticks = [...byTick.keys()].sort((a, b) => a - b);
+  let next = 0;
+  let running: string[] = [];
+  for (const frame of track.frames) {
+    while (next < ticks.length && ticks[next] <= frame.t) {
+      running = running.concat(byTick.get(ticks[next]) as string[]);
+      next += 1;
+    }
+    /* Every frame that closed nothing new SHARES the previous frame's array
+       rather than copying it. Copying per frame would rebuild the same 4 MB in
+       memory that this whole change exists to stop shipping. Safe because
+       `concat` above always allocates a new array, so no consumer can mutate a
+       shared one into a past frame -- and none of them mutate it anyway. */
+    frame.closedEdgeIds = running;
   }
 }
 

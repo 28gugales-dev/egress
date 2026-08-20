@@ -1317,10 +1317,37 @@ async function main(): Promise<void> {
       ...(typeof w.gust === "number" ? { gust: Math.round(w.gust * 100) / 100 } : {}),
     }));
 
+  /* Ship closures once. `closedEdgeIds` is cumulative, so ninety-seven frames
+     each restated the whole impassable set and that was 91% of camp-fire's
+     4.39 MB hazard.json. One tick per edge is lossless while closure is
+     monotonic, and this asserts that rather than assuming it: a reopen falls
+     back to the per-frame arrays and says so loudly. `loadScenario` expands
+     `closedFrom` back before any consumer sees the track, so nothing
+     downstream changes shape. */
+  const closedFrom: Record<string, Tick> = {};
+  let prevClosed = new Set<string>();
+  let reopened = 0;
+  for (const f of frames) {
+    const cur = new Set(f.closedEdgeIds);
+    for (const id of prevClosed) if (!cur.has(id)) reopened += 1;
+    for (const id of cur) if (!(id in closedFrom)) closedFrom[id] = f.t;
+    prevClosed = cur;
+  }
+  const monotonic = reopened === 0;
+  if (!monotonic) {
+    loud(
+      `closure is NOT monotonic — ${reopened} edge-frames reopen. Writing the full ` +
+        "per-frame arrays instead of the compact closedFrom map, because a single " +
+        "close-tick per edge would silently drop every reopening. The payload will be " +
+        "several MB larger and that is the correct trade.",
+    );
+  }
+
   const track: HazardTrack = {
     scenarioId: scenario.id,
     kind,
-    frames,
+    frames: monotonic ? frames.map((f) => ({ ...f, closedEdgeIds: [] })) : frames,
+    ...(monotonic ? { closedFrom } : {}),
     wind: windOut.length > 0 ? windOut : wind,
     source: [
       perimeterSource,
