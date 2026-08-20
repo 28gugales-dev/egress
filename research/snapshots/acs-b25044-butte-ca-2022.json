@@ -1,0 +1,802 @@
+{
+"060070001021": {
+"occupiedHouseholds": 519,
+"noVehicleHouseholds": 62
+},
+"060070001022": {
+"occupiedHouseholds": 454,
+"noVehicleHouseholds": 0
+},
+"060070001023": {
+"occupiedHouseholds": 717,
+"noVehicleHouseholds": 41
+},
+"060070001031": {
+"occupiedHouseholds": 994,
+"noVehicleHouseholds": 29
+},
+"060070001032": {
+"occupiedHouseholds": 1162,
+"noVehicleHouseholds": 0
+},
+"060070001041": {
+"occupiedHouseholds": 522,
+"noVehicleHouseholds": 0
+},
+"060070001042": {
+"occupiedHouseholds": 566,
+"noVehicleHouseholds": 129
+},
+"060070001043": {
+"occupiedHouseholds": 320,
+"noVehicleHouseholds": 13
+},
+"060070001044": {
+"occupiedHouseholds": 766,
+"noVehicleHouseholds": 48
+},
+"060070002011": {
+"occupiedHouseholds": 509,
+"noVehicleHouseholds": 31
+},
+"060070002012": {
+"occupiedHouseholds": 367,
+"noVehicleHouseholds": 0
+},
+"060070002013": {
+"occupiedHouseholds": 257,
+"noVehicleHouseholds": 0
+},
+"060070002014": {
+"occupiedHouseholds": 865,
+"noVehicleHouseholds": 27
+},
+"060070002021": {
+"occupiedHouseholds": 504,
+"noVehicleHouseholds": 101
+},
+"060070002022": {
+"occupiedHouseholds": 513,
+"noVehicleHouseholds": 0
+},
+"060070002023": {
+"occupiedHouseholds": 307,
+"noVehicleHouseholds": 65
+},
+"060070002024": {
+"occupiedHouseholds": 457,
+"noVehicleHouseholds": 5
+},
+"060070003001": {
+"occupiedHouseholds": 365,
+"noVehicleHouseholds": 129
+},
+"060070003002": {
+"occupiedHouseholds": 772,
+"noVehicleHouseholds": 126
+},
+"060070003003": {
+"occupiedHouseholds": 261,
+"noVehicleHouseholds": 40
+},
+"060070003004": {
+"occupiedHouseholds": 479,
+"noVehicleHouseholds": 15
+},
+"060070004011": {
+"occupiedHouseholds": 753,
+"noVehicleHouseholds": 0
+},
+"060070004012": {
+"occupiedHouseholds": 1182,
+"noVehicleHouseholds": 34
+},
+"060070004031": {
+"occupiedHouseholds": 830,
+"noVehicleHouseholds": 36
+},
+"060070004032": {
+"occupiedHouseholds": 732,
+"noVehicleHouseholds": 26
+},
+"060070004041": {
+"occupiedHouseholds": 878,
+"noVehicleHouseholds": 0
+},
+"060070004042": {
+"occupiedHouseholds": 599,
+"noVehicleHouseholds": 14
+},
+"060070005011": {
+"occupiedHouseholds": 454,
+"noVehicleHouseholds": 0
+},
+"060070005012": {
+"occupiedHouseholds": 474,
+"noVehicleHouseholds": 47
+},
+"060070005013": {
+"occupiedHouseholds": 321,
+"noVehicleHouseholds": 10
+},
+"060070005014": {
+"occupiedHouseholds": 122,
+"noVehicleHouseholds": 0
+},
+"060070005015": {
+"occupiedHouseholds": 301,
+"noVehicleHouseholds": 0
+},
+"060070005021": {
+"occupiedHouseholds": 370,
+"noVehicleHouseholds": 0
+},
+"060070005022": {
+"occupiedHouseholds": 337,
+"noVehicleHouseholds": 60
+},
+"060070005023": {
+"occupiedHouseholds": 1012,
+"noVehicleHouseholds": 94
+},
+"060070005024": {
+"occupiedHouseholds": 431,
+"noVehicleHouseholds": 36
+},
+"060070006011": {
+"occupiedHouseholds": 496,
+"noVehicleHouseholds": 0
+},
+"060070006012": {
+"occupiedHouseholds": 378,
+"noVehicleHouseholds": 10
+},
+"060070006013": {
+"occupiedHouseholds": 605,
+"noVehicleHouseholds": 15
+},
+"060070006031": {
+"occupiedHouseholds": 193,
+"noVehicleHouseholds": 19
+},
+"060070006032": {
+"occupiedHouseholds": 413,
+"noVehicleHouseholds": 27
+},
+"060070006033": {
+"occupiedHouseholds": 485,
+"noVehicleHouseholds": 20
+},
+"060070006041": {
+"occupiedHouseholds": 301,
+"noVehicleHouseholds": 21
+},
+"060070006042": {
+"occupiedHouseholds": 525,
+"noVehicleHouseholds": 49
+},
+"060070006043": {
+"occupiedHouseholds": 237,
+"noVehicleHouseholds": 18
+},
+"060070006044": {
+"occupiedHouseholds": 323,
+"noVehicleHouseholds": 10
+},
+"060070006045": {
+"occupiedHouseholds": 283,
+"noVehicleHouseholds": 0
+},
+"060070007001": {
+"occupiedHouseholds": 665,
+"noVehicleHouseholds": 174
+},
+"060070007002": {
+"occupiedHouseholds": 698,
+"noVehicleHouseholds": 71
+},
+"060070007003": {
+"occupiedHouseholds": 690,
+"noVehicleHouseholds": 23
+},
+"060070007004": {
+"occupiedHouseholds": 385,
+"noVehicleHouseholds": 38
+},
+"060070008001": {
+"occupiedHouseholds": 337,
+"noVehicleHouseholds": 0
+},
+"060070008002": {
+"occupiedHouseholds": 403,
+"noVehicleHouseholds": 0
+},
+"060070008003": {
+"occupiedHouseholds": 399,
+"noVehicleHouseholds": 0
+},
+"060070008004": {
+"occupiedHouseholds": 1055,
+"noVehicleHouseholds": 0
+},
+"060070008005": {
+"occupiedHouseholds": 266,
+"noVehicleHouseholds": 34
+},
+"060070008006": {
+"occupiedHouseholds": 148,
+"noVehicleHouseholds": 0
+},
+"060070009011": {
+"occupiedHouseholds": 1098,
+"noVehicleHouseholds": 32
+},
+"060070009031": {
+"occupiedHouseholds": 546,
+"noVehicleHouseholds": 16
+},
+"060070009032": {
+"occupiedHouseholds": 467,
+"noVehicleHouseholds": 24
+},
+"060070009033": {
+"occupiedHouseholds": 732,
+"noVehicleHouseholds": 66
+},
+"060070009034": {
+"occupiedHouseholds": 957,
+"noVehicleHouseholds": 196
+},
+"060070009041": {
+"occupiedHouseholds": 938,
+"noVehicleHouseholds": 0
+},
+"060070009042": {
+"occupiedHouseholds": 689,
+"noVehicleHouseholds": 53
+},
+"060070009043": {
+"occupiedHouseholds": 583,
+"noVehicleHouseholds": 25
+},
+"060070009044": {
+"occupiedHouseholds": 585,
+"noVehicleHouseholds": 114
+},
+"060070010001": {
+"occupiedHouseholds": 362,
+"noVehicleHouseholds": 0
+},
+"060070010002": {
+"occupiedHouseholds": 240,
+"noVehicleHouseholds": 11
+},
+"060070010003": {
+"occupiedHouseholds": 326,
+"noVehicleHouseholds": 84
+},
+"060070010004": {
+"occupiedHouseholds": 371,
+"noVehicleHouseholds": 0
+},
+"060070010005": {
+"occupiedHouseholds": 349,
+"noVehicleHouseholds": 0
+},
+"060070010006": {
+"occupiedHouseholds": 660,
+"noVehicleHouseholds": 58
+},
+"060070011001": {
+"occupiedHouseholds": 267,
+"noVehicleHouseholds": 29
+},
+"060070011002": {
+"occupiedHouseholds": 428,
+"noVehicleHouseholds": 21
+},
+"060070011003": {
+"occupiedHouseholds": 536,
+"noVehicleHouseholds": 25
+},
+"060070011004": {
+"occupiedHouseholds": 226,
+"noVehicleHouseholds": 0
+},
+"060070011005": {
+"occupiedHouseholds": 248,
+"noVehicleHouseholds": 46
+},
+"060070012001": {
+"occupiedHouseholds": 454,
+"noVehicleHouseholds": 118
+},
+"060070012002": {
+"occupiedHouseholds": 475,
+"noVehicleHouseholds": 24
+},
+"060070012003": {
+"occupiedHouseholds": 211,
+"noVehicleHouseholds": 0
+},
+"060070012004": {
+"occupiedHouseholds": 390,
+"noVehicleHouseholds": 0
+},
+"060070013001": {
+"occupiedHouseholds": 261,
+"noVehicleHouseholds": 37
+},
+"060070013002": {
+"occupiedHouseholds": 431,
+"noVehicleHouseholds": 70
+},
+"060070013003": {
+"occupiedHouseholds": 353,
+"noVehicleHouseholds": 35
+},
+"060070013004": {
+"occupiedHouseholds": 350,
+"noVehicleHouseholds": 26
+},
+"060070014001": {
+"occupiedHouseholds": 884,
+"noVehicleHouseholds": 0
+},
+"060070014002": {
+"occupiedHouseholds": 585,
+"noVehicleHouseholds": 0
+},
+"060070014003": {
+"occupiedHouseholds": 313,
+"noVehicleHouseholds": 0
+},
+"060070014004": {
+"occupiedHouseholds": 667,
+"noVehicleHouseholds": 0
+},
+"060070015001": {
+"occupiedHouseholds": 556,
+"noVehicleHouseholds": 33
+},
+"060070015002": {
+"occupiedHouseholds": 318,
+"noVehicleHouseholds": 0
+},
+"060070015003": {
+"occupiedHouseholds": 741,
+"noVehicleHouseholds": 0
+},
+"060070015004": {
+"occupiedHouseholds": 298,
+"noVehicleHouseholds": 0
+},
+"060070015005": {
+"occupiedHouseholds": 121,
+"noVehicleHouseholds": 0
+},
+"060070016011": {
+"occupiedHouseholds": 591,
+"noVehicleHouseholds": 0
+},
+"060070016012": {
+"occupiedHouseholds": 243,
+"noVehicleHouseholds": 0
+},
+"060070016021": {
+"occupiedHouseholds": 312,
+"noVehicleHouseholds": 44
+},
+"060070016022": {
+"occupiedHouseholds": 198,
+"noVehicleHouseholds": 0
+},
+"060070016023": {
+"occupiedHouseholds": 825,
+"noVehicleHouseholds": 0
+},
+"060070017021": {
+"occupiedHouseholds": 76,
+"noVehicleHouseholds": 0
+},
+"060070017022": {
+"occupiedHouseholds": 296,
+"noVehicleHouseholds": 18
+},
+"060070017023": {
+"occupiedHouseholds": 941,
+"noVehicleHouseholds": 17
+},
+"060070017024": {
+"occupiedHouseholds": 496,
+"noVehicleHouseholds": 0
+},
+"060070017031": {
+"occupiedHouseholds": 180,
+"noVehicleHouseholds": 0
+},
+"060070017032": {
+"occupiedHouseholds": 549,
+"noVehicleHouseholds": 0
+},
+"060070017041": {
+"occupiedHouseholds": 323,
+"noVehicleHouseholds": 22
+},
+"060070017042": {
+"occupiedHouseholds": 372,
+"noVehicleHouseholds": 9
+},
+"060070017043": {
+"occupiedHouseholds": 740,
+"noVehicleHouseholds": 43
+},
+"060070018001": {
+"occupiedHouseholds": 166,
+"noVehicleHouseholds": 26
+},
+"060070018002": {
+"occupiedHouseholds": 158,
+"noVehicleHouseholds": 0
+},
+"060070018003": {
+"occupiedHouseholds": 71,
+"noVehicleHouseholds": 0
+},
+"060070018004": {
+"occupiedHouseholds": 75,
+"noVehicleHouseholds": 9
+},
+"060070018005": {
+"occupiedHouseholds": 121,
+"noVehicleHouseholds": 12
+},
+"060070019001": {
+"occupiedHouseholds": 170,
+"noVehicleHouseholds": 0
+},
+"060070019002": {
+"occupiedHouseholds": 106,
+"noVehicleHouseholds": 21
+},
+"060070019003": {
+"occupiedHouseholds": 85,
+"noVehicleHouseholds": 0
+},
+"060070019004": {
+"occupiedHouseholds": 124,
+"noVehicleHouseholds": 16
+},
+"060070020001": {
+"occupiedHouseholds": 240,
+"noVehicleHouseholds": 14
+},
+"060070020002": {
+"occupiedHouseholds": 48,
+"noVehicleHouseholds": 0
+},
+"060070020003": {
+"occupiedHouseholds": 69,
+"noVehicleHouseholds": 0
+},
+"060070020004": {
+"occupiedHouseholds": 47,
+"noVehicleHouseholds": 0
+},
+"060070020005": {
+"occupiedHouseholds": 173,
+"noVehicleHouseholds": 0
+},
+"060070020006": {
+"occupiedHouseholds": 69,
+"noVehicleHouseholds": 0
+},
+"060070021001": {
+"occupiedHouseholds": 191,
+"noVehicleHouseholds": 0
+},
+"060070021002": {
+"occupiedHouseholds": 50,
+"noVehicleHouseholds": 22
+},
+"060070021003": {
+"occupiedHouseholds": 33,
+"noVehicleHouseholds": 0
+},
+"060070021004": {
+"occupiedHouseholds": 65,
+"noVehicleHouseholds": 0
+},
+"060070021005": {
+"occupiedHouseholds": 247,
+"noVehicleHouseholds": 53
+},
+"060070022001": {
+"occupiedHouseholds": 229,
+"noVehicleHouseholds": 21
+},
+"060070022002": {
+"occupiedHouseholds": 547,
+"noVehicleHouseholds": 18
+},
+"060070022003": {
+"occupiedHouseholds": 72,
+"noVehicleHouseholds": 0
+},
+"060070022004": {
+"occupiedHouseholds": 235,
+"noVehicleHouseholds": 0
+},
+"060070023001": {
+"occupiedHouseholds": 96,
+"noVehicleHouseholds": 0
+},
+"060070023002": {
+"occupiedHouseholds": 86,
+"noVehicleHouseholds": 39
+},
+"060070023003": {
+"occupiedHouseholds": 84,
+"noVehicleHouseholds": 0
+},
+"060070023004": {
+"occupiedHouseholds": 87,
+"noVehicleHouseholds": 46
+},
+"060070023005": {
+"occupiedHouseholds": 355,
+"noVehicleHouseholds": 21
+},
+"060070024011": {
+"occupiedHouseholds": 143,
+"noVehicleHouseholds": 0
+},
+"060070024012": {
+"occupiedHouseholds": 323,
+"noVehicleHouseholds": 12
+},
+"060070024021": {
+"occupiedHouseholds": 383,
+"noVehicleHouseholds": 27
+},
+"060070024022": {
+"occupiedHouseholds": 338,
+"noVehicleHouseholds": 7
+},
+"060070024023": {
+"occupiedHouseholds": 429,
+"noVehicleHouseholds": 5
+},
+"060070025001": {
+"occupiedHouseholds": 348,
+"noVehicleHouseholds": 0
+},
+"060070025002": {
+"occupiedHouseholds": 605,
+"noVehicleHouseholds": 80
+},
+"060070025003": {
+"occupiedHouseholds": 235,
+"noVehicleHouseholds": 24
+},
+"060070025004": {
+"occupiedHouseholds": 410,
+"noVehicleHouseholds": 24
+},
+"060070026011": {
+"occupiedHouseholds": 312,
+"noVehicleHouseholds": 31
+},
+"060070026012": {
+"occupiedHouseholds": 440,
+"noVehicleHouseholds": 34
+},
+"060070026013": {
+"occupiedHouseholds": 293,
+"noVehicleHouseholds": 0
+},
+"060070026021": {
+"occupiedHouseholds": 534,
+"noVehicleHouseholds": 11
+},
+"060070026022": {
+"occupiedHouseholds": 1020,
+"noVehicleHouseholds": 20
+},
+"060070026023": {
+"occupiedHouseholds": 293,
+"noVehicleHouseholds": 0
+},
+"060070027001": {
+"occupiedHouseholds": 174,
+"noVehicleHouseholds": 0
+},
+"060070027002": {
+"occupiedHouseholds": 554,
+"noVehicleHouseholds": 108
+},
+"060070027003": {
+"occupiedHouseholds": 160,
+"noVehicleHouseholds": 0
+},
+"060070027004": {
+"occupiedHouseholds": 342,
+"noVehicleHouseholds": 0
+},
+"060070027005": {
+"occupiedHouseholds": 629,
+"noVehicleHouseholds": 100
+},
+"060070027006": {
+"occupiedHouseholds": 456,
+"noVehicleHouseholds": 32
+},
+"060070028001": {
+"occupiedHouseholds": 526,
+"noVehicleHouseholds": 13
+},
+"060070028002": {
+"occupiedHouseholds": 239,
+"noVehicleHouseholds": 48
+},
+"060070028003": {
+"occupiedHouseholds": 747,
+"noVehicleHouseholds": 204
+},
+"060070028004": {
+"occupiedHouseholds": 279,
+"noVehicleHouseholds": 20
+},
+"060070028005": {
+"occupiedHouseholds": 307,
+"noVehicleHouseholds": 24
+},
+"060070029001": {
+"occupiedHouseholds": 513,
+"noVehicleHouseholds": 30
+},
+"060070029002": {
+"occupiedHouseholds": 395,
+"noVehicleHouseholds": 9
+},
+"060070030011": {
+"occupiedHouseholds": 274,
+"noVehicleHouseholds": 68
+},
+"060070030012": {
+"occupiedHouseholds": 185,
+"noVehicleHouseholds": 0
+},
+"060070030013": {
+"occupiedHouseholds": 142,
+"noVehicleHouseholds": 26
+},
+"060070030014": {
+"occupiedHouseholds": 207,
+"noVehicleHouseholds": 18
+},
+"060070030021": {
+"occupiedHouseholds": 194,
+"noVehicleHouseholds": 73
+},
+"060070030022": {
+"occupiedHouseholds": 244,
+"noVehicleHouseholds": 0
+},
+"060070030023": {
+"occupiedHouseholds": 359,
+"noVehicleHouseholds": 11
+},
+"060070030024": {
+"occupiedHouseholds": 273,
+"noVehicleHouseholds": 16
+},
+"060070031001": {
+"occupiedHouseholds": 459,
+"noVehicleHouseholds": 3
+},
+"060070031002": {
+"occupiedHouseholds": 302,
+"noVehicleHouseholds": 56
+},
+"060070031003": {
+"occupiedHouseholds": 263,
+"noVehicleHouseholds": 0
+},
+"060070031004": {
+"occupiedHouseholds": 667,
+"noVehicleHouseholds": 11
+},
+"060070032001": {
+"occupiedHouseholds": 437,
+"noVehicleHouseholds": 83
+},
+"060070032002": {
+"occupiedHouseholds": 571,
+"noVehicleHouseholds": 51
+},
+"060070032003": {
+"occupiedHouseholds": 700,
+"noVehicleHouseholds": 39
+},
+"060070033001": {
+"occupiedHouseholds": 567,
+"noVehicleHouseholds": 12
+},
+"060070033002": {
+"occupiedHouseholds": 393,
+"noVehicleHouseholds": 46
+},
+"060070033003": {
+"occupiedHouseholds": 620,
+"noVehicleHouseholds": 12
+},
+"060070034001": {
+"occupiedHouseholds": 516,
+"noVehicleHouseholds": 49
+},
+"060070034002": {
+"occupiedHouseholds": 516,
+"noVehicleHouseholds": 17
+},
+"060070035011": {
+"occupiedHouseholds": 321,
+"noVehicleHouseholds": 0
+},
+"060070035012": {
+"occupiedHouseholds": 501,
+"noVehicleHouseholds": 0
+},
+"060070035013": {
+"occupiedHouseholds": 214,
+"noVehicleHouseholds": 0
+},
+"060070035014": {
+"occupiedHouseholds": 243,
+"noVehicleHouseholds": 0
+},
+"060070035021": {
+"occupiedHouseholds": 364,
+"noVehicleHouseholds": 0
+},
+"060070035022": {
+"occupiedHouseholds": 383,
+"noVehicleHouseholds": 33
+},
+"060070035023": {
+"occupiedHouseholds": 361,
+"noVehicleHouseholds": 0
+},
+"060070035024": {
+"occupiedHouseholds": 395,
+"noVehicleHouseholds": 0
+},
+"060070036001": {
+"occupiedHouseholds": 372,
+"noVehicleHouseholds": 10
+},
+"060070036002": {
+"occupiedHouseholds": 478,
+"noVehicleHouseholds": 38
+},
+"060070036003": {
+"occupiedHouseholds": 481,
+"noVehicleHouseholds": 0
+},
+"060070037001": {
+"occupiedHouseholds": 517,
+"noVehicleHouseholds": 17
+},
+"060070037002": {
+"occupiedHouseholds": 414,
+"noVehicleHouseholds": 45
+},
+"060070037003": {
+"occupiedHouseholds": 440,
+"noVehicleHouseholds": 13
+},
+"060070037004": {
+"occupiedHouseholds": 505,
+"noVehicleHouseholds": 92
+}
+}
