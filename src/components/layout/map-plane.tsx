@@ -82,10 +82,15 @@ export function MapPlane({
   className,
   veiled = false,
   notice,
+  chrome,
 }: {
   className?: string;
   veiled?: boolean;
   notice?: ReactNode;
+  /** Floating console chrome, passed in only while the panel plane is
+   *  collapsed. See components/layout/map-chrome for why that is the only
+   *  state in which anything is allowed over the canvas. */
+  chrome?: ReactNode;
 }) {
   const view = useEgress(selView);
   const scenarioId = useEgress(selScenarioId);
@@ -231,6 +236,10 @@ export function MapPlane({
             {notice}
           </div>
         ) : null}
+        {/* Inside the canvas box rather than over the whole plane, so the
+            bezels above and below stay uncovered and keep their own hit
+            targets. */}
+        {chrome}
       </div>
 
       <BezelBottom />

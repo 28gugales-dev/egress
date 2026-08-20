@@ -4,6 +4,7 @@ import "./console-planes.css";
 
 import { TriangleAlert } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import { MapChrome } from "@/components/layout/map-chrome";
 import { MapPlane } from "@/components/layout/map-plane";
 import { PanelPlane } from "@/components/layout/panel-plane";
 import { useBundle } from "@/lib/bundle-context";
@@ -203,6 +204,9 @@ export function ConsolePlanes() {
         className={cx(narrow ? "absolute inset-0 z-0" : "relative flex-1")}
         veiled={veiled}
         notice={simMissing ? <SimNotice /> : null}
+        /* Only when the panel is collapsed. With both planes up the chrome
+           lives in its own plane and the canvas stays clean. */
+        chrome={panelVisible ? null : <MapChrome />}
       />
 
       {veiled ? (
