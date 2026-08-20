@@ -117,7 +117,11 @@ export const SCENARIOS: ScenarioMeta[] = [
     zoom: 11.6,
     bbox: [-84.13, 33.58, -83.85, 33.76],
     startHourLocal: 5,
-    duration: 21600,
+    // 10h, not 6h. Both runs previously reported clearance at exactly the
+    // horizon, which is a censored measurement reading as a real one: neither
+    // finished inside the window, so the plan showed no gain by construction.
+    // Uncensored, the baseline clears at ~29,700s.
+    duration: 36000,
     frameStep: 300,
     burnoverAt: 14400,
     available: false,
@@ -140,7 +144,11 @@ export const SCENARIOS: ScenarioMeta[] = [
     zoom: 12,
     bbox: [-105.22, 39.9, -105.03, 40.02],
     startHourLocal: 10,
-    duration: 18000,
+    // 10h, not 5h. Both runs previously reported clearance at exactly the
+    // horizon, which is a censored measurement reading as a real one: neither
+    // finished inside the window, so the plan showed no gain by construction.
+    // Uncensored, the baseline clears at ~24,600s.
+    duration: 36000,
     frameStep: 300,
     burnoverAt: 12600,
     available: false,

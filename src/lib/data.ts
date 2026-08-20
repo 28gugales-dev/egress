@@ -1,3 +1,4 @@
+import { asset } from "@/lib/base-path";
 import { getScenario } from "@/lib/constants";
 import type {
   FacilityLayer,
@@ -166,7 +167,7 @@ async function fetchJson<T>(scenarioId: string, file: string): Promise<T | null>
        `max-age=0, must-revalidate`, so the default policy revalidates and the
        server answers 304 in the common case: correct, and still one round trip
        with no body. */
-    const res = await fetch(`/data/${scenarioId}/${file}`, { cache: "default" });
+    const res = await fetch(asset(`/data/${scenarioId}/${file}`), { cache: "default" });
     if (!res.ok) return null;
     return (await res.json()) as T;
   } catch {

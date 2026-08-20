@@ -14,6 +14,7 @@ import {
   Zap,
 } from "lucide-react";
 import { useEffect, useState } from "react";
+import { asset } from "@/lib/base-path";
 import { actions, selLayers, selScenarioId, useEgress } from "@/lib/store";
 import type {
   AerosolPayload,
@@ -213,7 +214,7 @@ export async function loadContextBundle(scenarioId: string): Promise<ContextBund
   if (pending) return pending;
 
   const p = (async (): Promise<ContextBundle | null> => {
-    const base = `/data/${scenarioId}/context`;
+    const base = asset(`/data/${scenarioId}/context`);
     const manifest = await getJson<ContextManifest>(`${base}/index.json`);
     if (!manifest || !Array.isArray(manifest.layers)) return null;
 

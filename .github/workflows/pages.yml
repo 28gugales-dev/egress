@@ -1,0 +1,60 @@
+name: Deploy console to GitHub Pages
+
+# The console is a static export: two prerendered routes plus ~86 MB of scenario
+# payloads under public/data. Building here rather than committing out/ keeps the
+# repo the single source of truth — a payload rebuild redeploys on its own.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Never cancel a running deploy: Pages serves whatever finished last, and killing
+# a publish mid-upload can leave the site on a half-written artifact.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm typecheck
+      - run: pnpm lint
+      - name: Build static export
+        env:
+          NEXT_EXPORT: "1"
+          # Project Pages sites live at /<repo>/. Derived, not hardcoded, so a
+          # fork or a rename does not silently ship 404ing asset URLs.
+          BASE_PATH: /${{ github.event.repository.name }}
+        run: pnpm build
+      # Pages runs the artifact through Jekyll unless told not to, and Jekyll
+      # drops every path starting with an underscore — which is all of _next/.
+      - run: touch out/.nojekyll
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: out
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
