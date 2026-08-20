@@ -1,0 +1,153 @@
+"use client";
+
+import type { ButtonHTMLAttributes, HTMLAttributes, ReactNode } from "react";
+import { cx } from "@/lib/format";
+
+/**
+ * Liquid glass — refractive surfaces for modals and their controls.
+ *
+ * Two things here are load-bearing and easy to get wrong later.
+ *
+ * 1. THE REFRACTION IS PROGRESSIVE ENHANCEMENT, NOT THE EFFECT.
+ *    `backdrop-filter: url(#…)` — an SVG filter referenced from a backdrop —
+ *    is Chromium-only, and inconsistent even there. Safari and Firefox drop it
+ *    silently. So the glass never *depends* on it: the layered inset highlights
+ *    and the blur/saturate stack below carry the whole look on their own, and
+ *    the displacement map is an extra that some browsers get. Check any change
+ *    here with the filter forced off before assuming it still reads.
+ *
+ * 2. THESE SURFACES ARE LIGHT, AND THE REST OF THE CONSOLE IS DARK.
+ *    Black ink needs a light ground, so a liquid-glass modal is frosted white
+ *    over the dark instrument rather than another dark pane. That flips the
+ *    contrast contract for anything drawn inside it: the hazard/plan/warn hues
+ *    and the five zone-status hues are all tuned for a dark ground and go
+ *    muddy on this one. Use the `--lg-*` data hues from globals.css inside a
+ *    liquid-glass surface, never the raw dark-ground tokens.
+ */
+
+/** Radius scale. Modals sit at `lg`; controls inside them step down. */
+const RADIUS = {
+  sm: "rounded-[8px]",
+  md: "rounded-[12px]",
+  lg: "rounded-[18px]",
+  pill: "rounded-full",
+} as const;
+
+export type GlassRadius = keyof typeof RADIUS;
+
+interface LiquidGlassProps extends HTMLAttributes<HTMLDivElement> {
+  radius?: GlassRadius;
+  /** Turns the refraction off for surfaces sitting over busy imagery, where
+   *  displacement reads as a rendering fault rather than as glass. */
+  refract?: boolean;
+  children?: ReactNode;
+}
+
+export function LiquidGlass({
+  radius = "lg",
+  refract = true,
+  className,
+  children,
+  ...rest
+}: LiquidGlassProps) {
+  return (
+    <div className={cx("lg-surface relative isolate", RADIUS[radius], className)} {...rest}>
+      {/* Refraction plane. Sits behind content, never intercepts a pointer. */}
+      {refract ? (
+        <div
+          aria-hidden
+          className={cx("pointer-events-none absolute inset-0 -z-10", RADIUS[radius])}
+          style={{ backdropFilter: "url(#lg-refract)" }}
+        />
+      ) : null}
+      {/* Specular rim. A single element so the highlight cannot drift out of
+          register with the surface when the radius changes. */}
+      <div
+        aria-hidden
+        className={cx("lg-rim pointer-events-none absolute inset-0", RADIUS[radius])}
+      />
+      {children}
+    </div>
+  );
+}
+
+interface LiquidButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  radius?: GlassRadius;
+  /** `primary` is the one action a panel wants you to take. At most one. */
+  tone?: "default" | "primary" | "quiet";
+  children?: ReactNode;
+}
+
+export function LiquidButton({
+  radius = "pill",
+  tone = "default",
+  className,
+  children,
+  ...rest
+}: LiquidButtonProps) {
+  return (
+    <button
+      type="button"
+      className={cx(
+        "lg-button relative isolate inline-flex cursor-pointer items-center justify-center gap-2",
+        "whitespace-nowrap px-4 py-2 font-medium text-[13px] transition-[transform,filter] duration-200",
+        "hover:brightness-[1.04] active:scale-[0.985] disabled:pointer-events-none disabled:opacity-50",
+        RADIUS[radius],
+        tone === "primary" && "lg-button-primary",
+        tone === "quiet" && "lg-button-quiet",
+        className,
+      )}
+      {...rest}
+    >
+      <span
+        aria-hidden
+        className={cx("lg-rim pointer-events-none absolute inset-0", RADIUS[radius])}
+      />
+      <span className="pointer-events-none z-10 inline-flex items-center gap-2">{children}</span>
+    </button>
+  );
+}
+
+/**
+ * The displacement filter, mounted once near the app root.
+ *
+ * `scale` is deliberately small. The reference implementation of this effect
+ * uses 70, which bends text into illegibility — fine over a photograph, wrong
+ * under a table of numbers an operator has to read. 12 reads as thick glass at
+ * the rim and leaves the middle of the panel flat.
+ */
+export function GlassFilter() {
+  return (
+    <svg aria-hidden className="pointer-events-none absolute h-0 w-0" focusable="false">
+      <title>Liquid glass refraction filter</title>
+      <defs>
+        <filter
+          id="lg-refract"
+          x="0%"
+          y="0%"
+          width="100%"
+          height="100%"
+          colorInterpolationFilters="sRGB"
+        >
+          <feTurbulence
+            type="fractalNoise"
+            baseFrequency="0.008 0.012"
+            numOctaves="2"
+            seed="4"
+            result="noise"
+          />
+          <feGaussianBlur in="noise" stdDeviation="3" result="softNoise" />
+          <feDisplacementMap
+            in="SourceGraphic"
+            in2="softNoise"
+            scale="12"
+            xChannelSelector="R"
+            yChannelSelector="B"
+            result="displaced"
+          />
+          <feGaussianBlur in="displaced" stdDeviation="0.4" />
+        </filter>
+      </defs>
+    </svg>
+  );
+}
