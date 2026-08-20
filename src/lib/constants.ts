@@ -124,7 +124,7 @@ export const SCENARIOS: ScenarioMeta[] = [
     duration: 36000,
     frameStep: 300,
     burnoverAt: 14400,
-    available: false,
+    available: true,
     attribution: [
       "Wind: Open-Meteo archive",
       "Roads: OpenStreetMap contributors",
@@ -151,7 +151,7 @@ export const SCENARIOS: ScenarioMeta[] = [
     duration: 36000,
     frameStep: 300,
     burnoverAt: 12600,
-    available: false,
+    available: true,
     attribution: ["Fire perimeters: NIFC / WFIGS", "Roads: OpenStreetMap contributors"],
   },
   {
