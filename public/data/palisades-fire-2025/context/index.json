@@ -1,0 +1,113 @@
+{
+  "scenarioId": "palisades-fire-2025",
+  "generatedAt": "2026-08-20T05:22:55.674Z",
+  "scenarioStartEpoch": 1736272800,
+  "layers": [
+    {
+      "id": "airQuality",
+      "label": "PM2.5 monitor coverage",
+      "file": "air-quality.json",
+      "available": true,
+      "provenance": "observed",
+      "source": "Copernicus CAMS reanalysis via Open-Meteo Air Quality API",
+      "sourceUrl": "https://air-quality-api.open-meteo.com/v1/air-quality?latitude=34.012,34.012,34.012,34.012,34.012,34.0403,34.0403,34.0403,34.0403,34.0403,34.0685,34.0685,34.0685,34.0685,34.0685,34.0968,34.0968,34.0968,34.0968,34.0968,34.125,34.125,34.125,34.125,34.125&longitude=-118.61,-118.5837,-118.5575,-118.5312,-118.505,-118.61,-118.5837,-118.5575,-118.5312,-118.505,-118.61,-118.5837,-118.5575,-118.5312,-118.505,-118.61,-118.5837,-118.5575,-118.5312,-118.505,-118.61,-118.5837,-118.5575,-118.5312,-118.505&hourly=pm2_5&start_date=2025-01-07&end_date=2025-01-09&timezone=GMT",
+      "recordCount": 25,
+      "timeVarying": true,
+      "bytes": 15237,
+      "note": "CAMS reanalysis sampled on a 5x5 grid over the scenario bbox. Model reanalysis of observations, not a station reading: correct for regional plume structure, coarse near the fire itself."
+    },
+    {
+      "id": "fireIntensity",
+      "label": "Fire intensity · FRP",
+      "file": null,
+      "available": false,
+      "provenance": "observed",
+      "source": "",
+      "sourceUrl": "",
+      "recordCount": 0,
+      "timeVarying": false,
+      "bytes": 0,
+      "note": "Layer unavailable — the toggle is hidden, nothing is substituted.",
+      "reason": "FIRMS_MAP_KEY not set — skipping. With a key this layer would render every VIIRS/MODIS detection in the bbox as a point scaled and coloured by Fire Radiative Power in MW, the actual physical measure of fire intensity, stepped by satellite overpass. Free key: https://firms.modaps.eosdis.nasa.gov/api/area/"
+    },
+    {
+      "id": "smoke",
+      "label": "Smoke plumes",
+      "file": "smoke.json",
+      "available": true,
+      "provenance": "observed",
+      "source": "NOAA Hazard Mapping System (HMS) smoke analysis",
+      "sourceUrl": "https://satepsanone.nesdis.noaa.gov/pub/FIRE/web/HMS/Smoke_Polygons/KML/2025/01/hms_smoke20250107.kml | https://satepsanone.nesdis.noaa.gov/pub/FIRE/web/HMS/Smoke_Polygons/KML/2025/01/hms_smoke20250108.kml",
+      "recordCount": 3,
+      "timeVarying": true,
+      "bytes": 2611,
+      "note": "Smoke footprints drawn by NOAA satellite analysts from GOES and polar imagery. Each polygon carries the satellite analysis window it was observed in and is shown only inside that window. Density is the analyst's three-level classification, not a concentration."
+    },
+    {
+      "id": "transmission",
+      "label": "Transmission lines",
+      "file": "transmission.json",
+      "available": true,
+      "provenance": "observed",
+      "source": "HIFLD Open — Electric Power Transmission Lines",
+      "sourceUrl": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/arcgis/rest/services/Electric_Power_Transmission_Lines/FeatureServer/0/query?where=1%3D1&geometry=-118.79%2C33.832%2C-118.32499999999999%2C34.305&geometryType=esriGeometryEnvelope&inSR=4326&spatialRel=esriSpatialRelIntersects&outFields=ID%2COWNER%2CVOLTAGE%2CVOLT_CLASS%2CTYPE%2CSTATUS%2CSUB_1%2CSUB_2&returnGeometry=true&outSR=4326&f=geojson",
+      "recordCount": 72,
+      "timeVarying": false,
+      "bytes": 37437,
+      "note": "Published transmission line routes and nominal voltages. This is present-day infrastructure geometry, not the network state on the event date, and it is NOT an ignition attribution — it shows what runs through the terrain the evacuation had to cross."
+    },
+    {
+      "id": "socialVulnerability",
+      "label": "Social vulnerability",
+      "file": null,
+      "available": false,
+      "provenance": "observed",
+      "source": "",
+      "sourceUrl": "",
+      "recordCount": 0,
+      "timeVarying": false,
+      "bytes": 0,
+      "note": "Layer unavailable — the toggle is hidden, nothing is substituted.",
+      "reason": "no state mapping for scenario palisades-fire-2025"
+    },
+    {
+      "id": "fireWeather",
+      "label": "Fire weather advisories",
+      "file": "fire-weather.json",
+      "available": true,
+      "provenance": "observed",
+      "source": "Iowa Environmental Mesonet NWS VTEC archive + api.weather.gov active alerts",
+      "sourceUrl": "https://mesonet.agron.iastate.edu/cgi-bin/request/gis/watchwarn.py?sts=2025-01-05T18:00Z&ets=2025-01-09T02:00Z&accept=csv | https://api.weather.gov/alerts/active?point=34.06,-118.542",
+      "recordCount": 60,
+      "timeVarying": true,
+      "bytes": 23330,
+      "note": "Archived products are the real NWS warnings in force over the event, with their issue and expiry times and product identifiers. They carry NO polygon: the UGC zones a 2018 product referenced have since been retired and api.weather.gov returns 404 for them, so the advisory is drawn as a timeline band rather than an invented footprint. Live alerts carry real geometry and exercise the same path against today's feed."
+    },
+    {
+      "id": "slope",
+      "label": "Terrain slope",
+      "file": "slope.json",
+      "available": true,
+      "provenance": "observed",
+      "source": "OpenTopoData SRTM 30 m",
+      "sourceUrl": "https://api.opentopodata.org/v1/srtm30m?locations=34.0134,-118.6087|34.0134,-118.6061|34.0134,-118.6034|34.0134,-118.6008|34.0134,-118.5982|34.0134,-118.5956|34.0134,-118.5929|34.0134,-118.5903|34.0134,-118.5877|34.0134,-118.5851|34.0134,-118.5824|34.0134,-118.5798|34.0134,-118.5772|34.0134,-118.5746|34.0134,-118.5719|34.0134,-118.5693|34.0134,-118.5667|34.0134,-118.5641|34.0134,-118.5614|34.0134,-118.5588|34.0134,-118.5562|34.0134,-118.5536|34.0134,-118.5509|34.0134,-118.5483|34.0134,-118.5457|34.0134,-118.5431|34.0134,-118.5404|34.0134,-118.5378|34.0134,-118.5352|34.0134,-118.5326|34.0134,-118.5299|34.0134,-118.5273|34.0134,-118.5247|34.0134,-118.5221|34.0134,-118.5194|34.0134,-118.5168|34.0134,-118.5142|34.0134,-118.5116|34.0134,-118.5089|34.0134,-118.5063|34.0162,-118.6087|34.0162,-118.6061|34.0162,-118.6034|34.0162,-118.6008|34.0162,-118.5982|34.0162,-118.5956|34.0162,-118.5929|34.0162,-118.5903|34.0162,-118.5877|34.0162,-118.5851|34.0162,-118.5824|34.0162,-118.5798|34.0162,-118.5772|34.0162,-118.5746|34.0162,-118.5719|34.0162,-118.5693|34.0162,-118.5667|34.0162,-118.5641|34.0162,-118.5614|34.0162,-118.5588|34.0162,-118.5562|34.0162,-118.5536|34.0162,-118.5509|34.0162,-118.5483|34.0162,-118.5457|34.0162,-118.5431|34.0162,-118.5404|34.0162,-118.5378|34.0162,-118.5352|34.0162,-118.5326|34.0162,-118.5299|34.0162,-118.5273|34.0162,-118.5247|34.0162,-118.5221|34.0162,-118.5194|34.0162,-118.5168|34.0162,-118.5142|34.0162,-118.5116|34.0162,-118.5089|34.0162,-118.5063|34.0191,-118.6087|34.0191,-118.6061|34.0191,-118.6034|34.0191,-118.6008|34.0191,-118.5982|34.0191,-118.5956|34.0191,-118.5929|34.0191,-118.5903|34.0191,-118.5877|34.0191,-118.5851|34.0191,-118.5824|34.0191,-118.5798|34.0191,-118.5772|34.0191,-118.5746|34.0191,-118.5719|34.0191,-118.5693|34.0191,-118.5667|34.0191,-118.5641|34.0191,-118.5614|34.0191,-118.5588",
+      "recordCount": 1600,
+      "timeVarying": false,
+      "bytes": 153766,
+      "note": "Elevation is measured. Slope and aspect are Horn's standard 3x3 finite difference on those measurements — arithmetic, not a model. `spreadFactor` IS a heuristic: the widely used rule of thumb that head-fire spread roughly doubles per 10 degrees of upslope. It is not Rothermel output and must not be quoted as a predicted rate of spread."
+    },
+    {
+      "id": "burnScars",
+      "label": "Historical burn scars",
+      "file": "burn-scars.json",
+      "available": true,
+      "provenance": "observed",
+      "source": "NIFC InterAgency Fire Perimeter History",
+      "sourceUrl": "https://services3.arcgis.com/T4QMspbfLg3qTGWY/arcgis/rest/services/InterAgencyFirePerimeterHistory_All_Years_View/FeatureServer/0/query?where=FIRE_YEAR_INT+%3C+2025+AND+GIS_ACRES+%3E+250&geometry=-118.71%2C33.912%2C-118.405%2C34.225&geometryType=esriGeometryEnvelope&inSR=4326&spatialRel=esriSpatialRelIntersects&outFields=INCIDENT%2CFIRE_YEAR_INT%2CGIS_ACRES%2CUNQE_FIRE_ID&returnGeometry=true&outSR=4326&orderByFields=GIS_ACRES+DESC&resultOffset=0&resultRecordCount=40&f=geojson",
+      "recordCount": 86,
+      "timeVarying": false,
+      "bytes": 101572,
+      "note": "Mapped perimeters of fires that burned this terrain BEFORE the event, at least 250 acres. Fuel history, not the live hazard: a recent scar is fuel already consumed. Drawn stroke-only and age-faded so it can never be mistaken for the hazard front."
+    }
+  ]
+}
