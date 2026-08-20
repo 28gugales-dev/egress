@@ -154,7 +154,9 @@ export function MapLegend({ className, contraflowActive = false }: MapLegendProp
         // Capped and scrollable: the row set grows with whatever the operator
         // switches on, and a legend that runs off the viewport is worse than
         // one that scrolls.
-        "glass thin-scroll pointer-events-auto max-h-[min(56vh,340px)] w-[206px] select-none overflow-y-auto px-2.5 pt-2 pb-2.5",
+        // lg-surface: the legend is a flyout over the map, not a panel, so it
+        // takes the same light refractive ground as the key and the picker.
+        "glass lg-surface thin-scroll pointer-events-auto max-h-[min(56vh,340px)] w-[206px] select-none overflow-y-auto px-2.5 pt-2 pb-2.5",
         className,
       )}
     >

@@ -222,7 +222,13 @@ export function LayersPopover({ tier = "full" }: { tier?: BezelTier }) {
   const colorBy = useEgress(selColorBy);
   if (popover !== "layers") return null;
   return (
-    <div className="thin-scroll glass absolute top-[34px] right-2 z-30 max-h-[min(66vh,520px)] w-[248px] overflow-y-auto pb-2">
+    <div
+      /* lg-surface: this floats over the map rather than living in a plane, so
+         it is the same register as the key and the scenario picker and takes
+         the same light refractive ground. `glass` stays for the radius, border
+         and scroll behaviour it shares with the rest of the deck. */
+      className="thin-scroll glass lg-surface absolute top-[34px] right-2 z-30 max-h-[min(66vh,520px)] w-[248px] overflow-y-auto pb-2"
+    >
       <LayersSection />
       <ContextLayerToggles />
       {tier === "minimal" ? (
@@ -231,12 +237,12 @@ export function LayersPopover({ tier = "full" }: { tier?: BezelTier }) {
           <ColorBySeg colorBy={colorBy} />
         </div>
       ) : null}
-      {tier === "tight" || tier === "minimal" ? (
-        <div className="px-3 pt-4">
-          <div className="label-mono mb-2">Basemap</div>
-          <BasemapSeg basemap={basemap} />
-        </div>
-      ) : null}
+      tier === "tight" || tier === "minimal" ? (
+      <div className="px-3 pt-4">
+        <div className="label-mono mb-2">Basemap</div>
+        <BasemapSeg basemap={basemap} />
+      </div>
+      ) : null
     </div>
   );
 }
