@@ -1,0 +1,826 @@
+@import "tailwindcss";
+
+/* Class-based dark mode, matching the Civic convention. `.dark` on <html>
+   drives everything; :where() keeps specificity at 0 so source order wins. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   EGRESS — semantic palette
+
+   :root is LIGHT. `.dark` overrides only the values that flip.
+
+   Every surface in the app is glass: a translucent fill over a blurred
+   backdrop, edged with a hairline and a top inner highlight. The map shows
+   through, always, because the map is the product. Three glass depths:
+
+     --glass        floating panels (rails, docks, legend)
+     --glass-deep   modals and popovers, needs more separation from the map
+     --glass-inset  rows and wells INSIDE a panel, reads as recessed
+
+   Hue discipline: the chrome is neutral with a cool bias. Color is reserved
+   for data — hazard (ember), plan (cyan), warn (amber). If a UI element is
+   colored, it is encoding state, not decorating.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+:root {
+  color-scheme: light;
+
+  /* canvas + ink */
+  --background: #eef0f2;
+  --foreground: #14161a;
+  --subtle: #4a4e56;
+  --faint: #6e737d;
+
+  /* glass surfaces */
+  --glass: rgba(22, 24, 30, 0.8);
+  --glass-deep: rgba(20, 22, 28, 0.94);
+  --glass-inset: rgba(16, 20, 28, 0.055);
+  --glass-hover: rgba(16, 20, 28, 0.075);
+  --glass-active: rgba(16, 20, 28, 0.1);
+  --glass-blur: 26px;
+  --glass-blur-deep: 44px;
+  /* Vibrancy: colour behind the pane gets richer, not merely blurred. This is
+     most of what separates Apple's glass from a translucent div. */
+  --glass-vibrancy: 180%;
+  --glass-vibrancy-deep: 200%;
+  /* Specular runs along the top edge only — light falls from above, so a ring
+     of highlight on all four sides reads as a glow instead of a surface. */
+  --specular: rgba(255, 255, 255, 0.14);
+  --specular-strong: rgba(255, 255, 255, 0.2);
+  --underside: rgba(0, 0, 0, 0.28);
+  --ring: rgba(255, 255, 255, 0.06);
+  --scrim: rgba(0, 0, 0, 0.4);
+  /* Ink ON GLASS. The pane is dark in both themes, so panel text cannot use
+     --foreground, which flips. These do not flip. */
+  --glass-ink: #f2f4f7;
+  --glass-ink-subtle: #b3b9c4;
+  --glass-ink-faint: #838b98;
+  --glass-hairline: rgba(255, 255, 255, 0.14);
+
+  /* solid fallbacks for anything that must not be translucent */
+  --surface: #ffffff;
+  --elevated: #e6e9ec;
+  --sunken: #e2e5e9;
+
+  /* edges — a glass panel needs a hairline AND a top highlight or it floats
+     without reading as a physical pane */
+  --hairline: rgba(16, 20, 28, 0.11);
+  --hairline-strong: rgba(16, 20, 28, 0.2);
+  --highlight: rgba(255, 255, 255, 0.9);
+
+  /* elevation */
+  --shadow-panel: 0 1px 2px rgba(10, 14, 20, 0.06), 0 12px 32px -12px rgba(10, 14, 20, 0.22);
+  --shadow-pop: 0 2px 6px rgba(10, 14, 20, 0.1), 0 28px 64px -20px rgba(10, 14, 20, 0.36);
+
+  /* data hues — hazard / plan / warn. Text variants are darkened to hold AA
+     on the light glass; fills keep the saturated hue. */
+  --hazard: #c84423;
+  --hazard-text: #a9361a;
+  --hazard-dim: rgba(200, 68, 35, 0.14);
+  --hazard-glow: rgba(200, 68, 35, 0.32);
+
+  --plan: #12707f;
+  --plan-text: #0d5c69;
+  --plan-dim: rgba(18, 112, 127, 0.14);
+  --plan-glow: rgba(18, 112, 127, 0.3);
+
+  --warn: #96690f;
+  --warn-text: #7d570b;
+  --warn-dim: rgba(150, 105, 15, 0.15);
+
+  --ok: #1f7a4d;
+  --ok-dim: rgba(31, 122, 77, 0.14);
+
+  /* zone status encoding — used identically on map and in lists */
+  --st-held: #6e737d;
+  --st-ordered: #96690f;
+  --st-flowing: #12707f;
+  --st-cleared: #1f7a4d;
+  --st-cutoff: #c84423;
+
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 18px;
+  --radius-2xl: 24px;
+
+  --font-sans: var(--font-inter), system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: var(--font-mono-jb), ui-monospace, "SF Mono", Menlo, monospace;
+}
+
+.dark {
+  color-scheme: dark;
+
+  --background: #07090c;
+  --foreground: #eef0f3;
+  --subtle: #a7adb8;
+  --faint: #737a86;
+
+  --glass: rgba(18, 21, 27, 0.82);
+  --glass-deep: rgba(15, 18, 24, 0.95);
+  --specular: rgba(255, 255, 255, 0.16);
+  --specular-strong: rgba(255, 255, 255, 0.24);
+  --underside: rgba(0, 0, 0, 0.34);
+  --ring: rgba(255, 255, 255, 0.07);
+  --scrim: rgba(0, 0, 0, 0.52);
+  /* Carries the whole recess now that .glass-inset has no outline, so it is a
+     shade stronger than it was when a hairline was doing half the work. */
+  --glass-inset: rgba(255, 255, 255, 0.058);
+  --glass-hover: rgba(255, 255, 255, 0.085);
+  --glass-active: rgba(255, 255, 255, 0.12);
+
+  --surface: #12161d;
+  --elevated: #1c222b;
+  --sunken: #0c0f14;
+
+  --hairline: rgba(255, 255, 255, 0.1);
+  --hairline-strong: rgba(255, 255, 255, 0.2);
+  --highlight: rgba(255, 255, 255, 0.14);
+
+  --shadow-panel: 0 1px 2px rgba(0, 0, 0, 0.5), 0 18px 44px -16px rgba(0, 0, 0, 0.72);
+  --shadow-pop: 0 2px 8px rgba(0, 0, 0, 0.6), 0 36px 80px -24px rgba(0, 0, 0, 0.86);
+
+  --hazard: #ef6a3f;
+  --hazard-text: #f5825d;
+  --hazard-dim: rgba(239, 106, 63, 0.16);
+  --hazard-glow: rgba(239, 106, 63, 0.4);
+
+  --plan: #4fc9dd;
+  --plan-text: #63d3e5;
+  --plan-dim: rgba(79, 201, 221, 0.15);
+  --plan-glow: rgba(79, 201, 221, 0.36);
+
+  --warn: #e0a944;
+  --warn-text: #ecb85b;
+  --warn-dim: rgba(224, 169, 68, 0.16);
+
+  --ok: #43c07f;
+  --ok-dim: rgba(67, 192, 127, 0.15);
+
+  --st-held: #737a86;
+  --st-ordered: #e0a944;
+  --st-flowing: #4fc9dd;
+  --st-cleared: #43c07f;
+  --st-cutoff: #ef6a3f;
+}
+
+/* Register the semantic tokens as Tailwind utilities. One set of classes
+   renders correctly in both themes — no dark: duplication anywhere. */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-subtle: var(--subtle);
+  --color-faint: var(--faint);
+
+  --color-glass: var(--glass);
+  --color-glass-deep: var(--glass-deep);
+  --color-glass-inset: var(--glass-inset);
+  --color-glass-hover: var(--glass-hover);
+  --color-glass-active: var(--glass-active);
+
+  --color-surface: var(--surface);
+  --color-elevated: var(--elevated);
+  --color-sunken: var(--sunken);
+
+  --color-hairline: var(--hairline);
+  --color-hairline-strong: var(--hairline-strong);
+  --color-highlight: var(--highlight);
+  --color-glass-ink: var(--glass-ink);
+  --color-glass-ink-subtle: var(--glass-ink-subtle);
+  --color-glass-ink-faint: var(--glass-ink-faint);
+  --color-glass-hairline: var(--glass-hairline);
+
+  --color-hazard: var(--hazard);
+  --color-hazard-text: var(--hazard-text);
+  --color-hazard-dim: var(--hazard-dim);
+  --color-plan: var(--plan);
+  --color-plan-text: var(--plan-text);
+  --color-plan-dim: var(--plan-dim);
+  --color-warn: var(--warn);
+  --color-warn-text: var(--warn-text);
+  --color-warn-dim: var(--warn-dim);
+  --color-ok: var(--ok);
+  --color-ok-dim: var(--ok-dim);
+
+  --color-st-held: var(--st-held);
+  --color-st-ordered: var(--st-ordered);
+  --color-st-flowing: var(--st-flowing);
+  --color-st-cleared: var(--st-cleared);
+  --color-st-cutoff: var(--st-cutoff);
+
+  --radius-xs: var(--radius-xs);
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+  --radius-xl: var(--radius-xl);
+  --radius-2xl: var(--radius-2xl);
+
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Base
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overscroll-behavior: none;
+}
+
+/* Every digit that sits in a column lines up. Applied broadly on purpose —
+   this is an instrument, and jittering numerals read as amateur. */
+.tabular,
+.font-mono,
+input[type="range"] + * {
+  font-variant-numeric: tabular-nums;
+}
+
+::selection {
+  background: var(--plan-glow);
+  color: var(--foreground);
+}
+
+:focus-visible {
+  outline: 2px solid var(--plan);
+  outline-offset: 2px;
+  border-radius: var(--radius-xs);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Glass primitives
+
+   Used as `class="glass"` etc. rather than long utility chains, because the
+   backdrop-filter + inset-highlight recipe is four properties that must stay
+   together and must not drift between panels.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Apple's glass reads the way it does because of four things stacked, not one
+   blur: a heavy blur with a saturation lift (vibrancy — colour behind the pane
+   gets richer, not just blurrier), a bright specular line along the TOP edge
+   only, a sub-pixel outer ring that separates the pane from whatever it floats
+   over, and a soft inner shade along the bottom so the pane reads as having
+   thickness. Drop any one and it goes back to looking like a translucent div. */
+.glass {
+  background: var(--glass);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-vibrancy)) contrast(104%);
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-vibrancy)) contrast(104%);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-lg);
+  box-shadow:
+    var(--shadow-panel),
+    inset 0 1px 0 var(--specular),
+    inset 0 -1px 0 var(--underside),
+    0 0 0 0.5px var(--ring);
+}
+
+.glass-deep {
+  background: var(--glass-deep);
+  -webkit-backdrop-filter: blur(var(--glass-blur-deep)) saturate(var(--glass-vibrancy-deep));
+  backdrop-filter: blur(var(--glass-blur-deep)) saturate(var(--glass-vibrancy-deep));
+  border: 1px solid var(--glass-hairline);
+  border-radius: 16px;
+  box-shadow:
+    0 20px 60px -12px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 var(--specular-strong);
+}
+
+/* Modal presentation: the sheet lifts in rather than popping, and the ground
+   behind it dims and blurs so the sheet is unambiguously the foreground. */
+.glass-scrim {
+  position: fixed;
+  inset: 0;
+  background: var(--scrim);
+  animation: scrim-in 180ms ease-out both;
+}
+
+@keyframes scrim-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.glass-deep.sheet {
+  animation: fade-up 240ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Recessed well inside a glass panel. No blur — it sits on an already-blurred
+   parent, and stacking backdrop filters costs frames for no visual gain.
+
+   NO BORDER, and a tighter radius than .glass. A well outlined like the panel
+   that contains it makes the two read as peers, which is how a dense console
+   ends up with forty things all shouting at the same volume. The recess is
+   carried by a ground shift instead: quieter, and it lets a list of rows read
+   as one list rather than as a stack of little cards. */
+.glass-inset {
+  background: var(--glass-inset);
+  border-radius: var(--radius-sm);
+}
+
+.glass-inset-hover {
+  transition: background 120ms ease;
+}
+.glass-inset-hover:hover {
+  background: var(--glass-hover);
+}
+
+/* Panels that must not wash out the map get a hard edge instead of a shadow. */
+.glass-rail {
+  background: var(--glass);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(150%);
+  backdrop-filter: blur(var(--glass-blur)) saturate(150%);
+  border: 1px solid var(--hairline);
+  box-shadow:
+    var(--shadow-panel),
+    inset 0 1px 0 var(--highlight);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Typographic roles
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Three roles, and the gaps between them are the point. A label that sits one
+   notch under its value is not a label, it is a second value — so the label
+   goes smaller, wider-tracked and dimmer than feels comfortable, and the
+   number it introduces gets the size and the weight. */
+.label-mono {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+
+/* Size is left to the call site on purpose — a font-size here would win over
+   every `text-[Npx]` utility next to it. What is fixed here is the tracking:
+   JetBrains Mono is wide, and a right-aligned column of numerals set at Inter's
+   default tracking sits visibly proud of the label column above it. */
+.readout {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.012em;
+}
+
+.panel-title {
+  font-size: 13.5px;
+  font-weight: 660;
+  letter-spacing: -0.012em;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Controls
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.seg {
+  display: flex;
+  padding: 2px;
+  gap: 2px;
+  background: var(--glass-inset);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-md);
+}
+.seg > button {
+  flex: 1;
+  padding: 5px 8px;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--faint);
+  background: transparent;
+  border: 0;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    background 120ms ease,
+    color 120ms ease;
+}
+.seg > button:hover:not([data-on="true"]) {
+  color: var(--subtle);
+  background: var(--glass-hover);
+}
+.seg > button[data-on="true"] {
+  background: var(--glass-active);
+  color: var(--foreground);
+  font-weight: 600;
+  box-shadow: inset 0 1px 0 var(--highlight);
+}
+
+/* Range input, restyled to the instrument look in both engines. */
+input[type="range"].rng {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 16px;
+  background: transparent;
+  cursor: pointer;
+  margin: 0;
+}
+input[type="range"].rng::-webkit-slider-runnable-track {
+  height: 3px;
+  border-radius: 2px;
+  background: linear-gradient(
+    to right,
+    var(--plan) 0%,
+    var(--plan) var(--pct, 50%),
+    var(--hairline-strong) var(--pct, 50%),
+    var(--hairline-strong) 100%
+  );
+}
+input[type="range"].rng::-moz-range-track {
+  height: 3px;
+  border-radius: 2px;
+  background: var(--hairline-strong);
+}
+input[type="range"].rng::-moz-range-progress {
+  height: 3px;
+  border-radius: 2px;
+  background: var(--plan);
+}
+input[type="range"].rng::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 12px;
+  height: 12px;
+  margin-top: -4.5px;
+  border-radius: 50%;
+  background: var(--surface);
+  border: 2px solid var(--plan);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+  transition: transform 100ms ease;
+}
+input[type="range"].rng::-webkit-slider-thumb:hover {
+  transform: scale(1.18);
+}
+input[type="range"].rng::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--surface);
+  border: 2px solid var(--plan);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+}
+
+/* Toggle switch */
+.sw {
+  position: relative;
+  width: 26px;
+  height: 14px;
+  flex: none;
+  border-radius: 999px;
+  background: var(--hairline-strong);
+  border: 0;
+  cursor: pointer;
+  padding: 0;
+  transition: background 140ms ease;
+}
+.sw::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--surface);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  transition: transform 140ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+.sw[data-on="true"] {
+  background: var(--plan);
+}
+.sw[data-on="true"]::after {
+  transform: translateX(12px);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   MapLibre overrides — strip the default chrome, we draw our own
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.maplibregl-ctrl-attrib {
+  background: var(--glass) !important;
+  backdrop-filter: blur(8px);
+  border-radius: var(--radius-sm) !important;
+  font-size: 9px !important;
+  color: var(--faint) !important;
+}
+.maplibregl-ctrl-attrib a {
+  color: var(--faint) !important;
+}
+.maplibregl-ctrl-logo {
+  display: none !important;
+}
+.maplibregl-canvas:focus {
+  outline: none;
+}
+
+/* Scrollbars inside glass panels — thin, neutral, no track. */
+.thin-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: var(--hairline-strong) transparent;
+}
+.thin-scroll::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.thin-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.thin-scroll::-webkit-scrollbar-thumb {
+  background: var(--hairline-strong);
+  border-radius: 3px;
+}
+.thin-scroll::-webkit-scrollbar-thumb:hover {
+  background: var(--faint);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Motion — every animation here is state feedback, not decoration
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@keyframes pulse-ring {
+  0% {
+    box-shadow: 0 0 0 0 var(--hazard-glow);
+  }
+  70% {
+    box-shadow: 0 0 0 8px transparent;
+  }
+  100% {
+    box-shadow: 0 0 0 0 transparent;
+  }
+}
+.pulse-critical {
+  animation: pulse-ring 1.9s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes sweep {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(220%);
+  }
+}
+.loading-sweep::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, var(--glass-hover), transparent);
+  animation: sweep 1.4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Liquid glass — light refractive surfaces for modals, over the dark deck
+
+   Black ink needs a light ground, so these panels invert the console's
+   contrast: frosted white over the dark instrument rather than another dark
+   pane. Everything below is scoped to .lg-surface / .lg-button so no existing
+   .glass depth is disturbed.
+
+   Consequence worth knowing before using a data colour in here: the hazard,
+   plan, warn and zone-status hues are tuned for a dark ground and go muddy on
+   a light one. The --lg-* hues below are the same encodings re-tuned for this
+   surface. Colour still only ever encodes data state.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+:root {
+  --lg-tint: rgba(246, 247, 250, 0.62);
+  --lg-blur: 32px;
+  --lg-vibrancy: 165%;
+  --lg-ink: #0b0d11;
+  --lg-ink-subtle: #3f454f;
+  --lg-ink-faint: #6a7280;
+  --lg-hairline: rgba(9, 11, 15, 0.1);
+
+  /* Data hues, re-tuned for a light ground. Same meanings, darker so they
+     hold contrast against the frost instead of glowing on it. */
+  --lg-hazard: #b8371a;
+  --lg-plan: #0d6f80;
+  --lg-warn: #8a5a06;
+  --lg-held: #4a515c;
+  --lg-ordered: #8a5a06;
+  --lg-flowing: #0d6f80;
+  --lg-cleared: #16704a;
+  --lg-cutoff: #b8371a;
+}
+
+.lg-surface {
+  background: var(--lg-tint);
+  -webkit-backdrop-filter: blur(var(--lg-blur)) saturate(var(--lg-vibrancy));
+  backdrop-filter: blur(var(--lg-blur)) saturate(var(--lg-vibrancy));
+  color: var(--lg-ink);
+  box-shadow:
+    0 24px 70px -18px rgba(0, 0, 0, 0.55),
+    0 2px 10px -4px rgba(0, 0, 0, 0.3);
+}
+
+/* The rim is what actually sells glass: a bright top edge, a dark underside,
+   and a hairline that is neither. Kept on its own element so the highlight
+   stays in register with whatever radius the surface is using. */
+.lg-rim {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.85),
+    inset 0 -1px 0 rgba(9, 11, 15, 0.16),
+    inset 1px 0 0 rgba(255, 255, 255, 0.4),
+    inset -1px 0 0 rgba(255, 255, 255, 0.4),
+    inset 0 0 0 0.5px var(--lg-hairline);
+}
+
+/* ── The whole point: RE-BIND, don't restyle ────────────────────────────────
+   Every utility in this codebase compiles to `color: var(--foreground)` and
+   friends, because @theme inline inlines the token rather than emitting a
+   palette class. So a panel does not need a single class changed to move onto
+   the light ground — it needs the tokens redefined at the subtree root, and
+   1,770 lines of existing JSX relight themselves.
+
+   The values are not invented. This project already ships a full light palette
+   at :root (the .dark block is what overrides it), so this block is largely
+   :root's own light values re-asserted, with the data hues swapped for the
+   --lg-* variants tuned for a frosted rather than a solid ground. */
+.lg-surface {
+  --foreground: var(--lg-ink);
+  --subtle: var(--lg-ink-subtle);
+  --faint: var(--lg-ink-faint);
+  --background: #f2f4f7;
+
+  /* Nested panels must stop painting their own pane. This is the exact bug
+     that made the first attempt at liquid glass look like a pale strip above a
+     dark panel: ReleaseSequence brings its own opaque .glass, and inside a
+     light wrapper that repaints the dark deck straight back in. */
+  --glass: transparent;
+  --glass-deep: transparent;
+  --glass-inset: rgba(9, 11, 15, 0.05);
+  --glass-hover: rgba(9, 11, 15, 0.06);
+  --glass-active: rgba(9, 11, 15, 0.09);
+
+  --surface: rgba(255, 255, 255, 0.55);
+  --elevated: rgba(255, 255, 255, 0.7);
+  --sunken: rgba(9, 11, 15, 0.05);
+
+  --hairline: var(--lg-hairline);
+  --hairline-strong: rgba(9, 11, 15, 0.2);
+  --highlight: rgba(255, 255, 255, 0.9);
+  --specular: rgba(255, 255, 255, 0.85);
+  --specular-strong: rgba(255, 255, 255, 0.9);
+  --underside: rgba(9, 11, 15, 0.14);
+  --ring: var(--lg-hairline);
+
+  /* These four are deliberately NOT flipped elsewhere in the sheet — they are
+     the ink that sits on a dark glass panel in either theme. On this surface
+     the panel is light, so here they do flip. */
+  --glass-ink: var(--lg-ink);
+  --glass-ink-subtle: var(--lg-ink-subtle);
+  --glass-ink-faint: var(--lg-ink-faint);
+  --glass-hairline: var(--lg-hairline);
+
+  /* Data hues. Same encodings, darker so they hold contrast on frost instead
+     of glowing on it. Colour still only ever carries data state. */
+  --hazard: var(--lg-hazard);
+  --hazard-text: var(--lg-hazard);
+  --hazard-dim: rgba(184, 55, 26, 0.12);
+  --hazard-glow: rgba(184, 55, 26, 0.22);
+  --plan: var(--lg-plan);
+  --plan-text: var(--lg-plan);
+  --plan-dim: rgba(13, 111, 128, 0.12);
+  --plan-glow: rgba(13, 111, 128, 0.22);
+  --warn: var(--lg-warn);
+  --warn-text: var(--lg-warn);
+  --warn-dim: rgba(138, 90, 6, 0.13);
+  --ok: var(--lg-cleared);
+  --ok-dim: rgba(22, 112, 74, 0.12);
+
+  --st-held: var(--lg-held);
+  --st-ordered: var(--lg-ordered);
+  --st-flowing: var(--lg-flowing);
+  --st-cleared: var(--lg-cleared);
+  --st-cutoff: var(--lg-cutoff);
+}
+
+/* Token re-binding alone cannot reach these three: their blur, shadow and
+   border are literals, not tokens, so a nested panel would still stack a
+   second backdrop-filter over an already-frosted parent (costly, and it reads
+   as smeared) and drop a dark drop-shadow inside a light sheet. */
+.lg-surface .glass,
+.lg-surface .glass-deep,
+.lg-surface .glass-rail {
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  box-shadow: none;
+  border-color: var(--lg-hairline);
+}
+
+/* A sheet that IS the liquid surface rather than sitting inside one. Carrying
+   both classes is how an existing .glass-deep modal moves onto the light ground
+   without being restructured around <LiquidGlass>; the rim then has to come
+   from the element itself, since there is no separate .lg-rim child to hang it
+   on. Both classes have the same specificity, so this block must stay AFTER
+   .glass-deep in the sheet — that ordering is what makes it win. */
+.glass-deep.lg-surface {
+  box-shadow:
+    0 24px 70px -18px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.85),
+    inset 0 -1px 0 rgba(9, 11, 15, 0.16),
+    inset 0 0 0 0.5px var(--lg-hairline);
+}
+
+/* A panel that fills the wrapper shares its edge, so its border would sit
+   directly under .lg-rim at the same radius and read as a double stroke.
+   Deeper nesting keeps its hairline — there the edge is doing real work. */
+.lg-surface > .glass,
+.lg-surface > .glass-deep,
+.lg-surface > * > .glass,
+.lg-surface > * > .glass-deep {
+  border-color: transparent;
+}
+
+/* Recessed rows inside a light surface go DARKER, not lighter — the opposite
+   of .glass-inset on the dark deck, because depth reads as shadow either way.
+   Kept as an explicit class for panels that want a well without .glass-inset's
+   other behaviour. */
+.lg-surface .lg-inset {
+  background: rgba(9, 11, 15, 0.05);
+  box-shadow: inset 0 1px 0 rgba(9, 11, 15, 0.06);
+  border-radius: 8px;
+}
+
+/* Form controls carry their own literal grounds for the dark deck. */
+.lg-surface input,
+.lg-surface textarea,
+.lg-surface select {
+  color: var(--lg-ink);
+  background: rgba(255, 255, 255, 0.55);
+  border-color: var(--lg-hairline);
+}
+.lg-surface ::placeholder {
+  color: var(--lg-ink-faint);
+}
+
+.lg-button {
+  background: rgba(255, 255, 255, 0.5);
+  -webkit-backdrop-filter: blur(14px) saturate(150%);
+  backdrop-filter: blur(14px) saturate(150%);
+  color: var(--lg-ink);
+}
+
+.lg-button-primary {
+  background: rgba(9, 11, 15, 0.88);
+  color: #f4f6f9;
+}
+
+.lg-button-quiet {
+  background: transparent;
+  color: var(--lg-ink-subtle);
+}
+.lg-button-quiet:hover {
+  background: rgba(9, 11, 15, 0.05);
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .lg-surface {
+    background: #f2f4f7;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+}
