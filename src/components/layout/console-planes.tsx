@@ -53,9 +53,16 @@ import { selLoading, selScenarioId, selSelection, useEgress } from "@/lib/store"
  * which is what keeps the shell's adoption of it down to a single element.
  */
 
-/** The axis switch, in CSS terms. Authored here because the elements that
- *  animate are authored here too. */
-const FOLD_EASE = "cubic-bezier(0.22, 1, 0.36, 1)";
+/**
+ * THE SHEETS DO NOT ANIMATE THEIR WIDTH, and the reason is measured, not
+ * stylistic. They carried `transition-[width] duration-[180ms]`, and a keyboard
+ * step from 480 to 1152 read 480 at 1.2s and 1152 at 2.7s: `width` is not a
+ * compositable property, so every frame of that ease relayouts the map beside
+ * it, and the "180ms" ease ran an order of magnitude over budget. Under a drag
+ * it is worse than slow -- each pointermove sets a new target and restarts an
+ * ease that never finishes, so the sheet trails the pointer instead of tracking
+ * it. The axis switch and the drag both snap now.
+ */
 
 /**
  * The panel column in PANEL VIEW.
@@ -152,20 +159,48 @@ export function ConsolePlanes() {
   const clampRight = (n: number) =>
     Math.min(Math.max(n, RIGHT_MIN), Math.max(RIGHT_MIN, (winW || 1920) * MAX_SHARE));
 
+  /**
+   * ONE function resolves a resting width, and both the sheet's style and the
+   * handle's announced value read it.
+   *
+   * They used to be computed separately, and disagreed: the style applied the
+   * CSS clamp -- floor 640 in panel view, 496 in map view -- while the handle
+   * announced a raw 50vw with no floor at all, so a 1000px window put the sheet
+   * at its 640 floor and told a screen reader it was 500. aria-valuenow on a
+   * separator IS the control's value to anyone not looking at it.
+   *
+   * Zero is the pre-measure state, where the CSS clamp is still the right
+   * answer: it is correct at every window size without JavaScript and it is
+   * what the server emitted, so the first paint matches. The swap to px lands
+   * on the same measured value and nothing moves.
+   */
+  const restingLeft = (w: number) =>
+    mapView ? Math.min(940, Math.max(496, w * 0.46)) : Math.min(1120, Math.max(640, w * 0.5));
+  const restingRight = (w: number) => Math.min(336, Math.max(264, w * 0.18));
+
   const leftWidth =
-    dragLeft !== null ? `${clampLeft(dragLeft)}px` : mapView ? MAP_LEFT_WIDTH : PANEL_WIDTH;
+    dragLeft !== null
+      ? `${clampLeft(dragLeft)}px`
+      : winW
+        ? `${Math.round(restingLeft(winW))}px`
+        : mapView
+          ? MAP_LEFT_WIDTH
+          : PANEL_WIDTH;
   const rightWidth = !mapView
     ? "0px"
     : dragRight !== null
       ? `${clampRight(dragRight)}px`
-      : MAP_RIGHT_WIDTH;
+      : winW
+        ? `${Math.round(restingRight(winW))}px`
+        : MAP_RIGHT_WIDTH;
 
-  /* Resolved px for the handles' aria-valuenow and drag origin. The elements
-     themselves are the truth once mounted; this is the pre-measure fallback. */
-  const leftPx =
-    dragLeft !== null ? clampLeft(dragLeft) : Math.round((winW || 1920) * (mapView ? 0.46 : 0.5));
+  /* Resolved px for the handles' aria-valuenow and drag origin. Same resting
+     functions as the style above, so the number the handle announces and the
+     number the sheet renders cannot drift -- this previously read a raw 50vw
+     with no clamp, and announced 320 for a sheet sitting at its 640 floor. */
+  const leftPx = dragLeft !== null ? clampLeft(dragLeft) : Math.round(restingLeft(winW || 1920));
   const rightPx =
-    dragRight !== null ? clampRight(dragRight) : Math.min(336, Math.round((winW || 1920) * 0.18));
+    dragRight !== null ? clampRight(dragRight) : Math.round(restingRight(winW || 1920));
 
   /**
    * Follow a NEW selection onto the pane that can render it — PANEL VIEW ONLY.
@@ -253,8 +288,8 @@ export function ConsolePlanes() {
           effect to keep the console free of a horizontal scrollbar is a trap
           for whoever removes it. */}
       <div
-        className="plane-seam glass-thin plane-sheet relative z-10 flex min-h-0 min-w-0 flex-none flex-col overflow-hidden transition-[width] duration-[180ms]"
-        style={{ width: leftWidth, transitionTimingFunction: FOLD_EASE }}
+        className="plane-seam glass-thin plane-sheet relative z-10 flex min-h-0 min-w-0 flex-none flex-col overflow-hidden"
+        style={{ width: leftWidth }}
       >
         <PanelPlane />
         <ResizeHandle
@@ -275,14 +310,12 @@ export function ConsolePlanes() {
       <div className="pointer-events-none relative z-10 min-w-0 flex-1" aria-hidden />
 
       {/* Zero width in panel view rather than unmounted, so the inspector's own
-          selection bus and tab routing keep running across the axis and the
-          sheet slides rather than appears. `inert` because a 0px column still
+          selection bus and tab routing keep running across the axis. `inert` because a 0px column still
           holds focusable controls: without it Tab walks the whole tab strip at
-          x=-264 before reaching anything on screen, and unlike display:none it
-          does not kill the width transition. */}
+          x=-264 before reaching anything on screen. */}
       <div
-        className="plane-seam-right glass-thin plane-sheet relative z-10 flex min-h-0 min-w-0 flex-none flex-col overflow-hidden transition-[width] duration-[180ms]"
-        style={{ width: rightWidth, transitionTimingFunction: FOLD_EASE }}
+        className="plane-seam-right glass-thin plane-sheet relative z-10 flex min-h-0 min-w-0 flex-none flex-col overflow-hidden"
+        style={{ width: rightWidth }}
         inert={!mapView}
         aria-hidden={!mapView}
       >

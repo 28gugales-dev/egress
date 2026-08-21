@@ -137,9 +137,13 @@
   container-type: inline-size;
 }
 
+/* The fold SNAPS, it does not animate. A width transition here looked like the
+   obvious polish and is wrong twice over: the rail is resized by a drag, so a
+   160ms ease makes it trail the pointer and settle after the operator has
+   already moved on, and every frame of that ease relayouts the release table
+   beside it. The threshold is a discrete state, not a motion. */
 .work-rail {
   width: 40px;
-  transition: width 160ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 /* 2px of border plus 11px of padding a side leaves 16px of content box for a
