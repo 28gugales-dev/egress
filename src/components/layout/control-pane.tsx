@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo } from "react";
+import { CoverageSection } from "@/components/layout/coverage-section";
 import { AssumptionsSection } from "@/components/rail/assumptions-section";
 import { FiltersSection } from "@/components/rail/filters-section";
 import { LeversSection } from "@/components/rail/levers-section";
@@ -158,6 +159,12 @@ export function ControlPane() {
         </Block>
         <Block>
           <FiltersSection />
+        </Block>
+        {/* Last, and deliberately: it describes what the map can draw, not what
+            the operator can change, so it belongs after every control rather
+            than competing with one. */}
+        <Block>
+          <CoverageSection />
         </Block>
       </div>
 
