@@ -5,10 +5,10 @@ import { useCallback, useSyncExternalStore } from "react";
 /**
  * Layout state, kept in its own external store beside lib/store.ts.
  *
- * Not React context, for store.ts's own stated reason and one more: collapsing
- * the panel plane or switching a work pane would otherwise re-render every
- * consumer of the console — including the deck.gl layer stack, which is the
- * most expensive tree in the app and cares about none of this.
+ * Not React context, for store.ts's own stated reason and one more: switching a
+ * work pane or opening a map popover would otherwise re-render every consumer
+ * of the console — including the deck.gl layer stack, which is the most
+ * expensive tree in the app and cares about none of this.
  *
  * Separate from EgressState rather than merged into it because store.ts is
  * owned by another workflow this session; a sibling store adds layout state
@@ -18,21 +18,49 @@ import { useCallback, useSyncExternalStore } from "react";
 
 export interface LayoutState {
   /**
-   * Layout axis: is the panel column on screen. Never call this "split" — the
-   * word belongs to baseline-vs-planned comparison and nothing else.
+   * Which LAYOUT the console is in, and the only field that answers it.
    *
-   * ONE field for both layouts, wide and narrow. There used to be a second,
-   * `stacked`, for which plane won below 1280 — and the two could disagree, so
-   * the backslash key flipped `plane` while narrow and appeared to do nothing.
-   * A hidden panel whose only restore control lives inside the hidden panel is
-   * a one-way door; two fields that can disagree about whether it is hidden is
-   * how that door got built.
+   * "both"  the panel column down the left with the map beside it, framed by
+   *         its own control strips. The default, and the working layout.
+   * "map"   the two-column design: a full-bleed map with one modal down each
+   *         side and nothing else over the geography.
+   *
+   * ONE FIELD, and that is not negotiable. There used to be a second — a
+   * `stacked` flag for which plane won below 1280 — and the two could disagree,
+   * so the key that switched layouts flipped this one while the other still
+   * said the panel was hidden, and the only control that could bring it back
+   * was inside the thing it had hidden. A one-way door built out of two
+   * booleans describing the same thing. Per-modal collapse flags on top of this
+   * field would rebuild exactly that door, which is why the fold affordance IS
+   * this axis: the Panel|Map segment in the SITUATION band, mounted in the
+   * column that is on screen in both states.
    */
   plane: "both" | "map";
+  /**
+   * INSPECT is in this union but not always on screen. In map view the
+   * inspector is a permanent modal down the right of the window, so a work pane
+   * mounting a second copy of it would put the same dock on screen twice —
+   * WorkBand drops the tab there and coerces a stale value rather than storing
+   * a second, plane-dependent field that could disagree with this one.
+   */
   workPane: "sequence" | "inspect" | "control";
   argument: "full" | "strip";
-  /** Map bezel popover. Only one is ever open. */
+  /** Map popover. Only one is ever open. */
   bezelPopover: "none" | "layers" | "legend";
+  /**
+   * Operator-dragged sheet widths, in px. Null means "use the layout's own
+   * clamp" — an explicit number only appears once someone has actually dragged,
+   * so the responsive default keeps working at every window size until they
+   * override it, and a narrow window does not inherit a width chosen on a wide
+   * one.
+   *
+   * Session-only, like everything else here. See the note above on
+   * getServerSnapshot: a width restored from storage would render server-side
+   * as the default and client-side as the stored value, which is a hydration
+   * mismatch on the largest element in the tree.
+   */
+  leftWidth: number | null;
+  rightWidth: number | null;
 }
 
 export const INITIAL_LAYOUT: LayoutState = {
@@ -40,6 +68,8 @@ export const INITIAL_LAYOUT: LayoutState = {
   workPane: "sequence",
   argument: "full",
   bezelPopover: "none",
+  leftWidth: null,
+  rightWidth: null,
 };
 
 type Listener = () => void;
@@ -98,10 +128,13 @@ export const layoutActions = {
   togglePlane() {
     setLayout({ plane: state.plane === "both" ? "map" : "both" });
   },
-  /** The one way back. Called by the map bezel's restore control, which is the
-   *  affordance that exists OUTSIDE the thing it un-hides. */
-  showPanel() {
-    setLayout({ plane: "both" });
+  /** Px, already clamped by the caller — the clamp needs the window width and
+   *  the sibling sheet's width, neither of which the store knows. */
+  setLeftWidth(leftWidth: number | null) {
+    setLayout({ leftWidth });
+  },
+  setRightWidth(rightWidth: number | null) {
+    setLayout({ rightWidth });
   },
   setWorkPane(workPane: LayoutState["workPane"]) {
     setLayout({ workPane });
@@ -123,6 +156,8 @@ export const layoutActions = {
 // ─────────────────────────────────────────────────────────────────────────────
 
 export const selPlane = (s: LayoutState) => s.plane;
+export const selLeftWidth = (s: LayoutState) => s.leftWidth;
+export const selRightWidth = (s: LayoutState) => s.rightWidth;
 export const selWorkPane = (s: LayoutState) => s.workPane;
 export const selArgument = (s: LayoutState) => s.argument;
 export const selBezelPopover = (s: LayoutState) => s.bezelPopover;

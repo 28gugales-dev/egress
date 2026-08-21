@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowLeftRight, DoorClosed, Download, Radio } from "lucide-react";
+import { ArrowLeftRight, ChevronDown, ChevronUp, DoorClosed, Download, Radio } from "lucide-react";
 import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { LiquidButton } from "@/components/ui/liquid-glass";
 import { useBundle } from "@/lib/bundle-context";
@@ -79,8 +79,19 @@ const TIER_MIN: { tier: RsTier; needs: number }[] = [
   { tier: "mid", needs: 506 },
 ];
 
-/** Zone ids printed inline before the row switches to a "+N" summary. */
-const ZONE_CHIPS: Record<RsTier, number> = { full: 4, mid: 3, tight: 1 };
+/**
+ * Zone ids printed inline before the row switches to a "+N" summary.
+ *
+ * ONE, at every tier, and the number is arithmetic rather than taste. The other
+ * eight columns claim 668px of the widest tier's 859px scroller, which leaves
+ * ZONES about 167px of content box: a count, one 11-character id chip and a
+ * "+N" is 134px of that and a second chip is 85px more. The chips used to wrap
+ * instead, which kept the table inside its scroller by making wave 0 a 150px
+ * row of stacked ids — four waves then needed more vertical space than the pane
+ * has, so the thing that pins clearance sat below the fold. The count leads,
+ * the "+N" carries the full list in its tooltip, and the CSV carries every id.
+ */
+const ZONE_CHIPS = 1;
 
 /** Columns rendered, by tier. The rationale row's colSpan reads off this, so
  *  the two can never disagree. */
@@ -169,6 +180,11 @@ export function ReleaseSequence({ className }: ReleaseSequenceProps) {
   const view = useEgress(selView);
   const [selectedWave, setSelectedWave] = useState<number | null>(null);
   const [composerWave, setComposerWave] = useState<ReleaseWave | null>(null);
+  /* The binding wave's rationale, open or clamped. Local rather than in the
+     layout store for the same reason the argument band's narrative is: it is
+     read-once prose inside one pane, and nothing outside this table needs to
+     know whether the operator has finished reading it. */
+  const [rationaleOpen, setRationaleOpen] = useState(false);
 
   /* The scroller measures itself. Switching tier makes the table narrower and
      never the scroller, so there is no width at which this oscillates.
@@ -205,8 +221,6 @@ export function ReleaseSequence({ className }: ReleaseSequenceProps) {
     for (const z of bundle?.zones.zones ?? []) m.set(z.id, z);
     return m;
   }, [bundle]);
-
-  const chipCount = ZONE_CHIPS[tier];
 
   /* Same run the table is describing. Reading margins off the planned run
      while showing the baseline's plan would print a counterfactual's clearance
@@ -357,21 +371,12 @@ export function ReleaseSequence({ className }: ReleaseSequenceProps) {
 
   return (
     <div className={cx("glass flex min-h-0 flex-col overflow-hidden", className)}>
-      {/* header */}
-      <div className="flex items-center gap-3 border-b border-hairline px-4 py-3">
-        <div className="min-w-0 flex-1">
-          <div className="label-mono">Actuating artifact</div>
-          <div className="panel-title">Zone release sequence</div>
-        </div>
-        <div className="text-right">
-          <div className="label-mono">Waves</div>
-          <div className="readout text-[13px] text-foreground">{waves.length}</div>
-        </div>
-        <div className="text-right">
-          <div className="label-mono">Rev</div>
-          <div className="readout text-[13px] text-foreground">{plan.revision}</div>
-        </div>
-      </div>
+      {/* No title row. The work band's own tab reads SEQUENCE and its
+          contextual readout on the same strip already names the binding wave,
+          its load and its margin — so a two-line "Actuating artifact / Zone
+          release sequence" header made an operator read three headers before
+          reaching the first number. The plan stamp it also carried (revision
+          and wave count) moved to the footer, beside the exports it stamps. */}
 
       {/* table */}
       <div ref={scrollerRef} className="thin-scroll min-h-0 flex-1 overflow-auto">
@@ -444,15 +449,16 @@ export function ReleaseSequence({ className }: ReleaseSequenceProps) {
                       </span>
                     </Td>
                     <Td>
-                      {/* Capped. Wave 0 names 28 zones; printed in full they
-                          made one row 600px tall and pushed the other three
-                          waves off the pane. The count leads, the CSV carries
-                          every id, and the title has the rest. */}
-                      <div className="flex flex-wrap items-baseline gap-1">
-                        <span className="readout mr-0.5 text-[10.5px] text-subtle">
+                      {/* One line, always. See ZONE_CHIPS: this cell used to
+                          wrap, which is what made a row as tall as the pane. */}
+                      <div className="flex items-baseline gap-1.5">
+                        <span
+                          className="readout text-[10.5px] text-subtle"
+                          title={w.zoneIds.join(", ")}
+                        >
                           {w.zoneIds.length}
                         </span>
-                        {w.zoneIds.slice(0, chipCount).map((id) => (
+                        {w.zoneIds.slice(0, ZONE_CHIPS).map((id) => (
                           <span
                             key={id}
                             className="readout whitespace-nowrap rounded-xs bg-glass-inset px-1.5 py-0.5 text-[10.5px] text-foreground"
@@ -460,12 +466,12 @@ export function ReleaseSequence({ className }: ReleaseSequenceProps) {
                             {id}
                           </span>
                         ))}
-                        {w.zoneIds.length > chipCount ? (
+                        {w.zoneIds.length > ZONE_CHIPS ? (
                           <span
                             className="readout text-[10.5px] text-faint"
-                            title={w.zoneIds.slice(chipCount).join(", ")}
+                            title={w.zoneIds.slice(ZONE_CHIPS).join(", ")}
                           >
-                            +{w.zoneIds.length - chipCount}
+                            +{w.zoneIds.length - ZONE_CHIPS}
                           </span>
                         ) : null}
                       </div>
@@ -536,19 +542,48 @@ export function ReleaseSequence({ className }: ReleaseSequenceProps) {
                       </span>
                     </Td>
                   </tr>
+                  {/* Why this wave pins clearance — two lines by default, the
+                      rest on demand. The heading it used to carry ("Binding
+                      wave — this is what pins clearance") said in a third
+                      register what the tab strip's readout and this row's own
+                      warn chip already say, in the middle of a table meant to
+                      be scanned. The italic and the quotation marks went with
+                      it: the rationale is solver output, not a quotation, and
+                      italic at 11.5px reads as decoration rather than emphasis.
+                      Nothing is dropped — the clamp is a disclosure and the
+                      full text is also a column of the CSV. */}
                   {isBinding && w.rationale && (
                     <tr className="border-b border-hairline bg-warn-dim">
                       <td colSpan={COLUMN_COUNT[tier]} className="px-3 pb-2.5 pt-0">
-                        <div className="flex gap-2 border-l-2 border-warn pl-2.5">
-                          <div className="min-w-0">
-                            <div className="label-mono !text-warn">
-                              Binding wave — this is what pins clearance
-                            </div>
-                            <div className="mt-0.5 text-[11.5px] italic leading-snug text-subtle">
-                              “{w.rationale}”
-                            </div>
-                          </div>
-                        </div>
+                        <button
+                          type="button"
+                          onClick={() => setRationaleOpen((v) => !v)}
+                          aria-expanded={rationaleOpen}
+                          title={`Why wave ${w.wave} pins clearance`}
+                          className="flex w-full cursor-pointer items-start gap-2 border-l-2 border-warn pl-2.5 text-left"
+                        >
+                          <span
+                            className={cx(
+                              "min-w-0 flex-1 text-[11.5px] leading-snug text-subtle",
+                              !rationaleOpen && "line-clamp-2",
+                            )}
+                          >
+                            {w.rationale}
+                          </span>
+                          {rationaleOpen ? (
+                            <ChevronUp
+                              size={12}
+                              strokeWidth={1.75}
+                              className="mt-0.5 shrink-0 text-faint"
+                            />
+                          ) : (
+                            <ChevronDown
+                              size={12}
+                              strokeWidth={1.75}
+                              className="mt-0.5 shrink-0 text-faint"
+                            />
+                          )}
+                        </button>
                       </td>
                     </tr>
                   )}
@@ -559,33 +594,69 @@ export function ReleaseSequence({ className }: ReleaseSequenceProps) {
         </table>
       </div>
 
-      {/* actions */}
-      <div className="flex flex-wrap items-center gap-2 border-t border-hairline px-4 py-3">
-        <Action
-          onClick={exportWaves}
-          icon={<Download size={13} strokeWidth={1.75} />}
-          label="Export CSV"
-        />
-        <Action
-          onClick={() => setComposerWave(activeWave)}
-          disabled={!activeWave}
-          icon={<Radio size={13} strokeWidth={1.75} />}
-          label={
-            activeWave ? `Generate CAP messages — wave ${activeWave.wave}` : "Generate CAP messages"
-          }
-          primary
-        />
-        <Action
-          onClick={exportContraflow}
-          disabled={plan.contraflow.length === 0}
-          icon={<ArrowLeftRight size={13} strokeWidth={1.75} />}
-          label={`Contraflow work orders (${plan.contraflow.length})`}
-        />
-        <Action
-          onClick={exportDoorKnock}
-          icon={<DoorClosed size={13} strokeWidth={1.75} />}
-          label={`Door-knock list (${formatCount(doorKnockCount)})`}
-        />
+      {/* Actions — TWO ROWS AT EVERY WIDTH, and that is the whole fix.
+          `flex-wrap` gave four pills of four different lengths a ragged two
+          rows at 883px and four ragged rows at 440, and it put the one action
+          that leaves the console shoulder to shoulder with three that write a
+          file. Row one is the plan stamp and the single primary; row two is an
+          even three-column grid of exports, so the hierarchy is positional and
+          survives every width instead of being re-negotiated at each one.
+          Icons drop at the tight tier, where a cell is 124px and the longest
+          export label needs 138 with one. */}
+      <div
+        data-actions-row
+        className="flex flex-none flex-col gap-2 border-t border-hairline px-4 py-2.5"
+      >
+        <div className="flex min-w-0 items-center gap-3">
+          {/* The revision the exports below carry into a work order, and how
+              many waves this table has. Both were in the deleted header. */}
+          <span className="flex min-w-0 items-baseline gap-1.5">
+            <span className="label-mono">Rev</span>
+            <span className="readout text-[11px] text-foreground">{plan.revision}</span>
+            <span className="text-[10px] text-faint">·</span>
+            <span className="readout text-[11px] text-foreground">{waves.length}</span>
+            <span className="label-mono">waves</span>
+          </span>
+          <div className="ml-auto min-w-0">
+            <Action
+              onClick={() => setComposerWave(activeWave)}
+              disabled={!activeWave}
+              icon={<Radio size={13} strokeWidth={1.75} />}
+              label={tier === "tight" ? "Generate CAP" : "Generate CAP messages"}
+              count={activeWave ? `wave ${activeWave.wave}` : undefined}
+              title={
+                activeWave
+                  ? `Generate CAP messages — wave ${activeWave.wave}`
+                  : "Generate CAP messages"
+              }
+              primary
+            />
+          </div>
+        </div>
+
+        <div className="grid grid-cols-3 gap-2">
+          <Action
+            onClick={exportWaves}
+            icon={tier === "tight" ? null : <Download size={13} strokeWidth={1.75} />}
+            label="Sequence CSV"
+            title="Export every wave as CSV — all zone ids, both margins, the stranded zones and the rationale"
+          />
+          <Action
+            onClick={exportContraflow}
+            disabled={plan.contraflow.length === 0}
+            icon={tier === "tight" ? null : <ArrowLeftRight size={13} strokeWidth={1.75} />}
+            label="Contraflow"
+            count={formatCount(plan.contraflow.length)}
+            title={`Contraflow work orders (${plan.contraflow.length}) — segments, activate and release times, capacity before and after`}
+          />
+          <Action
+            onClick={exportDoorKnock}
+            icon={tier === "tight" ? null : <DoorClosed size={13} strokeWidth={1.75} />}
+            label="Door-knock"
+            count={formatCount(doorKnockCount)}
+            title={`Door-knock list (${formatCount(doorKnockCount)} households with no vehicle) — zone, coordinates, depart time and hazard ETA`}
+          />
+        </div>
       </div>
 
       {composerWave && <AlertComposer wave={composerWave} onClose={() => setComposerWave(null)} />}
@@ -623,12 +694,21 @@ function Action({
   onClick,
   icon,
   label,
+  count,
+  title,
   disabled,
   primary,
 }: {
   onClick: () => void;
   icon: React.ReactNode;
   label: string;
+  /** The figure the export carries — a wave number, a corridor count, a
+   *  household count. Split out of the label so it can take `.readout` and so
+   *  the label is the part that truncates. */
+  count?: string;
+  /** Always the long form. The visible label sheds words at the tight tier and
+   *  truncates below that; the tooltip is where the full sentence lives. */
+  title?: string;
   disabled?: boolean;
   primary?: boolean;
 }) {
@@ -645,13 +725,15 @@ function Action({
     <LiquidButton
       onClick={onClick}
       disabled={disabled}
+      title={title}
       radius="md"
       tone={primary ? "primary" : "default"}
       ground="dark"
-      className="px-2.5 py-1.5 text-[11.5px]"
+      className="w-full min-w-0 px-2.5 py-1.5 text-[11.5px]"
     >
       {icon}
-      {label}
+      <span className="min-w-0 truncate">{label}</span>
+      {count ? <span className="readout shrink-0 text-[10.5px] opacity-70">{count}</span> : null}
     </LiquidButton>
   );
 }

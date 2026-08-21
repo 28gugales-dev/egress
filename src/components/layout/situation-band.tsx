@@ -55,15 +55,18 @@ function runForView(
  * Measured, not guessed, and the thresholds live in panel-plane.tsx. The full
  * tier's cells need 778px before the scenario chip gets a pixel, so a single
  * step at 780 put the band in FULL from 780 upwards: at a 1600 window it
- * overflowed by 25px — clipping the Panel|Map segment, the same failure that
- * made the Map button an 8px invisible sliver at 480 — and at 1920 it squeezed
+ * overflowed by 25px — clipping the Panel|Map segment — and at 1920 it squeezed
  * the chip to 151px and rendered the scenario as "Cam…". The band's rule is
  * that the label truncates before a number does. It is not that the label is
  * annihilated so a seat count can stay.
+ *
+ * The same four steps serve both layouts. Map view gives this band a narrower
+ * column than panel view does, and it lands a tier or two lower there —
+ * which is the ladder doing its job, not a second ladder being needed.
  */
 export type SituationTier = "full" | "mid" | "compact" | "tiny";
 
-/** The key that toggles the panel column. Written once so the two tooltips and
+/** The key that toggles the layout axis. Written once so the two tooltips and
  *  the handler in console-planes.tsx cannot drift apart. */
 const PLANE_KEY = "\\";
 
@@ -105,9 +108,9 @@ export function SituationBand({ tier = "mid" }: { tier?: SituationTier }) {
   const cleared = frame?.peopleCleared ?? null;
   const late = dispatch.late.length;
 
-  /* One control, one state, every width. Below 1280 the panel stacks over the
-     map instead of sitting beside it, but "is the panel on screen" is the same
-     question and the same store field either way — see layout-store.ts. */
+  /* One control, one state, one field. This is the console's layout axis and
+     the only affordance that crosses it, which is why it lives in the band that
+     is mounted in BOTH views. */
   const paneOn = plane === "both";
 
   return (
@@ -213,12 +216,14 @@ export function SituationBand({ tier = "mid" }: { tier?: SituationTier }) {
       <div className={cx("flex flex-none items-center", tiny ? "pl-1.5" : "pl-3")}>
         <div className="seg bezel-seg">
           {/* The key binding is named here because this is the only place an
-              operator can read it BEFORE they need it. The map bezel carries
-              the way back; this carries the way out. */}
+              operator can read it BEFORE they need it — and this band is in the
+              column that stays on screen in both layouts, so the way out and
+              the way back are the same two buttons rather than two controls in
+              two places that can drift. */}
           <button
             type="button"
             data-on={paneOn}
-            title={`Show the panel — key ${PLANE_KEY}`}
+            title={`Panel view — key ${PLANE_KEY}`}
             onClick={() => layoutActions.setPlane("both")}
           >
             Panel
@@ -226,7 +231,7 @@ export function SituationBand({ tier = "mid" }: { tier?: SituationTier }) {
           <button
             type="button"
             data-on={!paneOn}
-            title={`Map only — key ${PLANE_KEY}. The map bezel keeps a Panel control to come back.`}
+            title={`Map view: full-bleed map, one modal a side — key ${PLANE_KEY}`}
             onClick={() => layoutActions.setPlane("map")}
           >
             Map

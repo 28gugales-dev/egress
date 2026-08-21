@@ -3,26 +3,43 @@
 import { useEffect, useRef, useState } from "react";
 import { IncidentFeed } from "@/components/feed/incident-feed";
 import { ArgumentBand } from "@/components/layout/argument-band";
+import { MapControlRow, MapKeyRow } from "@/components/layout/map-controls";
 import { SituationBand, type SituationTier } from "@/components/layout/situation-band";
 import { WorkBand } from "@/components/layout/work-band";
 import { Scrubber } from "@/components/timeline/scrubber";
+import { cx } from "@/lib/format";
+import { selPlane, useLayout } from "@/lib/layout-store";
 
 /**
- * The panel plane: four bands, three hairlines, ONE scroller.
+ * The panel column: four bands, three hairlines, ONE scroller — and two more
+ * registers in map view.
  *
- * Bands 1, 2 and 4 never scroll and never move. Band 3 is the only region whose
- * content is unbounded, so it is the only one that scrolls. That is what makes
- * this an instrument rather than a page — the operator learns where a band is,
- * and the band never shifts under their hand.
+ * Every band except the work band is fixed-height and never moves. The work
+ * band is the only region whose content is unbounded, so it is the only one
+ * that scrolls. That is what makes this an instrument rather than a page — the
+ * operator learns where a band is, and the band never shifts under their hand.
  *
- * Bands are divided by a 1px rule and nothing else. No gaps: a gap turns four
- * registers of one face into four cards.
+ * Bands are divided by a 1px rule and nothing else. No gaps: a gap turns
+ * registers of one face into a stack of cards.
+ *
+ * WHAT THE PLANE CHANGES HERE, and nothing else does:
+ *
+ *   panel view  the column as it has always been. The map keeps its own frame
+ *               — a control strip above the geography and a key strip below it
+ *               — so this column carries no map chrome, and the incident feed
+ *               sits beside the scrubber where it has room.
+ *   map view    the map has no frame, so the two strips fold in as this
+ *               column's first and last rows, at the SAME height they occupied
+ *               over the geography. The move is sideways, out of the map and
+ *               into the sheet, and nothing else. The incident feed leaves for
+ *               the right modal, which is what pays for the two new rows: the
+ *               scrubber alone does not need the 184px the two of them shared.
  */
 
 /** Panel width below which the ARGUMENT band folds its three-across row into
- *  two. Container-driven, not viewport-driven: the same column is 960 at 1920,
- *  640 at 1280 and the whole window in stacked mode, and only it knows which.
- *  All of these compare `clientWidth`, which includes 12px of padding a side. */
+ *  two. Container-driven, not viewport-driven: the same column is 960 at 1920
+ *  in panel view and 883 there in map view, and only it knows which. All of
+ *  these compare `clientWidth`, which includes 12px of padding a side. */
 const COMPACT_BELOW = 780;
 
 /**
@@ -51,28 +68,29 @@ const BAND_MID_ABOVE = 790;
 const BAND_COMPACT_ABOVE = 600;
 
 /**
- * Panel width below which band 4 drops the incident feed.
+ * Panel width below which the transport band drops the incident feed.
  *
  * The number is the scrubber's arithmetic, not a design target: the scrubber's
  * min-content is 364px and the feed stops being a log at about 224, so the two
  * need 597px of content width plus the rule between them. 624 clientWidth is
  * 600 of content — the first width where both fit honestly.
- *
- * It used to be COMPACT_BELOW, which meant the feed vanished at 1440 and 1280,
- * the two commonest laptop widths, for no reason connected to either component.
  */
 const FEED_BELOW = 624;
 
 /**
- * Band 4's height.
+ * The transport band's height, in each layout.
  *
- * 111px gave the feed a 79px viewport for 295px of content — 1.2 events out of
- * four, with the third line of the first event clipping mid-word. Two complete
- * events need about 150px of scroll viewport under a 29px header, and the work
- * band above can afford it: at a 1080 window band 3 still clears 660px against
- * a release table that asks for roughly 390.
+ * PANEL 184: 111px gave the feed a 79px viewport for 295px of content — 1.2
+ * events out of four, with the third line clipping mid-word. Two complete
+ * events need about 150px of scroll viewport under a 29px header.
+ *
+ * MAP 112: no feed here, and the scrubber's own content is 104px — two 28px
+ * control rows, two 12px mark gutters, 12px of padding and three 4px gaps — so
+ * 112 centres it with a hair of slack and nothing more. Keeping 184 would be a
+ * band still sized for a component that left.
  */
-const TRANSPORT_BAND = 184;
+const TRANSPORT_PANEL = 184;
+const TRANSPORT_MAP = 112;
 
 /** Feed column width. Never below the point where a headline stops fitting on
  *  two lines, never above the width it was designed at. */
@@ -81,6 +99,7 @@ function feedWidthFor(content: number): number {
 }
 
 export function PanelPlane() {
+  const plane = useLayout(selPlane);
   const ref = useRef<HTMLDivElement | null>(null);
   const [width, setWidth] = useState(0);
   useEffect(() => {
@@ -88,9 +107,9 @@ export function PanelPlane() {
     if (!el) return;
     const measure = () => setWidth(el.clientWidth);
     measure();
-    /* Window listener beside the observer: below 1280 this column stops being
-       a flex sibling and becomes `absolute inset-0`, which changes its width
-       without the window changing size on the frame the observer would fire. */
+    /* Window listener beside the observer: observer deliveries are tied to the
+       rendering pipeline and can lag or be suspended, and this column's width
+       is a clamp on the viewport that also changes when the plane does. */
     window.addEventListener("resize", measure);
     if (typeof ResizeObserver === "undefined") {
       return () => window.removeEventListener("resize", measure);
@@ -104,12 +123,10 @@ export function PanelPlane() {
   }, []);
 
   /* And once more after every render, deliberately without a dependency list.
-     Crossing 1280 turns this column from a flex sibling into `absolute
-     inset-0`: its width changes because its POSITIONING changed, not because
-     anything resized, and observer deliveries are tied to the rendering
-     pipeline and can lag or be suspended. React bails out when the width is
-     unchanged, so the steady-state cost is one clientWidth read per render of
-     a component that renders a handful of times. */
+     Switching the plane changes this column's width through a CSS clamp rather
+     than through anything React measured, and observer deliveries are tied to
+     the rendering pipeline. React bails out when the width is unchanged, so the
+     steady-state cost is one clientWidth read per render. */
   useEffect(() => {
     const el = ref.current;
     if (el) setWidth(el.clientWidth);
@@ -129,10 +146,27 @@ export function PanelPlane() {
         : width >= BAND_COMPACT_ABOVE
           ? "compact"
           : "tiny";
-  const showFeed = !measured || width >= FEED_BELOW;
+
+  const mapView = plane === "map";
+  const showFeed = !mapView && (!measured || width >= FEED_BELOW);
 
   return (
-    <div ref={ref} className="flex h-full min-h-0 min-w-0 flex-col overflow-hidden p-3">
+    <div
+      ref={ref}
+      className={cx(
+        "flex h-full min-h-0 min-w-0 flex-col overflow-hidden",
+        mapView ? "px-3 pt-2 pb-1.5" : "p-3",
+      )}
+    >
+      {mapView ? (
+        <>
+          {/* What the map is drawing. The top bezel's survivors, in the row the
+              top bezel occupied. */}
+          <MapControlRow className="flex-none" />
+          <div className="band-rule mt-1" aria-hidden />
+        </>
+      ) : null}
+
       <SituationBand tier={tier} />
       <div className="band-rule" aria-hidden />
       <ArgumentBand compact={compact} />
@@ -140,12 +174,14 @@ export function PanelPlane() {
       <WorkBand />
       <div className="band-rule" aria-hidden />
 
-      {/* Band 4 — where you are on the clock, and what just happened on it.
-          The scrubber spans the width it never had as a 430px island; the
-          incident feed takes the slack beside it rather than floating over the
-          map, which is the one place in this layout nothing is allowed to
-          cover. */}
-      <div className="flex flex-none items-stretch" style={{ height: TRANSPORT_BAND }}>
+      {/* Where you are on the clock, and — in panel view — what just happened
+          on it. The scrubber spans the width it never had as a 430px island;
+          the incident feed takes the slack beside it rather than floating over
+          the map, which is the one place in this layout nothing may cover. */}
+      <div
+        className="flex flex-none items-stretch"
+        style={{ height: mapView ? TRANSPORT_MAP : TRANSPORT_PANEL }}
+      >
         {/* Centred rather than stretched: the scrubber is a content-height
             component, and a taller band would otherwise park it against the
             top rule with all the slack underneath. */}
@@ -161,6 +197,15 @@ export function PanelPlane() {
           </div>
         ) : null}
       </div>
+
+      {mapView ? (
+        <>
+          <div className="band-rule" aria-hidden />
+          {/* The floor — the bottom bezel's survivors, at the height the bottom
+              bezel had them. */}
+          <MapKeyRow className="flex-none pt-1" />
+        </>
+      ) : null}
     </div>
   );
 }

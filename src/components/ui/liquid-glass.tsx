@@ -121,7 +121,13 @@ export function LiquidButton({
         aria-hidden
         className={cx("lg-rim pointer-events-none absolute inset-0", RADIUS[radius])}
       />
-      <span className="pointer-events-none z-10 inline-flex items-center gap-2">{children}</span>
+      {/* min-w-0 so a caller can hand this a truncating label. Without it the
+          inner flex line has an automatic minimum size equal to its content and
+          `truncate` on a child is inert, which is how a fixed-width button ends
+          up wider than the cell it was placed in. */}
+      <span className="pointer-events-none z-10 inline-flex min-w-0 items-center gap-2">
+        {children}
+      </span>
     </button>
   );
 }

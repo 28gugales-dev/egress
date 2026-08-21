@@ -43,7 +43,20 @@
      absent from the .dark block: white glyphs over a dark tint is the same
      answer in both themes, and a second value would be one more thing to keep
      in sync for no gain. See `.glass-thin` for where the number came from. */
-  --glass-thin: rgba(22, 22, 26, 0.48);
+  /* 0.62, not the 0.48 this was ported from.
+     The Civic panel this recipe came from floats over a light street basemap;
+     ours floats over satellite imagery that runs from dark canopy to bare ridge
+     inside one panel's footprint. At 0.48 a bright ridge composites the ground
+     to [112, 107, 96] -- mid-grey -- and light text cannot hold AA on mid-grey:
+     --faint measured 2.27:1 there against a 4.5 floor, and .label-mono is 9px
+     uppercase, the first thing to go.
+     Solving for the thinnest tint that keeps a THREE-STEP ink hierarchy above
+     4.5:1 over bare ridge lands here. It costs some transparency; the
+     alternative was collapsing --subtle and --faint into --foreground, which
+     buys the transparency by deleting the hierarchy. Measured after, over
+     bright ridge / dark canopy: foreground 6.57 / 14.26, subtle 5.39 / 11.70,
+     faint 4.53 / 9.84. */
+  --glass-thin: rgba(22, 22, 26, 0.62);
   --glass-thin-edge: rgba(255, 255, 255, 0.14);
   /* Vibrancy: colour behind the pane gets richer, not merely blurred. This is
      most of what separates Apple's glass from a translucent div. */
@@ -57,10 +70,23 @@
   --ring: rgba(255, 255, 255, 0.06);
   --scrim: rgba(0, 0, 0, 0.4);
   /* Ink ON GLASS. The pane is dark in both themes, so panel text cannot use
-     --foreground, which flips. These do not flip. */
-  --glass-ink: #f2f4f7;
-  --glass-ink-subtle: #b3b9c4;
-  --glass-ink-faint: #838b98;
+     --foreground, which flips. These do not flip.
+
+     All three are brighter than the --foreground / --subtle / --faint they
+     stand in for, and the gap widens down the scale, because the backdrop they
+     sit on is not a flat panel any more. `.glass-thin` is 48% tint over a
+     BLURRED, saturation-pumped basemap: the ground under a modal is lighter and
+     noisier than a solid surface, and secondary ink tuned for a solid one goes
+     dull on it long before the primary does. */
+  --glass-ink: #f7f9fc;
+  /* Solved against the composited glass, not picked by eye. The sheets float
+     over satellite imagery that runs from dark canopy to bare ridge inside one
+     panel, and the bright case is what binds: at the previous #a2aab8 the
+     tertiary ink measured 3.22:1 over ridge against a 4.5 floor, and it carries
+     .label-mono at 9px uppercase. See --glass-thin for the tint half of the
+     same calculation. */
+  --glass-ink-subtle: #d6dbe3;
+  --glass-ink-faint: #c2cad4;
   --glass-hairline: rgba(255, 255, 255, 0.14);
 
   /* solid fallbacks for anything that must not be translucent */
@@ -147,28 +173,56 @@
   --shadow-panel: 0 1px 2px rgba(0, 0, 0, 0.5), 0 18px 44px -16px rgba(0, 0, 0, 0.72);
   --shadow-pop: 0 2px 8px rgba(0, 0, 0, 0.6), 0 36px 80px -24px rgba(0, 0, 0, 0.86);
 
+  /* DATA HUES, PASTEL — with one deliberate exception.
+     Saturation down, lightness up, hue families untouched, so nothing changes
+     meaning: flowing is still the cyan one and cleared is still the green one.
+     The reason is the ground. These sit on 48% tint over a basemap the glass
+     already runs saturate(150%) across, and a 68%-saturation cyan comes out the
+     other side of that as a light source rather than an encoding.
+
+     HAZARD DOES NOT GO SOFT. It marks the fire, and --st-cutoff — the status
+     that means this route is gone — is the same value. Toning the one hue that
+     means "you cannot get out this way" would be a lie told in colour. It stays
+     exactly where it was, and being the only saturated hue left is now what
+     makes it read as the urgent one. */
   --hazard: #ef6a3f;
-  --hazard-text: #f5825d;
+  /* Ink, not fill: lifted off the fill value so coloured text clears 4.5:1 on
+     glass over bright terrain, where the old #f5825d did not. */
+  --hazard-text: #f79375;
   --hazard-dim: rgba(239, 106, 63, 0.16);
   --hazard-glow: rgba(239, 106, 63, 0.4);
 
-  --plan: #4fc9dd;
-  --plan-text: #63d3e5;
-  --plan-dim: rgba(79, 201, 221, 0.15);
-  --plan-glow: rgba(79, 201, 221, 0.36);
+  --plan: #8ed2ea;
+  --plan-text: #a9dff1;
+  --plan-dim: rgba(142, 210, 234, 0.15);
+  --plan-glow: rgba(142, 210, 234, 0.36);
 
-  --warn: #e0a944;
-  --warn-text: #ecb85b;
-  --warn-dim: rgba(224, 169, 68, 0.16);
+  --warn: #eed184;
+  --warn-text: #f2dca6;
+  --warn-dim: rgba(238, 209, 132, 0.16);
 
-  --ok: #43c07f;
-  --ok-dim: rgba(67, 192, 127, 0.15);
+  --ok: #8ed9b4;
+  --ok-dim: rgba(142, 217, 180, 0.15);
 
-  --st-held: #737a86;
-  --st-ordered: #e0a944;
-  --st-flowing: #4fc9dd;
-  --st-cleared: #43c07f;
-  --st-cutoff: #ef6a3f;
+  /* The five statuses, and the thing that keeps them apart at an 8px chip.
+     Pastels collapse toward each other far more readily than saturated hues, so
+     the set is separated on TWO axes rather than one: held is the only
+     achromatic (S 9%), cutoff is the only strongly saturated (S 84%), and the
+     three in between are pulled to 46 degrees of hue apart — 44 amber, 150
+     mint, 196 cyan — instead of the 40 and 45 they had. */
+  --st-held: #a6acb4;
+  --st-ordered: #eed184;
+  --st-flowing: #8ed2ea;
+  --st-cleared: #8ed9b4;
+  /* Lifted off --hazard, and only here. These five are used as TEXT as well as
+     swatches — queue-tab, route-tab and zone-egress-panel all colour a label
+     with them — and #ef6a3f measures 3.50:1 against the glass composite over
+     bright terrain, which is a fill contrast, not a text one. The urgent
+     rendering of a cut-off route did not move: the map draws its polygons and
+     the fire footprint from ZONE_STATUS_RGB and HAZARD_RGB in lib/constants,
+     which are untouched, and --hazard itself is still #ef6a3f. What lifted is
+     the legend key and the word in the inspector. */
+  --st-cutoff: #f3926f;
 }
 
 /* Register the semantic tokens as Tailwind utilities. One set of classes
@@ -403,6 +457,21 @@ input[type="range"] + * {
      geography, and a shadow cast onto terrain is chrome pretending to be
      depth. */
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14);
+
+  /* Ink, lifted for glass.
+     --subtle and --faint were tuned against the opaque bg-surface panel this
+     replaced. On a thin tint over a blurred, saturation-pumped basemap they
+     read as dull grey: the ground behind them is no longer a constant, so the
+     contrast they were chosen for is not the contrast they get. Re-bound here
+     rather than edited globally, because the same two tokens are still correct
+     on the solid surfaces elsewhere in the app.
+     The tertiary lift is the larger one on purpose -- --faint carries
+     .label-mono, which is 9px uppercase and the first thing to disappear over
+     bright terrain. */
+  /* Ink is NOT re-bound here. `.plane-sheet` already routes --foreground /
+     --subtle / --faint through the --glass-ink-* set, and that rule lands later
+     in this sheet, so a second definition here would look authoritative and
+     silently lose. One place, and it is the one named for the job. */
 }
 
 /* The panel PLANE, as opposed to a floating island.
@@ -419,6 +488,25 @@ input[type="range"] + * {
   border-left: 0;
   border-bottom: 0;
   border-right: 1px solid var(--glass-thin-edge);
+}
+
+/* The two console sheets, and the ONE thing that separates them from every
+   other glass surface: they resolve their ink through the glass-ink set.
+
+   RE-BIND, don't restyle — the same mechanism `.lg-surface` uses further down.
+   @theme inline compiles every utility in this codebase to `var(--foreground)`
+   and friends rather than to a palette class, so redefining the three tokens at
+   a subtree root relights the whole subtree without one class changing. Hand-
+   editing colours at call sites would have meant touching every readout, label
+   and row inside both modals and leaving the next one to be added wrong.
+
+   These three exist precisely for this case and had, until now, no caller: the
+   sheets used to be opaque `bg-surface` columns where --foreground was right.
+   Over a live basemap it is not. */
+.plane-sheet {
+  --foreground: var(--glass-ink);
+  --subtle: var(--glass-ink-subtle);
+  --faint: var(--glass-ink-faint);
 }
 
 /* One backdrop-filter pass per floating surface. A nested `.glass` inside one
@@ -705,14 +793,21 @@ input[type="range"].rng::-moz-range-thumb {
   --lg-hairline: rgba(9, 11, 15, 0.1);
 
   /* Data hues, re-tuned for a light ground. Same meanings, darker so they
-     hold contrast against the frost instead of glowing on it. */
+     hold contrast against the frost instead of glowing on it.
+
+     Pastel is a LIGHTNESS move and it cannot survive the trip to a light
+     ground, so these stay dark — but they were rotated to sit on the same hue
+     angles the dark set now uses (196 cyan, 150 mint, 44 amber). Without that
+     the key sheet and the modals would disagree by six to eight degrees about
+     what "flowing" is, which is exactly the kind of drift an operator reads as
+     two different encodings. */
   --lg-hazard: #b8371a;
-  --lg-plan: #0d6f80;
-  --lg-warn: #8a5a06;
+  --lg-plan: #0d6382;
+  --lg-warn: #886606;
   --lg-held: #4a515c;
-  --lg-ordered: #8a5a06;
-  --lg-flowing: #0d6f80;
-  --lg-cleared: #16704a;
+  --lg-ordered: #886606;
+  --lg-flowing: #0d6382;
+  --lg-cleared: #156f42;
   --lg-cutoff: #b8371a;
 }
 
@@ -793,13 +888,13 @@ input[type="range"].rng::-moz-range-thumb {
   --hazard-glow: rgba(184, 55, 26, 0.22);
   --plan: var(--lg-plan);
   --plan-text: var(--lg-plan);
-  --plan-dim: rgba(13, 111, 128, 0.12);
-  --plan-glow: rgba(13, 111, 128, 0.22);
+  --plan-dim: rgba(13, 99, 130, 0.12);
+  --plan-glow: rgba(13, 99, 130, 0.22);
   --warn: var(--lg-warn);
   --warn-text: var(--lg-warn);
-  --warn-dim: rgba(138, 90, 6, 0.13);
+  --warn-dim: rgba(136, 102, 6, 0.13);
   --ok: var(--lg-cleared);
-  --ok-dim: rgba(22, 112, 74, 0.12);
+  --ok-dim: rgba(21, 111, 66, 0.12);
 
   --st-held: var(--lg-held);
   --st-ordered: var(--lg-ordered);

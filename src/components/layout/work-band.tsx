@@ -9,28 +9,50 @@ import { useBundle } from "@/lib/bundle-context";
 import { DEFAULT_PARAMS } from "@/lib/constants";
 import { bindingWave, zoneClearance } from "@/lib/derive";
 import { cx, formatPercent, formatShort } from "@/lib/format";
-import { type LayoutState, layoutActions, selWorkPane, useLayout } from "@/lib/layout-store";
+import {
+  type LayoutState,
+  layoutActions,
+  selPlane,
+  selWorkPane,
+  useLayout,
+} from "@/lib/layout-store";
 import { actions, selFilters, selParams, selSelection, selView, useEgress } from "@/lib/store";
 import type { EvacZone, ReleaseWave, RunParams, Selection, SimulationRun } from "@/types/egress";
 
 /**
- * Band 3 — what the plan demands of you now.
+ * Band 4 — what the plan demands of you now.
  *
  * One pane at a time, and that is the whole reason this region exists. The
- * surveyed content is 4,567 linear px against 1,056 of column height: no
- * accordion, gap or font size closes 4.3x. A single variable region at 936x706
- * holds any ONE pane at or near its intrinsic size instead.
+ * surveyed content is 4,567 linear px against roughly 1,000 of column height:
+ * no accordion, gap or font size closes 4.5x. A single variable region holds
+ * any ONE pane at or near its intrinsic size instead.
+ *
+ * THREE PANES IN PANEL VIEW, TWO IN MAP VIEW. Map view puts the inspector in a
+ * permanent modal down the right of the window, so an Inspect tab there would
+ * mount a second copy of the same dock a few inches from the first. The tab
+ * list is DERIVED from the plane rather than stored, and a `workPane` left on
+ * "inspect" by the other view is coerced at render — a second field saying
+ * which panes exist is a second field that can disagree with this one.
  *
  * The contextual readout on the right of the tab strip is not decoration — it
- * is what keeps the other two panes' state legible while you are working in a
- * third.
+ * is what keeps the other panes' state legible while you are working in one.
  */
 
-const PANES: { id: LayoutState["workPane"]; label: string; hotkey: string }[] = [
-  { id: "sequence", label: "Sequence", hotkey: "1" },
-  { id: "inspect", label: "Inspect", hotkey: "2" },
-  { id: "control", label: "Control", hotkey: "3" },
-];
+interface WorkPane {
+  id: LayoutState["workPane"];
+  label: string;
+}
+
+/** The visible pane list, and the hotkey order with it: the key is the pane's
+ *  1-based position in THIS list, so the strip and the keyboard can never
+ *  disagree about what 2 means. Exported because console-planes.tsx binds the
+ *  keys and must read the same list. */
+export function workPanesFor(plane: LayoutState["plane"]): WorkPane[] {
+  const panes: WorkPane[] = [{ id: "sequence", label: "Sequence" }];
+  if (plane === "both") panes.push({ id: "inspect", label: "Inspect" });
+  panes.push({ id: "control", label: "Control" });
+  return panes;
+}
 
 /** What the header calls the thing that is selected. Forked from the dock so
  *  the strip does not have to import a private map out of it. */
@@ -93,11 +115,17 @@ function Badge({ tone }: { tone: string }) {
 }
 
 export function WorkBand() {
-  const pane = useLayout(selWorkPane);
+  const stored = useLayout(selWorkPane);
+  const plane = useLayout(selPlane);
   const params = useEgress(selParams);
   const filters = useEgress(selFilters);
   const selection = useEgress(selSelection);
   const view = useEgress(selView);
+
+  const panes = workPanesFor(plane);
+  /* Coerced, not stored. Switching to map view with INSPECT selected must not
+     leave the band rendering a tab that is not in its own strip. */
+  const pane = panes.some((p) => p.id === stored) ? stored : "sequence";
   const bundle = useBundle();
 
   /* Same run the SEQUENCE pane is showing, so the strip and the table can
@@ -128,7 +156,7 @@ export function WorkBand() {
         aria-label="Work"
         className="flex h-[34px] flex-none items-stretch gap-0.5 border-hairline border-b px-1.5"
       >
-        {PANES.map((p) => {
+        {panes.map((p, i) => {
           const on = p.id === pane;
           const badge =
             p.id === "control" && touched
@@ -142,7 +170,7 @@ export function WorkBand() {
               type="button"
               onClick={() => layoutActions.setWorkPane(p.id)}
               aria-current={on ? "page" : undefined}
-              title={`${p.label} — key ${p.hotkey}`}
+              title={`${p.label} — key ${i + 1}`}
               className={cx(
                 "flex cursor-pointer items-center gap-1.5 border-b-2 px-2 text-[11.5px] transition-colors duration-[120ms]",
                 on

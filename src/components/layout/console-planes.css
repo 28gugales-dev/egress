@@ -12,32 +12,78 @@
    no @theme inline registration is needed and light theme resolves for free.
    ═══════════════════════════════════════════════════════════════════════════ */
 
-/* The one seam between the two planes. No shadow, no gradient, no vignette,
-   no rounded corner facing the map: the map's own imagery is the contrast, and
-   a shadow cast onto geography is chrome pretending to be depth.
+/* The two seams — one per modal, each on the edge that faces the map. No
+   shadow, no gradient, no vignette, no rounded corner facing the geography: the
+   map's own imagery is the contrast, and a shadow cast onto terrain is chrome
+   pretending to be depth.
 
-   The seam takes the GLASS edge rather than the generic hairline now that both
-   sides of it are translucent over the same live map. It is the same stroke the
-   floating islands are outlined with, so every surface that sits over geography
-   is edged in one language instead of two that happen to look similar. */
+   Both take the GLASS edge rather than the generic hairline, because both sides
+   of each seam are translucent over the same live map. It is the same stroke
+   the floating islands are outlined with, so every surface that sits over
+   geography is edged in one language instead of two that happen to look
+   similar. */
 .plane-seam {
   border-right: 1px solid var(--glass-thin-edge);
 }
 
-/* The panel plane is a SHEET, not a card.
+.plane-seam-right {
+  border-left: 1px solid var(--glass-thin-edge);
+}
+
+/* A modal here is a SHEET, not a card.
    `.glass-thin` is authored for the floating islands over the map, which are
-   genuinely cards and keep their radius and their full outline. This one meets
-   the window on three sides, and there a radius is not a corner — it is a wedge
-   cut out of the viewport with the map showing through it — while an outline on
-   an edge that has nothing beyond it is a line drawn around the screen.
+   genuinely cards and keep their radius and their full outline. These two meet
+   the window on three sides each, and there a radius is not a corner — it is a
+   wedge cut out of the viewport with the map showing through it — while an
+   outline on an edge that has nothing beyond it is a line drawn around the
+   screen.
 
    The specular goes too. An inset top highlight reads as a light source only
    when the surface has a top edge to catch it; along the window's own edge it
-   is a stray hairline suspended in the air. The seam carries the whole frame. */
+   is a stray hairline suspended in the air. The seam carries the whole frame.
+
+   The right sheet is the mirror and nothing else: same stroke, same absence of
+   radius and shadow, one edge, and that edge is its left. */
 .plane-seam.glass-thin {
   border-width: 0 1px 0 0;
   border-radius: 0;
   box-shadow: none;
+}
+
+.plane-seam-right.glass-thin {
+  border-width: 0 0 0 1px;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+/* MAP VIEW: the sheets stop being sheets and become cards.
+   In panel view the left plane is furniture — it meets the window on three
+   sides and an outline there is a line drawn against the screen edge. In map
+   view the map is the product and both columns are floating ON it, so they get
+   what a floating thing gets: an inset from every window edge, a full outline,
+   a radius, and a shadow to sit them above the geography rather than in it.
+   `[data-plane="map"]` on the layout root is what switches the two, so there is
+   exactly one source of truth for which layout is on screen. */
+[data-plane="map"] .plane-sheet {
+  margin: 10px;
+  border-radius: var(--radius-lg);
+  border-width: 1px;
+  /* A drop shadow is the only thing that reads as "above" over imagery — the
+     specular rim alone leaves a card looking painted onto the terrain. Kept
+     soft and neutral: a hard shadow over a satellite basemap looks like a
+     rendering fault. */
+  box-shadow:
+    0 18px 44px -16px rgba(0, 0, 0, 0.66),
+    inset 0 1px 0 rgba(255, 255, 255, 0.14);
+}
+
+/* The seam borders exist to divide a sheet from the map it abuts. A card is
+   surrounded by map on all four sides, so the single-edge rules would draw one
+   heavy side on an otherwise even outline. */
+[data-plane="map"] .plane-seam.glass-thin,
+[data-plane="map"] .plane-seam-right.glass-thin {
+  border-width: 1px;
+  border-radius: var(--radius-lg);
 }
 
 /* Bands are divided by a rule, never by a gap. A gap would let the bands read
@@ -106,9 +152,11 @@
   backdrop-filter: none;
 }
 
-/* .seg, compacted for a 30px bezel strip. Same control, same states — only the
-   padding and type size change, so the bezel reads as a frame rather than as a
-   row of buttons parked on the map. */
+/* .seg, compacted for a 28px control row. Same control, same states — only the
+   padding and type size change, so the row reads as a register of the sheet's
+   face rather than as a strip of buttons sitting on it. The name predates the
+   bezels' deletion and is kept because it is the class every segment in the
+   console already carries. */
 .bezel-seg {
   border-radius: var(--radius-sm);
 }
@@ -177,4 +225,109 @@
 .rs-tight td {
   padding-left: 8px;
   padding-right: 8px;
+}
+
+/* ── The two map-control rows, and how they give up width ───────────────────
+   Container queries, not a JS tier ladder. These rows mount in two places —
+   framing the geography in panel view, inside the left sheet in map view — and
+   the ONLY thing that decides what they can seat is their own inline width. The
+   ladder this replaces measured the map plane and inferred the strip's budget
+   from it, which is how it ended up with a dead band where the strip had 23px
+   of empty space and had already folded a segment away.
+
+   Thresholds are the rows' measured min-content on :3010, not round numbers:
+   the control row is 522px whole (views 180 + provenance 85 + colour-by and
+   Layers 241 + two 8px gaps), 429 without the provenance chip, and 254 with
+   only views and Layers left. */
+.map-control-row,
+.map-key-row {
+  container-type: inline-size;
+}
+
+/* Provenance goes first. It is the one item here that is a readout rather than
+   a control, and the fact it carries — observed perimeter or interpolated
+   frame — is still printed on the scrubber's own MODELLED / OBSERVED band,
+   which is in the same column at every width. */
+@container (max-width: 521px) {
+  .chip-fold {
+    display: none;
+  }
+}
+
+/* Then the colour-by axis, which is NOT lost with it: the Layers popover
+   carries the same segment unconditionally, so this fold costs one click and
+   nothing else. Layers itself never folds — it is the door everything else is
+   behind. */
+@container (max-width: 428px) {
+  .colourby-fold {
+    display: none;
+  }
+}
+
+/* The key row sheds its text before its colour. The five hues ARE the key; the
+   words beside them are a convenience, and the full legend is one click away on
+   the same control. The cursor readout goes first because it is the only thing
+   in the console that answers a question nobody asked. */
+@container (max-width: 379px) {
+  .cursor-readout {
+    display: none;
+  }
+}
+
+@container (max-width: 259px) {
+  .status-label {
+    display: none;
+  }
+}
+
+/* Last resort, and only in the control row: at a 244px strip — panel view in a
+   900px window, where the map keeps 259px — views plus Layers still want 254.
+   Six pixels a button off the segment's padding is the cheapest 18px in the
+   row, and it is the only concession that changes no label and hides nothing. */
+@container (max-width: 259px) {
+  .map-control-row .bezel-seg > button {
+    padding-left: 4px;
+    padding-right: 4px;
+  }
+}
+
+/* The seam grab target. 11px wide, centred on the 1px rule by a negative offset
+   so widening the target cannot shift the layout it is measuring. Only the
+   inner rule paints; the rest is hit area. */
+.resize-handle {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 30;
+  width: 11px;
+  cursor: col-resize;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  touch-action: none;
+  background: transparent;
+}
+
+.resize-handle-rule {
+  width: 1px;
+  border-radius: 1px;
+  background: transparent;
+  transition: background 120ms ease;
+}
+
+/* Hover and focus reveal the same rule, because discovering a resize by feel
+   requires it to answer the pointer before the drag starts. */
+.resize-handle:hover .resize-handle-rule,
+.resize-handle:focus-visible .resize-handle-rule {
+  background: var(--plan);
+}
+
+.resize-handle:focus-visible {
+  outline: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .resize-handle-rule {
+    transition: none;
+  }
 }

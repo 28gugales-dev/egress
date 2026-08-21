@@ -92,16 +92,17 @@ export interface MapShellProps {
    */
   zoomAdjust?: number;
   /**
-   * CSS pixels of this canvas's left edge that something opaque is standing on.
+   * CSS pixels of this canvas's left and right edges that something opaque is
+   * standing on.
    *
-   * The console's canvas runs the full width of the window with the panel sheet
-   * floating over its left half, so without this the scenario centre projects
-   * to the window's centre — which is the sheet's own right edge, putting the
-   * town at the far edge of the strip anyone can read. MapLibre's camera
-   * padding moves the projection centre to the middle of what is left, which is
-   * the same framing the map had when it was a flex sibling.
+   * The console's canvas runs the full width of the window with a modal sheet
+   * floating over each side, so without these the scenario centre projects to
+   * the window's centre — which is not the centre of the strip anyone can read.
+   * MapLibre's camera padding moves the projection centre into the middle of
+   * what is left over.
    */
   padLeft?: number;
+  padRight?: number;
   /** Emit `egress:cursor` while the pointer is over this map. */
   reportCursor?: boolean;
 }
@@ -128,6 +129,7 @@ export function MapShell({
   onMapLoad,
   zoomAdjust = 0,
   padLeft = 0,
+  padRight = 0,
   reportCursor = false,
 }: MapShellProps) {
   const basemap = useEgress(selBasemap);
@@ -257,25 +259,26 @@ export function MapShell({
     map.easeTo({ pitch: TERRAIN_PITCH, duration: prefersReducedMotion() ? 0 : 700 });
   }, [wantTerrain, controlled, syncTerrain]);
 
-  /* Camera padding, re-asserted whenever the sheet's width changes.
+  /* Camera padding, re-asserted whenever either sheet's width changes.
      `applied` starts null so the FIRST application jumps: at mount the operator
      has not seen a camera yet, and animating from a framing nobody looked at is
-     a 240ms wobble on load. After that the panel collapsing or restoring is a
-     visible change, and the map slides to match it. */
-  const paddingApplied = useRef<number | null>(null);
+     a 240ms wobble on load. After that a window resize is a visible change, and
+     the map slides to match it. */
+  const paddingApplied = useRef<string | null>(null);
   useEffect(() => {
     if (controlled) return;
     const map = mapRef.current?.getMap();
     if (!map) return;
-    if (paddingApplied.current === padLeft) return;
+    const key = `${padLeft}/${padRight}`;
+    if (paddingApplied.current === key) return;
     const first = paddingApplied.current === null;
-    paddingApplied.current = padLeft;
+    paddingApplied.current = key;
     map.easeTo({
-      padding: { left: padLeft, top: 0, right: 0, bottom: 0 },
+      padding: { left: padLeft, top: 0, right: padRight, bottom: 0 },
       duration: first || prefersReducedMotion() ? 0 : 240,
       essential: true,
     });
-  }, [padLeft, controlled]);
+  }, [padLeft, padRight, controlled]);
 
   // Caller-driven fly-to. Keyed on nonce so a repeat request to the same
   // coordinates still animates.

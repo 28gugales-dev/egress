@@ -4,73 +4,99 @@ import "./console-planes.css";
 
 import { TriangleAlert } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import { MapChrome } from "@/components/layout/map-chrome";
+import { InspectorPlane } from "@/components/layout/inspector-plane";
 import { MapPlane } from "@/components/layout/map-plane";
 import { PanelPlane } from "@/components/layout/panel-plane";
+import { ResizeHandle } from "@/components/layout/resize-handle";
+import { workPanesFor } from "@/components/layout/work-band";
 import { useBundle } from "@/lib/bundle-context";
 import { getScenario } from "@/lib/constants";
-import { cx } from "@/lib/format";
-import { layoutActions, selArgument, selPlane, selWorkPane, useLayout } from "@/lib/layout-store";
+import {
+  getLayout,
+  layoutActions,
+  selArgument,
+  selLeftWidth,
+  selPlane,
+  selRightWidth,
+  selWorkPane,
+  useLayout,
+} from "@/lib/layout-store";
 import { selLoading, selScenarioId, selSelection, useEgress } from "@/lib/store";
 
 /**
- * The console, as two planes side by side.
+ * The console, as planes — and as TWO layouts on one axis.
  *
- * A PANEL plane carrying every piece of chrome, and a MAP plane that nothing
- * overlaps. There is no floating-overlay mode to fall back to, on purpose: the
- * inspector dock's left edge used to sit at x=1280 of 1600 while the hazard
- * front rendered at x~1250-1300, so the console occluded the thing it exists
- * to show. A layout you can be in wrongly is a layout that will be wrong on
- * stage.
+ * PANEL VIEW is the working layout: the panel column down the left, the map
+ * beside it, framed by its own control strip above the geography and its key
+ * strip below. The inspector is a pane of the panel's work band.
  *
- * THE MAP IS FULL-BLEED AND THE PANEL FLOATS ON IT. The panel used to be
- * `bg-surface` — opaque — and the two planes were flex siblings, so the map
- * began exactly where the panel ended. That made glass impossible rather than
- * merely unused: a translucent sheet with nothing behind it to refract is just
- * a different solid. So the map plane is `absolute inset-0` under everything
- * and the panel is one `.glass-thin` sheet over it, with the map continuing
- * underneath. Only the map's own bezel strips are inset, because those are a
- * frame around the VISIBLE geography and would otherwise slide under the sheet.
+ * MAP VIEW is the two-column design: a full-bleed map with one modal down each
+ * side and nothing else on the geography. The map's two strips fold into the
+ * left sheet as its first and last rows; the inspector becomes the right sheet,
+ * with the incident feed merged in beneath it. Both sheets run the full window
+ * height. The map has no frame there because the sheets are the frame.
  *
- * HALF AND HALF, UP TO 2240. The panel is clamp(640px, 50vw, 1120px), so the
- * split is exactly even from 1280 to 2240 and the map takes the surplus above
- * that — 56% of a 2560 window, 71% of a 3840 one. The cap is deliberate and the
- * number behind it is measured: the release table's widest tier needs 836px and
- * the control grid packs 288px columns, so a panel past ~1120 is buying
- * whitespace with geography. Above 2240 this is a map-led layout that keeps a
- * full-size panel, and calling it a 50/50 split would be a claim the pixels do
- * not support.
+ * THE MAP IS FULL-BLEED IN BOTH. The canvas is `absolute inset-0` under
+ * everything and every sheet is one `.glass-thin` surface over it, with the map
+ * continuing underneath. That continuation is not a nicety: a translucent sheet
+ * with nothing behind it to refract is just a different solid, and the first
+ * version of this layout made the two planes flex siblings so the map began
+ * exactly where the panel ended.
  *
- * The escape hatch is not a second layout, it is a width state of the same DOM:
- * `plane: "map"` animates the panel column to zero. Same tree, no remount, the
- * map never re-initialises. Getting back out is BezelTop's restore control,
- * which lives in the plane that stays on screen — see the note on `plane` in
- * lib/layout-store.ts for why that is not negotiable.
+ * ONE AXIS, ONE FIELD, and the control that crosses it lives in the SITUATION
+ * band — which is mounted in the column that is on screen in BOTH states. That
+ * is the whole rule, and lib/layout-store.ts records the version of this
+ * console that broke it: a second field disagreeing about whether the panel was
+ * hidden, and the only way back living inside the thing that was hidden.
  *
  * Takes no props. Everything is derived from useBundle() and the two stores,
  * which is what keeps the shell's adoption of it down to a single element.
  */
 
-/** Below this the planes stack and one shows at a time. 1280 is the point
- *  where a 640px map still frames Paradise and 640px still holds the release
- *  table; it is a floor, not a breakpoint ladder. */
-const STACK_BELOW = 1280;
-
-/** Matches the panel column's width transition in console-planes.css terms —
- *  kept here because the element that animates is authored here too. */
-const COLLAPSE_MS = 180;
+/** The axis switch, in CSS terms. Authored here because the elements that
+ *  animate are authored here too. */
+const FOLD_EASE = "cubic-bezier(0.22, 1, 0.36, 1)";
 
 /**
- * The panel column's width — and, handed to the map plane, the left inset of
- * its bezel strips.
+ * The panel column in PANEL VIEW.
  *
- * ONE expression, passed rather than duplicated. The map plane now spans the
- * whole window, so its frame has to be told where the sheet ends; two copies of
- * this clamp would be two things that can drift, and the failure mode is a
- * bezel row sliding a few pixels under the glass where nobody notices until it
- * is on a projector.
+ * Half and half up to 2240, so the split is exactly even from 1280 upward and
+ * the map takes the surplus above that. The cap is measured, not chosen: the
+ * release table's widest tier needs 836px and the control grid packs 288px
+ * columns, so a panel past ~1120 is buying whitespace with geography.
  */
 const PANEL_WIDTH = "clamp(640px, 50vw, 1120px)";
+
+/**
+ * The two sheets in MAP VIEW, and the window they are solved for.
+ *
+ * ONE expression each, passed to the map plane rather than duplicated there —
+ * two copies of a clamp are two things that can drift, and the failure mode is
+ * a popover opening a few pixels under the glass where nobody notices until it
+ * is on a projector.
+ *
+ * The floors are the binding constraint and they come from the narrowest window
+ * this is verified at, 900px: the two sheets take 760 and the map keeps 140.
+ * Thin, but a real strip of geography, and both sheets stay honest rather than
+ * one stacking over the other.
+ *
+ * 496 for the left sheet is what its own contents need, not a round number: the
+ * release table's narrowest tier has a measured 416px min-content, over 24px of
+ * padding and a 1px seam. 264 for the right is the inspector's five-tab strip
+ * plus a queue row that can still print an id and a countdown side by side.
+ * They are narrower than the panel column above because in this layout the map
+ * is the point, and a second sheet is being paid for out of the same window.
+ */
+/* Drag bounds. The floors are the same measured min-contents the clamps use --
+   416px for the release table's narrowest tier plus padding and a seam, and the
+   inspector's tab strip plus a queue row. MAX_SHARE stops either sheet from
+   taking so much that the map stops being the thing you are looking at. */
+const LEFT_MIN = 440;
+const RIGHT_MIN = 264;
+const MAX_SHARE = 0.6;
+
+const MAP_LEFT_WIDTH = "clamp(496px, 46vw, 940px)";
+const MAP_RIGHT_WIDTH = "clamp(264px, 18vw, 336px)";
 
 export function ConsolePlanes() {
   const loading = useEgress(selLoading);
@@ -87,19 +113,51 @@ export function ConsolePlanes() {
   const veiled = loading && bundle === null;
   const simMissing = bundle !== null && bundle.baseline === null && bundle.planned === null;
 
-  /* Starts false on the server and on the first client render, so the two agree
-     and hydration is quiet; the media query lands a frame later. */
-  const [narrow, setNarrow] = useState(false);
+  const mapView = plane === "map";
+  const dragLeft = useLayout<number | null>(selLeftWidth);
+  const dragRight = useLayout<number | null>(selRightWidth);
+
+  /* The window, measured, because the drag clamps need a number and a clamp()
+     expression is not one. Only read after mount — on the server there is no
+     window and the sheets fall back to their responsive defaults, which is the
+     correct SSR output either way. */
+  const [winW, setWinW] = useState(0);
   useEffect(() => {
-    const mq = window.matchMedia(`(max-width: ${STACK_BELOW - 1}px)`);
-    const sync = () => setNarrow(mq.matches);
-    sync();
-    mq.addEventListener("change", sync);
-    return () => mq.removeEventListener("change", sync);
+    const measure = () => setWinW(window.innerWidth);
+    measure();
+    window.addEventListener("resize", measure);
+    return () => window.removeEventListener("resize", measure);
   }, []);
 
+  /* A dragged width wins over the clamp, and ONLY over the clamp: the min and
+     max below still apply, so a width chosen at 1920 cannot survive onto a
+     900px window as a sheet wider than the console. */
+  const clampLeft = (n: number) =>
+    Math.min(Math.max(n, LEFT_MIN), Math.max(LEFT_MIN, (winW || 1920) * MAX_SHARE));
+  const clampRight = (n: number) =>
+    Math.min(Math.max(n, RIGHT_MIN), Math.max(RIGHT_MIN, (winW || 1920) * MAX_SHARE));
+
+  const leftWidth =
+    dragLeft !== null ? `${clampLeft(dragLeft)}px` : mapView ? MAP_LEFT_WIDTH : PANEL_WIDTH;
+  const rightWidth = !mapView
+    ? "0px"
+    : dragRight !== null
+      ? `${clampRight(dragRight)}px`
+      : MAP_RIGHT_WIDTH;
+
+  /* Resolved px for the handles' aria-valuenow and drag origin. The elements
+     themselves are the truth once mounted; this is the pre-measure fallback. */
+  const leftPx =
+    dragLeft !== null ? clampLeft(dragLeft) : Math.round((winW || 1920) * (mapView ? 0.46 : 0.5));
+  const rightPx =
+    dragRight !== null ? clampRight(dragRight) : Math.min(336, Math.round((winW || 1920) * 0.18));
+
   /**
-   * Follow a NEW selection onto the pane that can render it.
+   * Follow a NEW selection onto the pane that can render it — PANEL VIEW ONLY.
+   *
+   * In map view the inspector is a sheet that is already on screen, so there is
+   * nothing to route to and moving the work band would take the release table
+   * away from someone who did not ask.
    *
    * Two guards, both deliberate. The ref means a repeated identical selection
    * does not yank the pane out from under a reading operator. The
@@ -119,8 +177,8 @@ export function ConsolePlanes() {
     const key = `${selection.kind}:${selection.id}`;
     if (key === lastSelection.current) return;
     lastSelection.current = key;
-    if (workPane === "sequence") layoutActions.setWorkPane("inspect");
-  }, [selection, workPane]);
+    if (plane === "both" && workPane === "sequence") layoutActions.setWorkPane("inspect");
+  }, [selection, workPane, plane]);
 
   /**
    * The argument band is loud on use one and a spine on use one hundred. It
@@ -150,19 +208,15 @@ export function ConsolePlanes() {
       const tag = el?.tagName;
       if (tag === "INPUT" || tag === "TEXTAREA" || el?.isContentEditable) return;
 
-      // Choosing a work pane implies wanting to see it. This is also a second
-      // keyboard route out of map-only mode, which matters because the state
-      // used to be escapable by exactly one undocumented key.
-      if (e.key === "1") {
-        layoutActions.setWorkPane("sequence");
-        layoutActions.showPanel();
-      } else if (e.key === "2") {
-        layoutActions.setWorkPane("inspect");
-        layoutActions.showPanel();
-      } else if (e.key === "3") {
-        layoutActions.setWorkPane("control");
-        layoutActions.showPanel();
-      } else if (e.key === "\\") layoutActions.togglePlane();
+      // The digit is the pane's position in the strip the operator is looking
+      // at, read from the same function the strip renders from — map view has
+      // no Inspect tab, and a hard-coded 2 would mean two different things
+      // depending on a layout the keymap could not see.
+      const panes = workPanesFor(getLayout().plane);
+      const index = Number.parseInt(e.key, 10) - 1;
+      const chosen = Number.isNaN(index) ? undefined : panes[index];
+      if (chosen) layoutActions.setWorkPane(chosen.id);
+      else if (e.key === "\\") layoutActions.togglePlane();
       else if (e.key === "Escape") layoutActions.setBezelPopover("none");
       else return;
       e.preventDefault();
@@ -171,71 +225,75 @@ export function ConsolePlanes() {
     return () => window.removeEventListener("keydown", onKey);
   }, []);
 
-  /* One resize, at the end of the collapse. MapShell's own observer is the
-     backstop; this is what makes the settle crisp rather than a frame late.
-     MapLibre tracks the window, so a window resize event is the cheapest way
-     to reach every map on screen without holding a reference to any of them. */
-  const onPanelTransitionEnd = (e: React.TransitionEvent<HTMLDivElement>) => {
-    if (e.propertyName !== "width") return;
-    window.dispatchEvent(new Event("resize"));
-  };
-
-  /* One predicate for both layouts. Narrow hides the panel by stacking the map
-     over it; wide hides it by animating the column to zero. Same state, so the
-     backslash key and the bezel's restore control mean the same thing at every
-     width. */
-  const panelVisible = plane === "both";
-  const panelWidth = narrow ? "100%" : panelVisible ? PANEL_WIDTH : "0px";
-  /* Stacked mode puts the panel ON the map rather than beside it, so the map's
-     frame owes it no room: the inset is the width the sheet actually takes out
-     of the geography, which below 1280 is none of it. */
-  const bezelInset = narrow ? "0px" : panelWidth;
-
   return (
-    <div className="relative flex h-dvh w-full overflow-hidden bg-background text-foreground">
+    <div
+      data-plane={plane}
+      className="relative flex h-dvh w-full overflow-hidden bg-background text-foreground"
+    >
+      {/* min-w-0 is stated rather than inferred, and so is overflow-hidden on
+          the column itself: the SITUATION band's cells are deliberately nowrap
+          and the release table has a 416px min-content, so this column's own
+          min-content runs past its floor. Only `overflow: hidden` on the item
+          zeroes a flex item's automatic minimum size, and relying on that side
+          effect to keep the console free of a horizontal scrollbar is a trap
+          for whoever removes it. */}
       <div
-        onTransitionEnd={onPanelTransitionEnd}
-        // overflow-hidden on the column itself, not just the root: the release
-        // table's 703px min-content would otherwise throw a horizontal
-        // scrollbar across the whole console while the column is shrinking.
-        // min-w-0 is stated rather than inferred. The SITUATION band's cells
-        // are deliberately nowrap, so this column's min-content is around
-        // 700px; only `overflow: hidden` on the item itself zeroes a flex
-        // item's automatic minimum size, and relying on that side effect to
-        // keep the collapse working is a trap for whoever removes it.
-        className={cx(
-          "plane-seam glass-thin flex min-h-0 min-w-0 flex-none flex-col overflow-hidden",
-          narrow ? "absolute inset-0 z-10" : "relative z-10 transition-[width] duration-[180ms]",
-          narrow && !panelVisible && "invisible",
-        )}
-        style={{
-          width: panelWidth,
-          transitionTimingFunction: "cubic-bezier(0.22, 1, 0.36, 1)",
-          transitionDuration: narrow ? "0ms" : `${COLLAPSE_MS}ms`,
-        }}
-        /* `inert` and not just aria-hidden: a 0px column still held eighteen
-           focusable controls, so Tab walked through the scenario chip, the
-           pane tabs and the validation line at x=-30 before reaching anything
-           on screen. inert takes them out of the tab order and the a11y tree
-           together, and unlike display:none it does not kill the width
-           transition. */
-        inert={!panelVisible}
-        aria-hidden={!panelVisible}
+        className="plane-seam glass-thin plane-sheet relative z-10 flex min-h-0 min-w-0 flex-none flex-col overflow-hidden transition-[width] duration-[180ms]"
+        style={{ width: leftWidth, transitionTimingFunction: FOLD_EASE }}
       >
         <PanelPlane />
+        <ResizeHandle
+          edge="right"
+          width={leftPx}
+          min={LEFT_MIN}
+          max={Math.max(LEFT_MIN, (winW || 1920) * MAX_SHARE)}
+          onResize={layoutActions.setLeftWidth}
+          onReset={() => layoutActions.setLeftWidth(null)}
+          label="Resize the control column"
+        />
+      </div>
+
+      {/* The visible map, as a flex item rather than a calculation. Nothing is
+          rendered into it — the map plane is absolute behind all three columns
+          — but its width is what the sheets leave over, so it is the one place
+          the layout states that fact. */}
+      <div className="pointer-events-none relative z-10 min-w-0 flex-1" aria-hidden />
+
+      {/* Zero width in panel view rather than unmounted, so the inspector's own
+          selection bus and tab routing keep running across the axis and the
+          sheet slides rather than appears. `inert` because a 0px column still
+          holds focusable controls: without it Tab walks the whole tab strip at
+          x=-264 before reaching anything on screen, and unlike display:none it
+          does not kill the width transition. */}
+      <div
+        className="plane-seam-right glass-thin plane-sheet relative z-10 flex min-h-0 min-w-0 flex-none flex-col overflow-hidden transition-[width] duration-[180ms]"
+        style={{ width: rightWidth, transitionTimingFunction: FOLD_EASE }}
+        inert={!mapView}
+        aria-hidden={!mapView}
+      >
+        <InspectorPlane />
+        {mapView ? (
+          <ResizeHandle
+            edge="left"
+            width={rightPx}
+            min={RIGHT_MIN}
+            max={Math.max(RIGHT_MIN, (winW || 1920) * MAX_SHARE)}
+            onResize={layoutActions.setRightWidth}
+            onReset={() => layoutActions.setRightWidth(null)}
+            label="Resize the inspector column"
+          />
+        ) : null}
       </div>
 
       <MapPlane
-        /* Absolute in BOTH layouts, not just the stacked one. As a flex sibling
-           the canvas started where the panel ended, and a sheet with a hard
-           edge of nothing behind it cannot be glass. */
+        /* Absolute, under all three columns. As a flex sibling the canvas would
+           start where the left sheet ended, and a sheet with a hard edge of
+           nothing behind it cannot be glass. */
         className="absolute inset-0 z-0"
-        bezelInset={bezelInset}
+        leftInset={leftWidth}
+        rightInset={rightWidth}
         veiled={veiled}
         notice={simMissing ? <SimNotice /> : null}
-        /* Only when the panel is collapsed. With both planes up the chrome
-           lives in its own plane and the canvas stays clean. */
-        chrome={panelVisible ? null : <MapChrome />}
       />
 
       {veiled ? (
