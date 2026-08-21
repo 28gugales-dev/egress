@@ -63,35 +63,47 @@ type RsTier = "full" | "mid" | "tight";
 
 /**
  * Measured on :3010 by forcing `width: min-content` on the live table and
- * reading its width back: all nine columns need 810px, eight without ROUTE
- * need 502, six without the two household columns need 416. A table with
+ * reading its width back: all nine columns need 854px, eight without ROUTE
+ * need 456, six without the two household columns need 370. A table with
  * `width: 100%` cannot render below its min-content, so those ARE the widths at
  * which each tier starts to overflow. Thresholds are those plus a 4px guard.
  *
+ * BOTH NUMBERS MOVED WHEN THE ZONE CHIPS STOPPED WRAPPING, in opposite
+ * directions, and re-measuring was not optional. FULL went 810 -> 854 because
+ * its one chip now has to sit on the row's single line; a sweep of every column
+ * width from 440 to 1152 found the dead band that left behind — scroller 821 to
+ * 852 selected FULL and overflowed by up to 32px. MID and TIGHT went the other
+ * way, 502 -> 456 and 416 -> 370, because below FULL the chip is gone entirely
+ * and the cell is a count. Leaving MID at its old 502 would have dropped the
+ * demand columns 46px earlier than the table needs — the same measure-the-wrong
+ * -container mistake this ladder replaced, just inverted.
+ *
  * The consequence worth naming: at a 1440 window this pane is about 693px, so
- * the demand columns — households and no-vehicle households — now survive there.
- * They were being dropped along with ROUTE by a single threshold, which left
- * the console's central artifact unable to say what a wave was made of at the
- * commonest laptop width there is.
+ * the demand columns — households and no-vehicle households — survive there,
+ * and now at the 440px sheet floor's neighbours too.
  */
 const TIER_MIN: { tier: RsTier; needs: number }[] = [
-  { tier: "full", needs: 814 },
-  { tier: "mid", needs: 506 },
+  { tier: "full", needs: 858 },
+  { tier: "mid", needs: 460 },
 ];
 
 /**
- * Zone ids printed inline before the row switches to a "+N" summary.
+ * Zone ids printed inline beside the count, by tier.
  *
- * ONE, at every tier, and the number is arithmetic rather than taste. The other
- * eight columns claim 668px of the widest tier's 859px scroller, which leaves
- * ZONES about 167px of content box: a count, one 11-character id chip and a
- * "+N" is 134px of that and a second chip is 85px more. The chips used to wrap
- * instead, which kept the table inside its scroller by making wave 0 a 150px
- * row of stacked ids — four waves then needed more vertical space than the pane
- * has, so the thing that pins clearance sat below the fold. The count leads,
- * the "+N" carries the full list in its tooltip, and the CSV carries every id.
+ * The chips used to WRAP, which is how the table stayed inside its scroller:
+ * wave 0 names 28 zones, so at the widest tier it stacked four ids into a
+ * 150px row and the four waves plus the rationale needed more height than the
+ * pane has. What pins clearance sat below the fold in the console's central
+ * artifact. One line per wave is worth more than an exemplar id, so the chips
+ * are nowrap now and the count leads.
+ *
+ * That trade has to be paid for in width, and only the full tier has it: a
+ * count, an 11-character id and a "+N" is ~148px of content box against ~96
+ * when the same cell could wrap. Below full the id goes and the count stays —
+ * a single exemplar out of 28 was never the information anyway. The full list
+ * is on the count's own tooltip at every tier, and every id is in the CSV.
  */
-const ZONE_CHIPS = 1;
+const ZONE_CHIPS: Record<RsTier, number> = { full: 1, mid: 0, tight: 0 };
 
 /** Columns rendered, by tier. The rationale row's colSpan reads off this, so
  *  the two can never disagree. */
@@ -226,6 +238,8 @@ export function ReleaseSequence({ className }: ReleaseSequenceProps) {
      while showing the baseline's plan would print a counterfactual's clearance
      against the observed event's fire. */
   const run = (view === "baseline" ? bundle?.baseline : bundle?.planned) ?? null;
+
+  const chipCount = ZONE_CHIPS[tier];
 
   const activeWave: ReleaseWave | null = useMemo(() => {
     if (selectedWave !== null) return waves.find((w) => w.wave === selectedWave) ?? null;
@@ -458,7 +472,7 @@ export function ReleaseSequence({ className }: ReleaseSequenceProps) {
                         >
                           {w.zoneIds.length}
                         </span>
-                        {w.zoneIds.slice(0, ZONE_CHIPS).map((id) => (
+                        {w.zoneIds.slice(0, chipCount).map((id) => (
                           <span
                             key={id}
                             className="readout whitespace-nowrap rounded-xs bg-glass-inset px-1.5 py-0.5 text-[10.5px] text-foreground"
@@ -466,12 +480,12 @@ export function ReleaseSequence({ className }: ReleaseSequenceProps) {
                             {id}
                           </span>
                         ))}
-                        {w.zoneIds.length > ZONE_CHIPS ? (
+                        {chipCount > 0 && w.zoneIds.length > chipCount ? (
                           <span
                             className="readout text-[10.5px] text-faint"
-                            title={w.zoneIds.slice(ZONE_CHIPS).join(", ")}
+                            title={w.zoneIds.slice(chipCount).join(", ")}
                           >
-                            +{w.zoneIds.length - ZONE_CHIPS}
+                            +{w.zoneIds.length - chipCount}
                           </span>
                         ) : null}
                       </div>

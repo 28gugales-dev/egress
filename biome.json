@@ -36,6 +36,18 @@
           }
         }
       }
+    },
+    {
+      "includes": [
+        "src/components/layout/resize-handle.tsx"
+      ],
+      "linter": {
+        "rules": {
+          "a11y": {
+            "useSemanticElements": "off"
+          }
+        }
+      }
     }
   ]
 }

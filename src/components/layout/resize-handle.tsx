@@ -23,6 +23,12 @@ import { cx } from "@/lib/format";
  *    arrow keys, because a resize that only answers to a pointer is unusable
  *    for anyone who does not have one, and this one governs how much of the
  *    console you can see.
+ *
+ * useSemanticElements is switched off for this file in biome.json rather than
+ * suppressed inline — a directive above a JSX attribute does not attach in
+ * Biome 2.5.9. The rule wants <hr> for role="separator"; an <hr> is a static
+ * divider with no focus and no aria-value*, so it cannot be a resizer, and
+ * there is no native element that can.
  */
 
 /** Px per arrow press; Shift multiplies. Small enough to tune, large enough to
@@ -130,10 +136,6 @@ export function ResizeHandle({
   }, [dragging]);
 
   return (
-    // biome-ignore lint/a11y/useSemanticElements: there is no HTML element for a
-    // pane resizer. `role="separator"` with tabIndex and aria-value* IS the
-    // documented pattern for a focusable window splitter; the rule's suggested
-    // native element does not exist.
     <div
       role="separator"
       aria-orientation="vertical"
