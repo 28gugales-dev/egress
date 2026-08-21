@@ -111,11 +111,23 @@ const PANEL_WIDTH = "clamp(640px, 50vw, 1120px)";
    page, so nothing external catches it.
 
    Both responsive clamps floor above this (496 in map view, 640 in panel view),
-   so nothing changes until an operator drags. MAX_SHARE stops either sheet from
+   so nothing changes until an operator drags. MAX_SHARE stops EITHER sheet from
    taking so much that the map stops being the thing you are looking at. */
 const LEFT_MIN = 480;
 const RIGHT_MIN = 264;
 const MAX_SHARE = 0.6;
+
+/* THE TWO SHEETS SHARE ONE BUDGET, and MAX_SHARE alone did not say so: 0.6 each
+   is 1.2 of the window, and driving both to their own maximum in map view put
+   the inspector's right edge at x=2334 on a 1920 viewport. Nothing caught it --
+   the root is overflow: hidden, so the sheet was CLIPPED rather than scrolled,
+   and every overflow check on this layout reads zero while 414px of a column
+   sits off screen with its controls on it.
+
+   MAP_MIN is the strip of geography that is not negotiable. The map is the
+   thing this console is looking at; a layout that can push it to nothing is a
+   layout that can delete the subject. */
+const MAP_MIN = 320;
 
 const MAP_LEFT_WIDTH = "clamp(496px, 46vw, 940px)";
 const MAP_RIGHT_WIDTH = "clamp(264px, 18vw, 336px)";
@@ -154,10 +166,20 @@ export function ConsolePlanes() {
   /* A dragged width wins over the clamp, and ONLY over the clamp: the min and
      max below still apply, so a width chosen at 1920 cannot survive onto a
      900px window as a sheet wider than the console. */
-  const clampLeft = (n: number) =>
-    Math.min(Math.max(n, LEFT_MIN), Math.max(LEFT_MIN, (winW || 1920) * MAX_SHARE));
-  const clampRight = (n: number) =>
-    Math.min(Math.max(n, RIGHT_MIN), Math.max(RIGHT_MIN, (winW || 1920) * MAX_SHARE));
+  /* LEFT IS RESOLVED FIRST AND THE RIGHT SHEET YIELDS TO IT. The order is a
+     decision, not an implementation detail: the left column is the work surface
+     -- the release sequence, the controls, the response screens -- and the
+     right one inspects whatever the left or the map selected. When the window
+     cannot hold both at the width someone asked for, the inspector is the one
+     that should give way.
+
+     So the left cap only has to leave room for the map and a floor-width
+     inspector, while the right cap is whatever survives after the left sheet
+     has taken its resolved width. */
+  const win = winW || 1920;
+  const rightFloor = mapView ? RIGHT_MIN : 0;
+  const leftCap = Math.max(LEFT_MIN, Math.min(win * MAX_SHARE, win - MAP_MIN - rightFloor));
+  const clampLeft = (n: number) => Math.min(Math.max(n, LEFT_MIN), leftCap);
 
   /**
    * ONE function resolves a resting width, and both the sheet's style and the
@@ -178,29 +200,24 @@ export function ConsolePlanes() {
     mapView ? Math.min(940, Math.max(496, w * 0.46)) : Math.min(1120, Math.max(640, w * 0.5));
   const restingRight = (w: number) => Math.min(336, Math.max(264, w * 0.18));
 
+  /* Resolved left FIRST, because the right cap is measured against it. The
+     RESTING width goes through the same clamp as a dragged one: at 1024 the
+     responsive floor resolves to 496 against a 480 cap, and leaving it
+     unclamped both stole the map's last 16px and made the handle announce a
+     value above the maximum it was announcing in the same breath. */
+  const leftPx = dragLeft !== null ? clampLeft(dragLeft) : clampLeft(Math.round(restingLeft(win)));
+  const rightCap = Math.max(RIGHT_MIN, Math.min(win * MAX_SHARE, win - MAP_MIN - leftPx));
+  const clampRight = (n: number) => Math.min(Math.max(n, RIGHT_MIN), rightCap);
+  const rightPx =
+    dragRight !== null ? clampRight(dragRight) : clampRight(Math.round(restingRight(win)));
+
   const leftWidth =
-    dragLeft !== null
-      ? `${clampLeft(dragLeft)}px`
-      : winW
-        ? `${Math.round(restingLeft(winW))}px`
-        : mapView
-          ? MAP_LEFT_WIDTH
-          : PANEL_WIDTH;
+    dragLeft !== null || winW ? `${leftPx}px` : mapView ? MAP_LEFT_WIDTH : PANEL_WIDTH;
   const rightWidth = !mapView
     ? "0px"
-    : dragRight !== null
-      ? `${clampRight(dragRight)}px`
-      : winW
-        ? `${Math.round(restingRight(winW))}px`
-        : MAP_RIGHT_WIDTH;
-
-  /* Resolved px for the handles' aria-valuenow and drag origin. Same resting
-     functions as the style above, so the number the handle announces and the
-     number the sheet renders cannot drift -- this previously read a raw 50vw
-     with no clamp, and announced 320 for a sheet sitting at its 640 floor. */
-  const leftPx = dragLeft !== null ? clampLeft(dragLeft) : Math.round(restingLeft(winW || 1920));
-  const rightPx =
-    dragRight !== null ? clampRight(dragRight) : Math.round(restingRight(winW || 1920));
+    : dragRight !== null || winW
+      ? `${rightPx}px`
+      : MAP_RIGHT_WIDTH;
 
   /**
    * Follow a NEW selection onto the pane that can render it — PANEL VIEW ONLY.
@@ -296,7 +313,7 @@ export function ConsolePlanes() {
           edge="right"
           width={leftPx}
           min={LEFT_MIN}
-          max={Math.max(LEFT_MIN, (winW || 1920) * MAX_SHARE)}
+          max={leftCap}
           onResize={layoutActions.setLeftWidth}
           onReset={() => layoutActions.setLeftWidth(null)}
           label="Resize the control column"
@@ -325,7 +342,7 @@ export function ConsolePlanes() {
             edge="left"
             width={rightPx}
             min={RIGHT_MIN}
-            max={Math.max(RIGHT_MIN, (winW || 1920) * MAX_SHARE)}
+            max={rightCap}
             onResize={layoutActions.setRightWidth}
             onReset={() => layoutActions.setRightWidth(null)}
             label="Resize the inspector column"
