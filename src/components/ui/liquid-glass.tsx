@@ -79,8 +79,29 @@ export function LiquidGlass({
   );
 }
 
+/**
+ * Padding and type size, as a named register rather than a className override.
+ *
+ * A prop, and it has to be: the base class list below hardcodes `px-4 py-2
+ * text-[13px]`, and Tailwind emits every utility it sees into ONE sheet whose
+ * source order decides which of two competing declarations wins — the order of
+ * the names in the `class` attribute has no effect at all. So a caller passing
+ * `px-2.5 py-1.5 text-[11.5px]` in `className` got a 13px button with 16px
+ * padding and no error anywhere, which is exactly what the release sequence's
+ * action row was doing: it truncated its own labels at a 440px sheet while its
+ * source said it was compact.
+ */
+const SIZE = {
+  md: "px-4 py-2 text-[13px]",
+  /** For a control row inside a dense pane rather than a modal's footer. */
+  sm: "px-2.5 py-1.5 text-[11.5px]",
+} as const;
+
+export type GlassButtonSize = keyof typeof SIZE;
+
 interface LiquidButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   radius?: GlassRadius;
+  size?: GlassButtonSize;
   /** `primary` is the one action a panel wants you to take. At most one. */
   tone?: "default" | "primary" | "quiet";
   /**
@@ -96,6 +117,7 @@ interface LiquidButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 export function LiquidButton({
   radius = "pill",
+  size = "md",
   tone = "default",
   ground = "light",
   className,
@@ -107,7 +129,8 @@ export function LiquidButton({
       type="button"
       className={cx(
         "lg-button relative isolate inline-flex cursor-pointer items-center justify-center gap-2",
-        "whitespace-nowrap px-4 py-2 font-medium text-[13px] transition-[transform,filter] duration-200",
+        "whitespace-nowrap font-medium transition-[transform,filter] duration-200",
+        SIZE[size],
         "hover:brightness-[1.04] active:scale-[0.985] disabled:pointer-events-none disabled:opacity-50",
         RADIUS[radius],
         ground === "dark" && "lg-button-on-dark",

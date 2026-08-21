@@ -63,47 +63,47 @@ type RsTier = "full" | "mid" | "tight";
 
 /**
  * Measured on :3010 by forcing `width: min-content` on the live table and
- * reading its width back: all nine columns need 854px, eight without ROUTE
+ * reading its width back: all nine columns need 765px, eight without ROUTE
  * need 456, six without the two household columns need 370. A table with
  * `width: 100%` cannot render below its min-content, so those ARE the widths at
  * which each tier starts to overflow. Thresholds are those plus a 4px guard.
  *
- * BOTH NUMBERS MOVED WHEN THE ZONE CHIPS STOPPED WRAPPING, in opposite
- * directions, and re-measuring was not optional. FULL went 810 -> 854 because
- * its one chip now has to sit on the row's single line; a sweep of every column
- * width from 440 to 1152 found the dead band that left behind — scroller 821 to
- * 852 selected FULL and overflowed by up to 32px. MID and TIGHT went the other
- * way, 502 -> 456 and 416 -> 370, because below FULL the chip is gone entirely
- * and the cell is a count. Leaving MID at its old 502 would have dropped the
- * demand columns 46px earlier than the table needs — the same measure-the-wrong
- * -container mistake this ladder replaced, just inverted.
+ * EVERY NUMBER HERE MOVED WHEN THE ZONES CELL BECAME A COUNT — 810 -> 765,
+ * 502 -> 456, 416 -> 370 — and re-measuring was not optional. An intermediate
+ * version kept one nowrap id chip, which put FULL at 854 and opened a dead band
+ * a sweep of every column width from 440 to 1152 caught immediately: scroller
+ * 821 to 852 selected FULL and overflowed by up to 32px, and the threshold that
+ * fixed that then sat one pixel above the 856px scroller the left sheet has at
+ * its default map-view width, costing ROUTE at the width the console opens at.
+ * Both failures are the same one this ladder was built to end — a table sized
+ * against something other than the box it renders in.
  *
  * The consequence worth naming: at a 1440 window this pane is about 693px, so
  * the demand columns — households and no-vehicle households — survive there,
- * and now at the 440px sheet floor's neighbours too.
+ * and so does ROUTE at the default map-view width.
  */
 const TIER_MIN: { tier: RsTier; needs: number }[] = [
-  { tier: "full", needs: 858 },
+  { tier: "full", needs: 769 },
   { tier: "mid", needs: 460 },
 ];
 
 /**
- * Zone ids printed inline beside the count, by tier.
+ * The ZONES cell is a COUNT, and the ids are on its tooltip.
  *
- * The chips used to WRAP, which is how the table stayed inside its scroller:
- * wave 0 names 28 zones, so at the widest tier it stacked four ids into a
- * 150px row and the four waves plus the rationale needed more height than the
- * pane has. What pins clearance sat below the fold in the console's central
- * artifact. One line per wave is worth more than an exemplar id, so the chips
- * are nowrap now and the count leads.
+ * It used to print up to four id chips that WRAPPED, which is how the table
+ * stayed inside its scroller: wave 0 names 28 zones, so at the widest tier the
+ * cell stacked four ids into a 150px row and the four waves plus the binding
+ * rationale needed more height than the pane has. The thing that pins clearance
+ * sat below the fold in the console's central artifact.
  *
- * That trade has to be paid for in width, and only the full tier has it: a
- * count, an 11-character id and a "+N" is ~148px of content box against ~96
- * when the same cell could wrap. Below full the id goes and the count stays —
- * a single exemplar out of 28 was never the information anyway. The full list
- * is on the count's own tooltip at every tier, and every id is in the CSV.
+ * Keeping ONE nowrap chip was tried and costs 85px of the table's min-content,
+ * which pushed the widest tier's threshold to 858 — past the 856px scroller the
+ * left sheet has at its default map-view width, so the trade was one exemplar
+ * id in exchange for the ROUTE column at the width the console actually opens
+ * at. A single id out of 28 does not say which corridor a wave takes and ROUTE
+ * does. The count leads, its tooltip carries every id in the wave, clicking the
+ * row selects the first of them, and the CSV has the full list per wave.
  */
-const ZONE_CHIPS: Record<RsTier, number> = { full: 1, mid: 0, tight: 0 };
 
 /** Columns rendered, by tier. The rationale row's colSpan reads off this, so
  *  the two can never disagree. */
@@ -238,8 +238,6 @@ export function ReleaseSequence({ className }: ReleaseSequenceProps) {
      while showing the baseline's plan would print a counterfactual's clearance
      against the observed event's fire. */
   const run = (view === "baseline" ? bundle?.baseline : bundle?.planned) ?? null;
-
-  const chipCount = ZONE_CHIPS[tier];
 
   const activeWave: ReleaseWave | null = useMemo(() => {
     if (selectedWave !== null) return waves.find((w) => w.wave === selectedWave) ?? null;
@@ -463,32 +461,13 @@ export function ReleaseSequence({ className }: ReleaseSequenceProps) {
                       </span>
                     </Td>
                     <Td>
-                      {/* One line, always. See ZONE_CHIPS: this cell used to
-                          wrap, which is what made a row as tall as the pane. */}
-                      <div className="flex items-baseline gap-1.5">
-                        <span
-                          className="readout text-[10.5px] text-subtle"
-                          title={w.zoneIds.join(", ")}
-                        >
-                          {w.zoneIds.length}
-                        </span>
-                        {w.zoneIds.slice(0, chipCount).map((id) => (
-                          <span
-                            key={id}
-                            className="readout whitespace-nowrap rounded-xs bg-glass-inset px-1.5 py-0.5 text-[10.5px] text-foreground"
-                          >
-                            {id}
-                          </span>
-                        ))}
-                        {chipCount > 0 && w.zoneIds.length > chipCount ? (
-                          <span
-                            className="readout text-[10.5px] text-faint"
-                            title={w.zoneIds.slice(chipCount).join(", ")}
-                          >
-                            +{w.zoneIds.length - chipCount}
-                          </span>
-                        ) : null}
-                      </div>
+                      {/* One line, always — see the note above the table. */}
+                      <span
+                        className="readout text-[10.5px] text-subtle"
+                        title={w.zoneIds.join(", ")}
+                      >
+                        {w.zoneIds.length}
+                      </span>
                     </Td>
                     <Td right>
                       <span className="readout text-foreground">
@@ -615,8 +594,9 @@ export function ReleaseSequence({ className }: ReleaseSequenceProps) {
           file. Row one is the plan stamp and the single primary; row two is an
           even three-column grid of exports, so the hierarchy is positional and
           survives every width instead of being re-negotiated at each one.
-          Icons drop at the tight tier, where a cell is 124px and the longest
-          export label needs 138 with one. */}
+          Icons drop at the tight tier: a grid cell there is 122px, the widest
+          export is 112px of label and count, and a 13px glyph plus its gap is
+          21px more. The label is what an operator reads under pressure. */}
       <div
         data-actions-row
         className="flex flex-none flex-col gap-2 border-t border-hairline px-4 py-2.5"
@@ -629,7 +609,9 @@ export function ReleaseSequence({ className }: ReleaseSequenceProps) {
             <span className="readout text-[11px] text-foreground">{plan.revision}</span>
             <span className="text-[10px] text-faint">·</span>
             <span className="readout text-[11px] text-foreground">{waves.length}</span>
-            <span className="label-mono">waves</span>
+            {/* The baseline's plan is a SINGLE wave releasing every zone at
+                T+0, so this cell reads 1 the moment the view segment moves. */}
+            <span className="label-mono">wave{waves.length === 1 ? "" : "s"}</span>
           </span>
           <div className="ml-auto min-w-0">
             <Action
@@ -741,9 +723,10 @@ function Action({
       disabled={disabled}
       title={title}
       radius="md"
+      size="sm"
       tone={primary ? "primary" : "default"}
       ground="dark"
-      className="w-full min-w-0 px-2.5 py-1.5 text-[11.5px]"
+      className="w-full min-w-0"
     >
       {icon}
       <span className="min-w-0 truncate">{label}</span>
