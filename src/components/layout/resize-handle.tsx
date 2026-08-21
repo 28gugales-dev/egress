@@ -130,9 +130,10 @@ export function ResizeHandle({
   }, [dragging]);
 
   return (
-    // biome-ignore lint/a11y/useFocusableInteractive: role="separator" with
-    // tabIndex IS the focusable widget pattern for a resizer; the rule wants a
-    // widget role it does not know about here.
+    // biome-ignore lint/a11y/useSemanticElements: there is no HTML element for a
+    // pane resizer. `role="separator"` with tabIndex and aria-value* IS the
+    // documented pattern for a focusable window splitter; the rule's suggested
+    // native element does not exist.
     <div
       role="separator"
       aria-orientation="vertical"
