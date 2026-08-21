@@ -1,3 +1,23 @@
+# Packages permitted to run install scripts. pnpm 10 began refusing to run them
+# by default -- a supply-chain postinstall is the cheapest way into a machine --
+# and it errors the install outright rather than proceeding quietly, which is
+# the right default and is why this file has to answer rather than be deleted.
+#
+# Both entries fetch a prebuilt native binary in their postinstall and do not
+# work without it: esbuild arrives under tsx and runs every script in scripts/,
+# sharp arrives under next. Nothing else is allow-listed, so a new dependency
+# that wants to run code at install time stops the build until someone reads it.
+#
+# WRITTEN TWICE ON PURPOSE. pnpm 10 reads `onlyBuiltDependencies` and pnpm 11
+# reads `allowBuilds`; each ignores the other's key. CI pins pnpm 10 and this
+# machine runs 11, so stating only one of them leaves whichever side is not
+# named failing its install. Pinning both to one major through packageManager
+# would say it once, and is the better fix the moment the workflow file can be
+# updated -- pushing a change to .github/workflows/ needs an OAuth token with
+# `workflow` scope, which the account this was committed from does not have.
+onlyBuiltDependencies:
+  - esbuild
+  - sharp
 allowBuilds:
-  esbuild: set this to true or false
-  sharp: set this to true or false
+  esbuild: true
+  sharp: true
