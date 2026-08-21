@@ -37,13 +37,21 @@ export interface LayoutState {
    */
   plane: "both" | "map";
   /**
+   * Which screen the work band's navigation rail has selected. ONE field for
+   * the rail's selection too — a separate `railScreen` beside this would be the
+   * `stacked` mistake above, rebuilt one register lower.
+   *
    * INSPECT is in this union but not always on screen. In map view the
    * inspector is a permanent modal down the right of the window, so a work pane
    * mounting a second copy of it would put the same dock on screen twice —
-   * WorkBand drops the tab there and coerces a stale value rather than storing
-   * a second, plane-dependent field that could disagree with this one.
+   * WorkBand drops the entry there and coerces a stale value rather than
+   * storing a second, plane-dependent field that could disagree with this one.
+   *
+   * TRANSPORT and POLICE are APPENDED, never inserted. The digit hotkeys are an
+   * entry's 1-based position in `workPanesFor()`, so slotting either of them
+   * before CONTROL would silently move what key 3 does.
    */
-  workPane: "sequence" | "inspect" | "control";
+  workPane: "sequence" | "inspect" | "control" | "transport" | "police";
   argument: "full" | "strip";
   /** Map popover. Only one is ever open. */
   bezelPopover: "none" | "layers" | "legend";

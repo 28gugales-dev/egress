@@ -94,6 +94,123 @@
   background: var(--hairline);
 }
 
+/* The same rule turned on its side, for the seam between the work band's
+   navigation rail and the screen it selects. */
+.band-rule-v {
+  width: 1px;
+  flex: none;
+  align-self: stretch;
+  background: var(--hairline);
+}
+
+/* ── The work band's navigation spine ───────────────────────────────────────
+   The rail folds to icons at a width the CONTENT decides, so the query is on
+   the work band's own inline size and not on the window's. That distinction is
+   load-bearing here in a way it was not before the sheets became draggable:
+   the same 1920 window gives this band 935px in panel view, 837 in map view,
+   and anything from 455 upward once an operator has dragged the seam.
+
+   NAMED, because this file already carries an unnamed `@container` for
+   `.queue-rows`, and queue rows are rendered INSIDE this band by the Inspect
+   screen. An unnamed min-width query there would resolve against whichever
+   ancestor container is nearest, which is not the one either rule means.
+
+   THE THRESHOLD IS DERIVED, NOT CHOSEN. The widest thing this band ever holds
+   is the release table, whose own ladder in release-sequence.tsx measures 460px
+   as the width below which it drops the two demand columns — households, and
+   the households with no vehicle. Labels are worth showing only while they do
+   not cost the table a tier, so:
+
+     460 table + 132 expanded rail + 1 seam = 593
+
+   At the console's defaults that lands panel view expanded from a 1090px window
+   up, and map view expanded from about 1300 — which is the right answer rather
+   than a coincidence, because map view is paying for a second sheet out of the
+   same window and its left sheet is genuinely narrower.
+
+   Below 593 the labels do not disappear, they go visually hidden: the rail is
+   still a list of five named destinations to a screen reader at every width,
+   and `title` carries the same name to a pointer. An icon with no accessible
+   name is not a compact control, it is an unlabelled one. */
+.work-band {
+  container-name: work-band;
+  container-type: inline-size;
+}
+
+.work-rail {
+  width: 40px;
+  transition: width 160ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* 2px of border plus 11px of padding a side leaves 16px of content box for a
+   15px glyph, so the collapsed rail centres its icons without a second rule for
+   the collapsed case. */
+.work-rail-btn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 30px;
+  width: 100%;
+  padding: 0 11px;
+  border-left: 2px solid transparent;
+  cursor: pointer;
+  color: var(--faint);
+  white-space: nowrap;
+  transition:
+    color 120ms ease,
+    background 120ms ease;
+}
+
+.work-rail-btn:hover {
+  color: var(--subtle);
+  background: var(--glass-hover);
+}
+
+/* Chrome is neutral: the active marker says WHERE YOU ARE, which is not a data
+   state, so it takes the ink colour exactly as the tab strip's underline did. */
+.work-rail-btn[aria-current="page"] {
+  color: var(--foreground);
+  font-weight: 600;
+  border-left-color: var(--foreground);
+  background: var(--glass-inset);
+}
+
+.work-rail-icon {
+  flex: none;
+}
+
+.work-rail-label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@container work-band (min-width: 593px) {
+  .work-rail {
+    width: 132px;
+  }
+  /* min-width 0 and an ellipsis rather than `overflow: visible`: a label that
+     outgrew the rail would otherwise print across the seam and over the screen
+     beside it. Nothing here is long enough today — "Transport" is the widest at
+     about 60px — and that is exactly when this is cheap to state. */
+  .work-rail-label {
+    position: static;
+    width: auto;
+    height: auto;
+    min-width: 0;
+    margin: 0;
+    clip-path: none;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
 /* The control pane's columns.
    Multi-column rather than grid: sections have wildly different heights (160
    to 439), and grid would make every row as tall as its tallest cell. Columns

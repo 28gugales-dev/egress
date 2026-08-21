@@ -2,6 +2,7 @@
 
 import { AlertTriangle, Check, Code2, DoorClosed, X } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
+import { createPortal } from "react-dom";
 import { LiquidGlass } from "@/components/ui/liquid-glass";
 import { useBundle } from "@/lib/bundle-context";
 import { hazardFrameAt } from "@/lib/derive";
@@ -342,7 +343,27 @@ export function AlertComposer({ wave, onClose }: AlertComposerProps) {
   const grade = lang === "en" && plain ? readingGrade(plain) : null;
   const vertices = zone ? zone.geometry.reduce((n, ring) => n + ring.length, 0) : 0;
 
-  return (
+  /**
+   * PORTALLED TO THE BODY, and that is a correctness fix rather than tidiness.
+   *
+   * This sheet is `position: fixed` and it is mounted from inside the release
+   * table, which is inside the work band, which is inside the panel sheet. Any
+   * ancestor that becomes a containing block for fixed descendants re-parents
+   * it, and this console has already shipped that bug once: a live
+   * `backdrop-filter` on `.flat-surface` opened the composer as a 933x704 scrim
+   * at x=13 instead of over the window (console-planes.css records the four
+   * probe rules that found it). The work band is now a `container-type:
+   * inline-size` element for the navigation rail's fold, and layout containment
+   * creates exactly the same containing block by a different route. Portalling
+   * makes the sheet immune to both, and to whatever the third one turns out to
+   * be.
+   *
+   * `document` is safe to touch unguarded here: the caller mounts this only
+   * from a click, so it never renders during SSR or hydration. `.lg-surface`
+   * rebinds every token this subtree reads, so leaving the panel sheet's
+   * `--foreground` behind costs it nothing.
+   */
+  return createPortal(
     <div className="fixed inset-0 z-50 flex items-center justify-center p-6">
       <button
         type="button"
@@ -541,7 +562,8 @@ export function AlertComposer({ wave, onClose }: AlertComposerProps) {
           </span>
         </div>
       </LiquidGlass>
-    </div>
+    </div>,
+    document.body,
   );
 }
 

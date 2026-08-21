@@ -87,11 +87,26 @@ const PANEL_WIDTH = "clamp(640px, 50vw, 1120px)";
  * They are narrower than the panel column above because in this layout the map
  * is the point, and a second sheet is being paid for out of the same window.
  */
-/* Drag bounds. The floors are the same measured min-contents the clamps use --
-   416px for the release table's narrowest tier plus padding and a seam, and the
-   inspector's tab strip plus a queue row. MAX_SHARE stops either sheet from
+/* Drag bounds. The floors are measured min-contents, not round numbers, and the
+   left one MOVED when the work band grew its navigation rail.
+
+   440 was the release table's narrowest tier plus the column's padding and its
+   seam. The rail takes 40px plus a 1px rule out of that band at every width,
+   and map view spends 20 more on the sheet's margin, so the binding case is the
+   left sheet dragged to its floor in map view:
+
+     370 table min-content + 41 rail + 24 padding + 2 border + 20 margin = 457
+
+   480 rounds that up with room for the seam's grab target rather than sitting
+   on the number. Below it the release table starts scrolling sideways inside
+   its own scroller, which hides MARGIN — the one column that says whether a
+   wave makes it — behind a scrollbar, and does so without ever overflowing the
+   page, so nothing external catches it.
+
+   Both responsive clamps floor above this (496 in map view, 640 in panel view),
+   so nothing changes until an operator drags. MAX_SHARE stops either sheet from
    taking so much that the map stops being the thing you are looking at. */
-const LEFT_MIN = 440;
+const LEFT_MIN = 480;
 const RIGHT_MIN = 264;
 const MAX_SHARE = 0.6;
 
